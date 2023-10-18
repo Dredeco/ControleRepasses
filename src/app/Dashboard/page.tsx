@@ -12,7 +12,7 @@ import { AppContext } from '@/context/AppContext'
 import router from 'next/router'
 import { redirect } from 'next/navigation'
 
-export const DashboardMain = styled.div`
+const DashboardMain = styled.div`
   width: 100%;
   min-height: calc(100vh - 14rem);
   display: flex;
