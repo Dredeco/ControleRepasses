@@ -6,7 +6,7 @@ import { createUser, getUsers } from '@/api/userService'
 
 interface IUserForm extends FormEvent<HTMLFormElement> {}
 
-export const UserForm = () => {
+const UserForm = () => {
   const [key, setKey] = useState('')
   const [name, setName] = useState('')
 
@@ -45,3 +45,5 @@ export const UserForm = () => {
     </UserFormMain>
   )
 }
+
+export default UserForm

@@ -4,7 +4,7 @@ import { LoginContainer, LoginMain } from './styles'
 import { Input } from '@/components/Input'
 import { Button } from '@/components/Button'
 import { getUser } from '@/api/userService'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { AppContext } from '@/context/AppContext'
 
 interface ILoginForm extends FormEvent<HTMLFormElement> {}

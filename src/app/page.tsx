@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { getUsers } from '@/api/userService'
 import styled from 'styled-components'
 import Login from '@/app/Login/page'
-import Layout from './layout'
 
 const MainContainer = styled.main`
   width: 100%;

@@ -4,7 +4,7 @@ import { Input } from '@/components/Input'
 import { Select } from '@/components/Select'
 import { MainRegisterForm, RegisterFormBody, RegisterFormController, RegisterFormHeader } from './style'
 import { Textarea } from '@/components/Textarea'
-import { createRegister, getRegisters } from '@/api/RegisterService'
+import { createRegister } from '@/api/RegisterService'
 import { getUsers } from '@/api/userService'
 import { AppContext } from '@/context/AppContext'
 
@@ -43,7 +43,7 @@ const aplicacao = [
 interface IRegisterForm extends FormEvent<HTMLFormElement> {
 }
 
-export const RegisterForm = () => {
+const RegisterForm = () => {
     const [number, setNumber] = useState('')
     const [date, setDate] = useState('')
     const [user, setUser] = useState('')
@@ -177,3 +177,5 @@ export const RegisterForm = () => {
     </MainRegisterForm>
   )
 }
+
+export default RegisterForm

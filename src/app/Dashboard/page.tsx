@@ -4,12 +4,8 @@ import Sidebar from '@/components/Sidebar'
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import RegisterList from '../../pages/RegisterList'
-import Header from '@/components/Header'
-import { Footer } from '@/components/Footer'
-import Home from '@/app/page'
-import { RegisterForm } from '@/pages/RegisterForm'
+import RegisterForm from '@/pages/RegisterForm'
 import { AppContext } from '@/context/AppContext'
-import router from 'next/router'
 import { redirect } from 'next/navigation'
 
 const DashboardMain = styled.div`
