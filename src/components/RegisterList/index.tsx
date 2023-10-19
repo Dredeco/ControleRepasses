@@ -15,7 +15,7 @@ const RegisterList = () => {
     }
     
     const getRegister = async() => {
-      if(user.role == 'analista') {
+      if(user.role == 'analista' || user.role == 'Analista') {
         getUserRegisters(user.name)
         .then((e) => {
           setUserRegisters(e)
