@@ -30,7 +30,7 @@ const UserForm = () => {
       name,
       role
     }
-    createUser(user)
+    createUser(user).then(() => alert("Usuário criado"))
     setPage('home')
   }
 

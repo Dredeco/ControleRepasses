@@ -29,6 +29,7 @@ export const getUserRegisters = async(name: string) => {
     .then((res: Response) => res)
 
     const {incidentUser} = response.data
+    console.log(incidentUser)
 
     return incidentUser
 }
