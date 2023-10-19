@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 
 export const createRegister = async (register: IRegister) => {
-    const response = await axios.post('http://localhost:5000/api/incident', {
+    const response = await axios.post('https://cr-api.onrender.com/api/incident', {
         number: register.number,
         date: register.date,
         user: register.user,
@@ -18,14 +18,14 @@ export const createRegister = async (register: IRegister) => {
 }
 
 export const getRegisters = async() => {
-    const response = await axios.get('http://localhost:5000/api/incident')
+    const response = await axios.get('https://cr-api.onrender.com/api/incident')
     .then((res: Response) => res)
 
-    return response
+    return response.data
 }
 
 export const getUserRegisters = async(name: string) => {
-    const response = await axios.get(`http://localhost:5000/api/incident/${name}`)
+    const response = await axios.get(`https://cr-api.onrender.com/api/incident/${name}`)
     .then((res: Response) => res)
 
     const {incidentUser} = response.data

@@ -4,7 +4,7 @@ import { LoginContainer, LoginMain } from './styles'
 import { Input } from '@/components/Input'
 import { Button } from '@/components/Button'
 import { getUser } from '@/api/userService'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { AppContext } from '@/context/AppContext'
 
 interface ILoginForm extends FormEvent<HTMLFormElement> {}
@@ -21,8 +21,8 @@ const Login = () => {
       await getUser(userKey)
       .then((e) => {
         if(e.name) {
-          setUser(e)
           console.log(e)
+          setUser(e)
           localStorage.setItem('user', JSON.stringify(e))
           router.push('/Dashboard')
         }
@@ -36,7 +36,7 @@ const Login = () => {
     <LoginMain>
       <LoginContainer onSubmit={(e) => validateUser(e)}>
         <h1>Informe a sua chave</h1>
-        <Input type='text' placeholder='XXXX' onChange={(e) => setUserKey(e.target.value)}/>
+        <Input type='text' placeholder='XXXX' onChange={(e) => setUserKey(e.target.value.toUpperCase())}/>
         <div>
           <Button>Entrar</Button>
         </div>

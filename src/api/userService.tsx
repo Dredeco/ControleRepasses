@@ -3,7 +3,7 @@ import { IUser } from "@/types/User";
 const axios = require('axios').default;
 
 export const getUsers = async() => {
-    const response = await axios.get('http://localhost:5000/api/user')
+    const response = await axios.get('https://cr-api.onrender.com/api/user')
     .then((res: Response) => res)
 
     const {users} = response.data
@@ -12,7 +12,7 @@ export const getUsers = async() => {
 }
 
 export const getUser = async(key: string) => {
-    const response = await axios.get(`http://localhost:5000/api/user/${key}`)
+    const response = await axios.get(`https://cr-api.onrender.com/api/user/${key}`)
     .then((res: Response) => res)
 
     const {user} = response.data
@@ -21,9 +21,10 @@ export const getUser = async(key: string) => {
 }
 
 export const createUser = async (user: IUser) => {
-    const response = await axios.post('http://localhost:5000/api/user', {
+    const response = await axios.post('https://cr-api.onrender.com/api/user', {
         key: user.key,
-        name: user.name
+        name: user.name,
+        role: user.role
     }).
     then((res: Response) => res)
 

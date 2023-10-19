@@ -3,10 +3,11 @@
 import Sidebar from '@/components/Sidebar'
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import RegisterList from '../../pages/RegisterList'
-import RegisterForm from '@/pages/RegisterForm'
+import RegisterList from '../../components/RegisterList'
+import RegisterForm from '@/components/RegisterForm'
 import { AppContext } from '@/context/AppContext'
 import { redirect } from 'next/navigation'
+import UserForm from '@/components/UserForm'
 
 const DashboardMain = styled.div`
   width: 100%;
@@ -16,29 +17,30 @@ const DashboardMain = styled.div`
 
 const Dashboard = () => {
   const {page, setPage} = useContext(AppContext)
-  const [LoggedUser, setLoggedUser] = useState(Object)
   const {user, setUser} = useContext(AppContext)
+  const [isLoading, setLoading] = useState(true)
   
   
   useEffect(() => {
-    const getUserData = async() => {
-      const verifyUser: string | null = await localStorage.getItem('user')
-      console.log(verifyUser)
-      setUser(JSON.parse(verifyUser as string))
+    console.log(user)
+    if(user.name) {
+      setLoading(false)
+    } else {
+      setUser(JSON.parse(localStorage.getItem('user') as string))
     }
-    getUserData()
-    
-    
-  }, [])
+  }, [user])
   
-  if(!user.name) {
+  if(!user) {
     redirect('/Login')
   }
 
   return (
     <DashboardMain>
+      {isLoading == true ? <div>Loading</div> : 
+      <>
         <Sidebar handleClick={setPage}/>
-        {page == 'home' ? <RegisterList /> : <RegisterForm /> }
+        {page == 'home' ? <RegisterList /> : page == 'register' ? <RegisterForm /> :  <UserForm />}
+      </>}
     </DashboardMain>
   )
 }

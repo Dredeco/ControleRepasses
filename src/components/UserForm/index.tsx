@@ -1,14 +1,23 @@
-import React, { FormEvent, useEffect, useState } from 'react'
+import React, { FormEvent, useContext, useEffect, useState } from 'react'
 import { UserFormBody, UserFormController, UserFormHeader, UserFormMain } from './styles'
 import { Input } from '@/components/Input'
 import { Button } from '@/components/Button'
 import { createUser, getUsers } from '@/api/userService'
+import { Select } from '../Select'
+import { AppContext } from '@/context/AppContext'
 
 interface IUserForm extends FormEvent<HTMLFormElement> {}
 
 const UserForm = () => {
   const [key, setKey] = useState('')
   const [name, setName] = useState('')
+  const [role, setRole] = useState('')
+  const {setPage} = useContext(AppContext)
+
+  const roles = [
+    {name: "Analista" },
+    {name: "Supervisor"},
+]
 
   useEffect(() => {
     getUsers()
@@ -18,9 +27,11 @@ const UserForm = () => {
     e.preventDefault()
     const user = {
       key,
-      name
+      name,
+      role
     }
     createUser(user)
+    setPage('home')
   }
 
   return (
@@ -35,6 +46,9 @@ const UserForm = () => {
           </li>
           <li>
             <Input label='Nome completo' onChange={(e) => setName(e.target.value)} required/>
+          </li>
+          <li>
+            <Select label='Função' options={roles} defaultValue={roles[0].name} onChange={(e) => setRole(e.target.value)} required/>
           </li>
           <div className='btnContainer'>
               <Button className='cancel'>Cancelar</Button>

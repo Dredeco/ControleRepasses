@@ -1,21 +1,32 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
-import { getUserRegisters } from '@/api/RegisterService'
+import { getRegisters, getUserRegisters } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
 
 const RegisterList = () => {
   const [userRegisters, setUserRegisters] = useState(Object)
-  const {user} = useContext(AppContext)
+  const {user, setUser} = useContext(AppContext)
+  
 
   useEffect(() => {
-    const getRegisters = async() => {
-      getUserRegisters(user.name)
-      .then((e) => {
-        setUserRegisters(e)
-      })
+    if(user.name == '') {
+      const LoggedUser = localStorage.getItem('user')
+      setUser(JSON.parse(LoggedUser as string))
     }
-
-    getRegisters()
+    
+    const getRegister = async() => {
+      if(user.role == 'analista') {
+        getUserRegisters(user.name)
+        .then((e) => {
+          setUserRegisters(e)
+        })
+      } else {
+        const superList = await getRegisters().then((res) => res.response)
+        console.log(superList)
+        setUserRegisters(superList)
+      }
+    }
+    getRegister()
   }, [userRegisters.length])
 
   return (

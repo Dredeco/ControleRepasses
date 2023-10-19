@@ -9,7 +9,7 @@ import { getUsers } from '@/api/userService'
 import { AppContext } from '@/context/AppContext'
 
 const supervisores = [
-    {name: "Thayana Cristina Santos da Silva" },
+    {name: "Thayana"},
     {name: "Libia"},
     {name: "Larissa"}
 ]
@@ -30,6 +30,15 @@ const classificacoes = [
     {name: "#PSO - Sistema Operacional com problemas não sendo possível solucionar."},
     {name: "#TLE - Transferir licenças de software entre equipamentos."},
     {name: "#USR - Usuário solicitou realmente que fosse repassado o chamado."},
+]
+
+const motivos = [
+    {name: "Configurar / Atualizar"},
+    {name: "Entregar / Fornecer"},
+    {name: "Manifestação"},
+    {name: "Orientar / Informar"},
+    {name: "Reparar / Prover"},
+    {name: "Transferir / Remanejar / Substituir"}
 ]
 
 const aplicacao = [
@@ -61,14 +70,13 @@ const RegisterForm = () => {
             const data = await getUsers()
             let allData: any = []
             for(let i = 0; i < data.length; i++) {
-                allData.push(JSON.parse(`{
-                    "name": "${data[i].name}"
-                }`))
+                allData.push(
+                    JSON.parse(`{"name": "${data[i].name}"}`)
+                )
             }
             setUsers(allData)
             setUser(allData[0].name)
         }
-
         getData()
     }, [])
 
@@ -117,7 +125,6 @@ const RegisterForm = () => {
                         label='Nome do Analista' 
                         options={users}
                         defaultValue={users[0]?.name}
-                        onEmptied={() => setUser(users[0]?.name)}
                         onChange={(e) => setUser(e.target.value)}
                         required
                     />
@@ -135,7 +142,7 @@ const RegisterForm = () => {
                     <Select 
                         name='classificação' 
                         label='Classificação' 
-                        options={classificacoes} 
+                        options={motivos} 
                         onChange={(e) => setClassification(e.target.value)}
                         required
                     />
@@ -149,8 +156,10 @@ const RegisterForm = () => {
                     />
                 </li>
                 <li>
-                    <Input 
+                    <Select 
+                        name='motivos'
                         label='Motivo do repasse' 
+                        options={classificacoes} 
                         onChange={(e) => setMotive(e.target.value)}
                         required
                     />

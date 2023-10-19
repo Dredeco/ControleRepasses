@@ -14,6 +14,8 @@ export const SidebarMain = styled.aside`
 
     li{
       cursor: pointer;
+      display: flex;
+      gap: 1rem;
 
       > :hover{
         color: #ccc;

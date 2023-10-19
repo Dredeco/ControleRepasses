@@ -8,29 +8,41 @@ interface SidebarProps extends AllHTMLAttributes<HTMLLIElement> {
 }
 
 const Sidebar = (props: SidebarProps) => {
-  const {setPage} = useContext(AppContext)
-
-  const handleCreate = () => {
-    setPage("create")
-  }
-
+  const {setPage, user} = useContext(AppContext)
+  
   const handleHome = () => {
     setPage("home")
+  }
+
+  const handleCreateRegister = () => {
+    setPage("register")
+  }
+
+  const handleCreateuser = () => {
+    setPage("user")
   }
 
   return (
     <SidebarMain>
         <ul>
             <li onClick={handleHome}>
-              <strong>• </strong><span>
+              <strong>•</strong><span>
                   Início
                 </span>
             </li>
-            <li onClick={handleCreate}>
-            <strong>• </strong><span>
-                Novo cadastro
+            <li onClick={handleCreateRegister}>
+            <strong>•</strong><span>
+                Novo registro
               </span>
             </li>
+            {user.key == 'AAXR' || user.role == 'Supervisor' ?
+            <li onClick={handleCreateuser}>
+            <strong>•</strong><span>
+                Novo usuário
+            </span>
+            </li> :
+              null
+            }
         </ul>
     </SidebarMain>
   )
