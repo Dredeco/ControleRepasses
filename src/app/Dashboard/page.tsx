@@ -22,7 +22,6 @@ const Dashboard = () => {
   
   
   useEffect(() => {
-    console.log(user)
     if(user.name) {
       setLoading(false)
     } else {

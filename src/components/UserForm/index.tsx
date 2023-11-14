@@ -30,6 +30,7 @@ const UserForm = () => {
       name,
       role
     }
+
     createUser(user).then(() => alert("Usuário criado"))
     setPage('home')
   }
@@ -42,10 +43,10 @@ const UserForm = () => {
         </UserFormHeader>
         <UserFormBody>
           <li>
-            <Input label='Chave' onChange={(e) => setKey(e.target.value)} required/>
+            <Input label='Chave' placeholder='XXXX' onChange={(e) => setKey(e.target.value)} required/>
           </li>
           <li>
-            <Input label='Nome completo' onChange={(e) => setName(e.target.value)} required/>
+            <Input label='Nome completo' placeholder='Maria José de Jesus' onChange={(e) => setName(e.target.value)} required/>
           </li>
           <li>
             <Select label='Função' options={roles} defaultValue={roles[0].name} onChange={(e) => setRole(e.target.value)} required/>

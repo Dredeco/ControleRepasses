@@ -1,11 +1,12 @@
 interface IRegister {
     number: string,
+    task: string,
+    sctask: string,
     date: string,
     user: string,
     supervisor: string,
     classification: string,
     system: string,
-    motive: string,
     fixProc: string,
     observations: string
 }

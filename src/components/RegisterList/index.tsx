@@ -22,7 +22,6 @@ const RegisterList = () => {
         })
       } else {
         const superList = await getRegisters().then((res) => res.response)
-        console.log(superList)
         setUserRegisters(superList)
       }
     }
@@ -41,7 +40,6 @@ const RegisterList = () => {
               <span>Supervisor</span>
               <span>Classificação</span>
               <span>Sistema, Aplicativo ou Hardware</span>
-              <span>Motivo do repasse</span>
               <span>Procedimento a ser corrigido</span>
               <span>Observações</span>
             </li>
@@ -53,7 +51,6 @@ const RegisterList = () => {
               <span>{register.supervisor}</span>
               <span>{register.classification}</span>
               <span>{register.system}</span>
-              <span>{register.motive}</span>
               <span>{register.fixProc}</span>
               <span>{register.observations}</span>
             </li>

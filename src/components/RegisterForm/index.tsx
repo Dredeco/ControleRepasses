@@ -8,12 +8,6 @@ import { createRegister } from '@/api/RegisterService'
 import { getUsers } from '@/api/userService'
 import { AppContext } from '@/context/AppContext'
 
-const supervisores = [
-    {name: "Thayana"},
-    {name: "Libia"},
-    {name: "Larissa"}
-]
-
 const classificacoes = [
     {name: "#000 - Situações em que nenhuma das opções abaixo se enquadra."},
     {name: "#RRP - Portal - Repasse realizado conforme o procedimento exige repasse."},
@@ -32,7 +26,7 @@ const classificacoes = [
     {name: "#USR - Usuário solicitou realmente que fosse repassado o chamado."},
 ]
 
-const motivos = [
+const classificacao = [
     {name: "Configurar / Atualizar"},
     {name: "Entregar / Fornecer"},
     {name: "Manifestação"},
@@ -54,42 +48,54 @@ interface IRegisterForm extends FormEvent<HTMLFormElement> {
 
 const RegisterForm = () => {
     const [number, setNumber] = useState('')
+    const [task, setTask] = useState('')
+    const [sctask, setSctask] = useState('')
     const [date, setDate] = useState('')
     const [user, setUser] = useState('')
-    const [supervisor, setSupervisor] = useState(supervisores[0].name)
+    const [supervisor, setSupervisor] = useState('')
     const [classification, setClassification] = useState(classificacoes[0].name)
     const [system, setSystem] = useState(aplicacao[0].name)
     const [motive, setMotive] = useState('')
     const [fixProc, setFixProc] = useState('')
     const [observations, setObservations] = useState('')
     const [users, setUsers] = useState(Object)
+    const [supers, setSupers] = useState(Object)
     const {setPage} = useContext(AppContext)
 
     useEffect(() => {
         const getData  = async () => {
             const data = await getUsers()
-            let allData: any = []
+            let userData: any = []
+            let superData: any = []
             for(let i = 0; i < data.length; i++) {
-                allData.push(
-                    JSON.parse(`{"name": "${data[i].name}"}`)
-                )
+                if(data[i].role == "Supervisor") {
+                    superData.push(
+                        JSON.parse(`{"name": "${data[i].name}"}`)
+                    )
+                } else {
+                    userData.push(
+                        JSON.parse(`{"name": "${data[i].name}"}`)
+                    )
+                }
             }
-            setUsers(allData)
-            setUser(allData[0].name)
+            setUsers(userData)
+            setUser(userData[0].name)
+            setSupers(superData)
         }
         getData()
-    }, [])
+    }, [number])
 
     const handleSubmit = (e: IRegisterForm) => {
         e.preventDefault()
         const register = {
             number: number,
+            task: task,
+            sctask: sctask,
             date: date,
             user: user,
             supervisor: supervisor,
             classification: classification,
             system: system,
-            motive: motive,
             fixProc: fixProc,
             observations: observations
         }
@@ -106,9 +112,24 @@ const RegisterForm = () => {
             <RegisterFormBody>
                 <li>
                     <Input 
-                        label='Nº do chamado' 
+                        label='Nº do Chamado' 
                         onChange={(e) => setNumber(e.target.value)}
+                        placeholder='INC00000000'
                         required
+                    />
+                </li>
+                <li>
+                    <Input 
+                        label='Nº da TASK' 
+                        placeholder='TASK0000000'
+                        onChange={(e) => setTask(e.target.value)}
+                    />
+                </li>
+                <li>
+                    <Input 
+                        label='Nº da SCTASK (RITM)' 
+                        placeholder='SCTASK00000'
+                        onChange={(e) => setSctask(e.target.value)}
                     />
                 </li>
                 <li>
@@ -133,7 +154,8 @@ const RegisterForm = () => {
                     <Select 
                         name='supervisor' 
                         label='Supervisor' 
-                        options={supervisores} 
+                        options={supers}
+                        defaultValue={supers[0]?.name}
                         onChange={(e) => setSupervisor(e.target.value)}
                         required
                     />
@@ -142,7 +164,7 @@ const RegisterForm = () => {
                     <Select 
                         name='classificação' 
                         label='Classificação' 
-                        options={motivos} 
+                        options={classificacao} 
                         onChange={(e) => setClassification(e.target.value)}
                         required
                     />
@@ -156,23 +178,15 @@ const RegisterForm = () => {
                     />
                 </li>
                 <li>
-                    <Select 
-                        name='motivos'
-                        label='Motivo do repasse' 
-                        options={classificacoes} 
-                        onChange={(e) => setMotive(e.target.value)}
-                        required
-                    />
-                </li>
-                <li>
                     <Input 
-                        label='Procedimento a ser corrigido?'
+                        label='Artigo a ser corrigido?'
+                        placeholder='KP - Atender ...'
                         onChange={(e) => setFixProc(e.target.value)}
                     />
                 </li>
                 <li>
                     <Textarea 
-                    label='Observações' 
+                    label='Motivo do repasse:' 
                     onChange={(e) => setObservations(e.target.value)}
                     required
                     />
