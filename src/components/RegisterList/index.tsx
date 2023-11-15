@@ -35,6 +35,8 @@ const RegisterList = () => {
         <DashboardWrapper>
             <li key='Header'>
               <span>Nº do chamado</span>
+              <span>Nº da TASK</span>
+              <span>Nº do SCTASK</span>
               <span>Data</span>
               <span>Nome do Analista</span>
               <span>Supervisor</span>
@@ -46,6 +48,8 @@ const RegisterList = () => {
           {userRegisters.length > 0 ? userRegisters.map((register: IRegister) => (
             <li key={register.number}>
               <span>{register.number}</span>
+              <span>{register.task}</span>
+              <span>{register.sctask}</span>
               <span>{register.date}</span>
               <span>{register.user}</span>
               <span>{register.supervisor}</span>

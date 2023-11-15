@@ -1,7 +1,7 @@
 import styled from "styled-components"
 
 export const DashboardMain = styled.section`
-  width: 100%;
+  width: 100vh;
   padding: 2rem 2%;
   display: flex;
   justify-content: center;
@@ -38,6 +38,7 @@ export const DashboardWrapper = styled.ul`
       padding: .5rem .5rem;
       flex: 1;
       min-width: 50px;
+      word-wrap: break-word;
     }
 
   }
