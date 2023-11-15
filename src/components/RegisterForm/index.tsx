@@ -80,12 +80,14 @@ const RegisterForm = () => {
             }
             setUsers(userData)
             setUser(userData[0].name)
+            
             setSupers(superData)
+            setSupervisor(superData[0].name)
         }
         getData()
-    }, [number])
+    }, [])
 
-    const handleSubmit = (e: IRegisterForm) => {
+    const handleSubmit = async (e: IRegisterForm) => {
         e.preventDefault()
         const register = {
             number: number,
@@ -114,21 +116,21 @@ const RegisterForm = () => {
                     <Input 
                         label='Nº do Chamado' 
                         onChange={(e) => setNumber(e.target.value)}
-                        placeholder='INC00000000'
+                        placeholder='INC / RITM'
                         required
                     />
                 </li>
                 <li>
                     <Input 
                         label='Nº da TASK' 
-                        placeholder='TASK0000000'
+                        placeholder='TASKXXXXXX'
                         onChange={(e) => setTask(e.target.value)}
                     />
                 </li>
                 <li>
                     <Input 
                         label='Nº da SCTASK (RITM)' 
-                        placeholder='SCTASK00000'
+                        placeholder='SCTASKXXXX'
                         onChange={(e) => setSctask(e.target.value)}
                     />
                 </li>

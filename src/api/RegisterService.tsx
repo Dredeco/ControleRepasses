@@ -1,24 +1,20 @@
-const axios = require('axios').default;
+import { error } from "console";
+
+const axios = require('axios');
 
 export const createRegister = async (register: IRegister) => {
-    try{
-        const response = await axios.post('http://localhost:5000/api/incident', {
-            number: register.number,
-            task: register.task,
-            sctask: register.sctask,
-            date: register.date,
-            user: register.user,
-            supervisor: register.supervisor,
-            classification: register.classification,
-            system: register.system,
-            fixProc: register.fixProc,
-            observations: register.observations
-        })
-
-        confirm.log(response)
-    } catch(error) {
-        alert(error)
-    }
+    const response = await axios.post('https://cr-api.onrender.com/api/incident', {
+        number: register.number,
+        task: register.task,
+        sctask: register.sctask,
+        date: register.date,
+        user: register.user,
+        supervisor: register.supervisor,
+        classification: register.classification,
+        system: register.system,
+        fixProc: register.fixProc,
+        observations: register.observations
+    }).catch((error: any) => console.log(error))
     
     return alert("Registro criado com sucesso.")
 }
