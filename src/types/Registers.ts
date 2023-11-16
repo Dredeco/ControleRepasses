@@ -8,5 +8,6 @@ interface IRegister {
     classification: string,
     system: string,
     fixProc: string,
-    observations: string
+    observations: string,
+    supervisorObservations?: string
 }

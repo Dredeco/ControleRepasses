@@ -4,8 +4,8 @@ import { getRegisters, getUserRegisters } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
 
 const RegisterList = () => {
-  const [userRegisters, setUserRegisters] = useState(Object)
   const {user, setUser} = useContext(AppContext)
+  const [userRegisters, setUserRegisters] = useState([])
   
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const RegisterList = () => {
     
     const getRegister = async() => {
       if(user.role == 'analista' || user.role == 'Analista') {
-        getUserRegisters(user.name)
+        await getUserRegisters(user.name)
         .then((e) => {
           setUserRegisters(e)
         })
@@ -26,7 +26,7 @@ const RegisterList = () => {
       }
     }
     getRegister()
-  }, [userRegisters.length])
+  }, [])
 
   return (
     <DashboardMain>
@@ -44,6 +44,7 @@ const RegisterList = () => {
               <span>Sistema, Aplicativo ou Hardware</span>
               <span>Procedimento a ser corrigido</span>
               <span>Observações</span>
+              <span>Análise da Supervisão</span>
             </li>
           {userRegisters.length > 0 ? userRegisters.map((register: IRegister) => (
             <li key={register.number}>
@@ -57,6 +58,7 @@ const RegisterList = () => {
               <span>{register.system}</span>
               <span>{register.fixProc}</span>
               <span>{register.observations}</span>
+              <span>{register.supervisorObservations}</span>
             </li>
           )) : <></>}
         </DashboardWrapper>

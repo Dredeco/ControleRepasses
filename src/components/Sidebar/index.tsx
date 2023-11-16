@@ -22,7 +22,7 @@ const Sidebar = (props: SidebarProps) => {
   }
 
   const handleCreateuser = () => {
-    setPage("user")
+    setPage("newUser")
   }
 
   const logoff = () => {

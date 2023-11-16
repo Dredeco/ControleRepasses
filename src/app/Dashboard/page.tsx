@@ -8,6 +8,7 @@ import RegisterForm from '@/components/RegisterForm'
 import { AppContext } from '@/context/AppContext'
 import { redirect } from 'next/navigation'
 import UserForm from '@/components/UserForm'
+import RegisterFormSupervisor from '@/components/RegisterFormSupervisor'
 
 const DashboardMain = styled.div`
   width: 100%;
@@ -38,7 +39,8 @@ const Dashboard = () => {
       {isLoading == true ? <div>Loading</div> : 
       <>
         <Sidebar handleClick={setPage}/>
-        {page == 'home' ? <RegisterList /> : page == 'register' ? <RegisterForm /> :  <UserForm />}
+        {page == 'home' ? <RegisterList /> : page == 'newUser' ? <UserForm /> :
+        page == 'register' && user.role == 'Supervisor' ? <RegisterFormSupervisor /> : <RegisterForm />}
       </>}
     </DashboardMain>
   )

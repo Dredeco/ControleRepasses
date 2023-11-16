@@ -46,7 +46,10 @@ const aplicacao = [
 interface IRegisterForm extends FormEvent<HTMLFormElement> {
 }
 
-const RegisterForm = () => {
+const RegisterFormSupervisor = () => {
+    const [users, setUsers] = useState(Object)
+    const [supers, setSupers] = useState(Object)
+
     const [number, setNumber] = useState('')
     const [task, setTask] = useState('')
     const [sctask, setSctask] = useState('')
@@ -57,8 +60,8 @@ const RegisterForm = () => {
     const [system, setSystem] = useState(aplicacao[0].name)
     const [fixProc, setFixProc] = useState('')
     const [observations, setObservations] = useState('')
-    const [users, setUsers] = useState(Object)
-    const [supers, setSupers] = useState(Object)
+    const [supervisorObservations, setSupervisorObservations] = useState('')
+
     const {setPage} = useContext(AppContext)
 
     useEffect(() => {
@@ -192,6 +195,13 @@ const RegisterForm = () => {
                     required
                     />
                 </li>
+                <li>
+                    <Textarea 
+                    label='Análise da Supervisão:' 
+                    onChange={(e) => setSupervisorObservations(e.target.value)}
+                    required
+                    />
+                </li>
                 <div className='btnContainer'>
                     <Button className='cancel'>Cancelar</Button>
                     <Button className='send'>Salvar</Button>
@@ -202,4 +212,4 @@ const RegisterForm = () => {
   )
 }
 
-export default RegisterForm
+export default RegisterFormSupervisor

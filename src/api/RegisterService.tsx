@@ -13,7 +13,7 @@ export const createRegister = async (register: IRegister) => {
         classification: register.classification,
         system: register.system,
         fixProc: register.fixProc,
-        observations: register.observations
+        observations: register.observations,
     }).catch((error: any) => console.log(error))
     
     return alert("Registro criado com sucesso.")
@@ -27,11 +27,36 @@ export const getRegisters = async() => {
 }
 
 export const getUserRegisters = async(name: string) => {
-    const response = await axios.get(`https://cr-api.onrender.com/api/incident/${name}`)
+    const response = await axios.get(`https://cr-api.onrender.com/api/incident/user/${name}`)
     .then((res: Response) => res)
 
     const {incidentUser} = response.data
     console.log(incidentUser)
 
     return incidentUser
+}
+
+export const getRegisterByNumber = async(number: string) => {
+    const response = await axios.get(`https://cr-api.onrender.com/api/incident/${number}`)
+    .then((res: Response) => res)
+
+    return response.data
+}
+
+export const updateRegister = async (register: IRegister) => {
+    const response = await axios.post('https://cr-api.onrender.com/api/incident', {
+        number: register.number,
+        task: register.task,
+        sctask: register.sctask,
+        date: register.date,
+        user: register.user,
+        supervisor: register.supervisor,
+        classification: register.classification,
+        system: register.system,
+        fixProc: register.fixProc,
+        observations: register.observations,
+        supervisorObservations: register.supervisorObservations
+    }).catch((error: any) => console.log(error))
+    
+    return alert("Registro criado com sucesso.")
 }

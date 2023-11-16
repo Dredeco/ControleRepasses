@@ -1,29 +1,30 @@
 import styled from "styled-components"
 
 export const DashboardMain = styled.section`
-  width: 100vh;
+  width: 100%;
   padding: 2rem 2%;
   display: flex;
   justify-content: center;
+  overflow-x: auto;
 `
 
 export const DashboardContainer = styled.div`
   width: 100%;
-  max-width: 1440px;
 `
 
 export const DashboardWrapper = styled.ul`
-  width: 100%;
+  width: fit-content;
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
+  word-wrap: break-word;
 
   > :nth-child(1){
     font-weight: bold;
   }
 
   > :nth-child(2n + 1){
-    background-color: #cccccc;
+    background-color: #e6e6e6;
   }
 
   li{
@@ -38,7 +39,6 @@ export const DashboardWrapper = styled.ul`
       padding: .5rem .5rem;
       flex: 1;
       min-width: 50px;
-      word-wrap: break-word;
     }
 
   }

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const UserFormMain = styled.section`
     width: 100%;
-    background-color: #b9b9b9;
+    background-color: #e2e2e2;
     display: flex;
     justify-content: center;
 `
