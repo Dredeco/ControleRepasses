@@ -32,6 +32,7 @@ export const getUserRegisters = async(name: string) => {
 
     const {incidentUser} = response.data
 
+    console.log(incidentUser)
     return incidentUser
 }
 

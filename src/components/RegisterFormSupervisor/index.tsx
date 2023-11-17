@@ -9,6 +9,8 @@ import { Textarea } from '@/components/Textarea'
 import { createRegister, getRegisterByNumber, updateRegister } from '@/api/RegisterService'
 import { getUsers } from '@/api/userService'
 import { AppContext } from '@/context/AppContext'
+import Sidebar from '../Sidebar'
+import Link from 'next/link'
 
 const classificacoes = [
     {name: "#000 - Situações em que nenhuma das opções abaixo se enquadra."},
@@ -109,8 +111,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
         getIncData()
     }, [])
 
-    const handleSubmit = async (e: IRegisterForm) => {
-        e.preventDefault()
+    const handleSubmit = async () => {
         const register = {
             number: number,
             task: task,
@@ -127,9 +128,14 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
         setPage('home')
     }
 
+    const handleCancel = async () => {
+        setPage('home')
+    }
+
   return (
+    <>
     <MainRegisterForm>
-        <RegisterFormController onSubmit={(e) => handleSubmit(e)}>
+        <RegisterFormController>
             <RegisterFormHeader>
                 <h1>Dados do chamado</h1>
             </RegisterFormHeader>
@@ -228,16 +234,16 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                     label='Análise da Supervisão:' 
                     defaultValue={incident.supervisorObservations}
                     onChange={(e) => setSupervisorObservations(e.target.value)}
-                    required
                     />
                 </li>
                 <div className='btnContainer'>
-                    <Button className='cancel'>Cancelar</Button>
-                    <Button className='send'>Salvar</Button>
+                    <Link className='cancel' href="/Dashboard">Cancelar</Link>
+                    <Button className='send' onClick={handleSubmit}>Salvar</Button>
                 </div>
             </RegisterFormBody>
         </RegisterFormController>
     </MainRegisterForm>
+    </>
   )
 }
 

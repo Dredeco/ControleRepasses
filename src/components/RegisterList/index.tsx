@@ -14,9 +14,9 @@ const RegisterList = () => {
       const LoggedUser = localStorage.getItem('user')
       setUser(JSON.parse(LoggedUser as string))
     }
-    
+
     const getRegister = async() => {
-      if(user.role == 'analista' || user.role == 'Analista') {
+      if(user.role == 'analista' || user.role == "Analista") {
         await getUserRegisters(user.name)
         .then((e) => {
           setUserRegisters(e)
@@ -52,7 +52,6 @@ const RegisterList = () => {
               {user.role == "Supervisor" ? 
               <Link id={register.number} href={`./Dashboard/${register.number}`}>{register.number}</Link> : 
               <span>{register.number}</span>}
-              <span>{register.number}</span>
               <span>{register.task}</span>
               <span>{register.sctask}</span>
               <span>{register.date}</span>
