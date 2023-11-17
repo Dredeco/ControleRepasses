@@ -23,7 +23,7 @@ export const getRegisters = async() => {
     const response = await axios.get('https://cr-api.onrender.com/api/incident')
     .then((res: Response) => res)
 
-    return response.data
+    return response.data.response
 }
 
 export const getUserRegisters = async(name: string) => {
@@ -31,7 +31,6 @@ export const getUserRegisters = async(name: string) => {
     .then((res: Response) => res)
 
     const {incidentUser} = response.data
-    console.log(incidentUser)
 
     return incidentUser
 }
@@ -40,11 +39,11 @@ export const getRegisterByNumber = async(number: string) => {
     const response = await axios.get(`https://cr-api.onrender.com/api/incident/${number}`)
     .then((res: Response) => res)
 
-    return response.data
+    return response.data.incidentNumber
 }
 
 export const updateRegister = async (register: IRegister) => {
-    const response = await axios.post('https://cr-api.onrender.com/api/incident', {
+    const response = await axios.post(`https://cr-api.onrender.com/api/incident/${register.number}`, {
         number: register.number,
         task: register.task,
         sctask: register.sctask,
@@ -58,5 +57,5 @@ export const updateRegister = async (register: IRegister) => {
         supervisorObservations: register.supervisorObservations
     }).catch((error: any) => console.log(error))
     
-    return alert("Registro criado com sucesso.")
+    return alert("Registro alterado com sucesso.")
 }

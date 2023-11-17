@@ -1,10 +1,12 @@
+"use client"
+
 import React, { FormEvent, SetStateAction, useContext, useEffect, useState } from 'react'
 import { Button } from '@/components/Button'
 import { Input } from '@/components/Input'
 import { Select } from '@/components/Select'
 import { MainRegisterForm, RegisterFormBody, RegisterFormController, RegisterFormHeader } from './style'
 import { Textarea } from '@/components/Textarea'
-import { createRegister } from '@/api/RegisterService'
+import { createRegister, getRegisterByNumber, updateRegister } from '@/api/RegisterService'
 import { getUsers } from '@/api/userService'
 import { AppContext } from '@/context/AppContext'
 
@@ -46,10 +48,11 @@ const aplicacao = [
 interface IRegisterForm extends FormEvent<HTMLFormElement> {
 }
 
-const RegisterFormSupervisor = () => {
+const RegisterFormSupervisor = (incidentNumber: any) => {
     const [users, setUsers] = useState(Object)
     const [supers, setSupers] = useState(Object)
 
+    const [incident, setIncident] = useState(Object)
     const [number, setNumber] = useState('')
     const [task, setTask] = useState('')
     const [sctask, setSctask] = useState('')
@@ -65,7 +68,23 @@ const RegisterFormSupervisor = () => {
     const {setPage} = useContext(AppContext)
 
     useEffect(() => {
-        const getData  = async () => {
+        const getIncData = async () => {
+            let actualIncident = await getRegisterByNumber(incidentNumber.incidentNumber)
+            setIncident(actualIncident)
+
+            setNumber(actualIncident.number)
+            setTask(actualIncident.task)
+            setSctask(actualIncident.sctask)
+            setDate(actualIncident.date)
+            setUser(actualIncident.user)
+            setSupervisor(actualIncident.supervisor)
+            setClassification(actualIncident.classification)
+            setSystem(actualIncident.system)
+            setFixProc(actualIncident.fixproc)
+            setObservations(actualIncident.observations)
+            setSupervisorObservations(actualIncident.supervisorObservations)
+        }
+        const getUsersData  = async () => {
             const data = await getUsers()
             let userData: any = []
             let superData: any = []
@@ -86,7 +105,8 @@ const RegisterFormSupervisor = () => {
             setSupers(superData)
             setSupervisor(superData[0].name)
         }
-        getData()
+        getUsersData()
+        getIncData()
     }, [])
 
     const handleSubmit = async (e: IRegisterForm) => {
@@ -103,7 +123,7 @@ const RegisterFormSupervisor = () => {
             fixProc: fixProc,
             observations: observations
         }
-        createRegister(register)
+        updateRegister(register)
         setPage('home')
     }
 
@@ -116,15 +136,16 @@ const RegisterFormSupervisor = () => {
             <RegisterFormBody>
                 <li>
                     <Input 
-                        label='Nº do Chamado' 
+                        label='Nº do Chamado'
+                        defaultValue={incident.number}
                         onChange={(e) => setNumber(e.target.value)}
-                        placeholder='INC / RITM'
                         required
                     />
                 </li>
                 <li>
                     <Input 
                         label='Nº da TASK' 
+                        defaultValue={incident.task}
                         placeholder='TASKXXXXXX'
                         onChange={(e) => setTask(e.target.value)}
                     />
@@ -132,6 +153,7 @@ const RegisterFormSupervisor = () => {
                 <li>
                     <Input 
                         label='Nº da SCTASK (RITM)' 
+                        defaultValue={incident.sctask}
                         placeholder='SCTASKXXXX'
                         onChange={(e) => setSctask(e.target.value)}
                     />
@@ -139,6 +161,7 @@ const RegisterFormSupervisor = () => {
                 <li>
                     <Input 
                         label='Data' 
+                        defaultValue={incident.date}
                         type='date' 
                         onChange={(e) => setDate(e.target.value)}
                         required
@@ -148,8 +171,9 @@ const RegisterFormSupervisor = () => {
                     <Select 
                         name='analista' 
                         label='Nome do Analista' 
+                        defaultValue={user}
+                        value={user}
                         options={users}
-                        defaultValue={users[0]?.name}
                         onChange={(e) => setUser(e.target.value)}
                         required
                     />
@@ -159,7 +183,7 @@ const RegisterFormSupervisor = () => {
                         name='supervisor' 
                         label='Supervisor' 
                         options={supers}
-                        defaultValue={supers[0]?.name}
+                        defaultValue={incident.supervisor}
                         onChange={(e) => setSupervisor(e.target.value)}
                         required
                     />
@@ -169,6 +193,7 @@ const RegisterFormSupervisor = () => {
                         name='classificação' 
                         label='Classificação' 
                         options={classificacao} 
+                        defaultValue={incident.classification}
                         onChange={(e) => setClassification(e.target.value)}
                         required
                     />
@@ -177,6 +202,7 @@ const RegisterFormSupervisor = () => {
                     <Select 
                         label='Sistema, Aplicativo ou Hardware' 
                         options={aplicacao} 
+                        defaultValue={incident.system}
                         onChange={(e) => setSystem(e.target.value)}
                         required
                     />
@@ -184,6 +210,7 @@ const RegisterFormSupervisor = () => {
                 <li>
                     <Input 
                         label='Artigo a ser corrigido?'
+                        defaultValue={incident.fixProc}
                         placeholder='KP - Atender ...'
                         onChange={(e) => setFixProc(e.target.value)}
                     />
@@ -191,6 +218,7 @@ const RegisterFormSupervisor = () => {
                 <li>
                     <Textarea 
                     label='Motivo do repasse:' 
+                    defaultValue={incident.observations}
                     onChange={(e) => setObservations(e.target.value)}
                     required
                     />
@@ -198,6 +226,7 @@ const RegisterFormSupervisor = () => {
                 <li>
                     <Textarea 
                     label='Análise da Supervisão:' 
+                    defaultValue={incident.supervisorObservations}
                     onChange={(e) => setSupervisorObservations(e.target.value)}
                     required
                     />

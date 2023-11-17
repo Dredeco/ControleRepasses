@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
 import { getRegisters, getUserRegisters } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
+import Link from 'next/link'
 
 const RegisterList = () => {
   const {user, setUser} = useContext(AppContext)
@@ -21,7 +22,7 @@ const RegisterList = () => {
           setUserRegisters(e)
         })
       } else {
-        const superList = await getRegisters().then((res) => res.response)
+        const superList = await getRegisters()
         setUserRegisters(superList)
       }
     }
@@ -48,6 +49,9 @@ const RegisterList = () => {
             </li>
           {userRegisters.length > 0 ? userRegisters.map((register: IRegister) => (
             <li key={register.number}>
+              {user.role == "Supervisor" ? 
+              <Link id={register.number} href={`./Dashboard/${register.number}`}>{register.number}</Link> : 
+              <span>{register.number}</span>}
               <span>{register.number}</span>
               <span>{register.task}</span>
               <span>{register.sctask}</span>

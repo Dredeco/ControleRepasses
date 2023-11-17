@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import Sidebar from '@/components/Sidebar'
 import React, { useContext, useEffect, useState } from 'react'
@@ -39,8 +39,7 @@ const Dashboard = () => {
       {isLoading == true ? <div>Loading</div> : 
       <>
         <Sidebar handleClick={setPage}/>
-        {page == 'home' ? <RegisterList /> : page == 'newUser' ? <UserForm /> :
-        page == 'register' && user.role == 'Supervisor' ? <RegisterFormSupervisor /> : <RegisterForm />}
+        {page == 'home' ? <RegisterList /> : page == 'newUser' ? <UserForm /> : <RegisterForm />}
       </>}
     </DashboardMain>
   )
