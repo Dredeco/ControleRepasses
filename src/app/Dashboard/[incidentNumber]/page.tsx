@@ -1,6 +1,5 @@
 import { getRegisterByNumber, getRegisters } from '@/api/RegisterService'
 import RegisterFormSupervisor from '@/components/RegisterFormSupervisor'
-import { Params } from 'next/dist/shared/lib/router/utils/route-matcher'
 import React from 'react'
 
 export async function generateStaticParams() {
@@ -22,7 +21,7 @@ export async function generateStaticParams() {
     }))
 }
 
-const IncidentInfo = ({ params }: Params) => {
+const IncidentInfo = ({ params }: any) => {
 
   return (
     <RegisterFormSupervisor incidentNumber={params.incidentNumber} />
