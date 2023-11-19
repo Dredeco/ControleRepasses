@@ -20,6 +20,12 @@ export const LoginContainer = styled.form`
 
     button{
         margin-top: 2rem;
+        border: none;
+        background-color: #222;
+        color: #fff;
+        &:hover{
+            background-color: #000;
+        }
     }
 
     div{

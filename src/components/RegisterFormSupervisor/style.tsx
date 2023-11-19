@@ -50,21 +50,21 @@ export const RegisterFormBody= styled.ul`
     .btnContainer{
         display: flex;
         justify-content: center;
+        column-gap: 1rem;
 
         a{
             text-align: center;
             width: 30rem;
-            border: 3px solid #aaa;
             border-radius: 10px;
             padding: 1rem .5rem;
             font-size: 1.8rem;
             cursor: pointer;
             text-decoration: none;
-            color: #fff;
         }
 
-        button{
+        button, a{
             color: #fff;
+            border: none;
         }
 
         :nth-child(1){

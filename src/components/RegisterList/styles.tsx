@@ -13,18 +13,17 @@ export const DashboardContainer = styled.div`
 `
 
 export const DashboardWrapper = styled.ul`
-  width: fit-content;
+  min-width: 120rem;
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
-  word-wrap: break-word;
 
   > :nth-child(1){
     font-weight: bold;
   }
 
   > :nth-child(2n + 1){
-    background-color: #e6e6e6;
+    background-color: #cccbcb;
   }
 
   li{
@@ -44,5 +43,9 @@ export const DashboardWrapper = styled.ul`
   }
   li + li {
     border-top: 1px solid #000;
+  }
+
+  svg{
+    color: #000 !important;
   }
 `

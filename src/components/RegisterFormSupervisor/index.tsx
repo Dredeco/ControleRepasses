@@ -134,7 +134,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
     <MainRegisterForm>
         <RegisterFormController onSubmit={(e) => handleSubmit(e)}>
             <RegisterFormHeader>
-                <h1>Dados do chamado</h1>
+                <h1>Dados do chamado: {incident.number}</h1>
             </RegisterFormHeader>
             <RegisterFormBody>
                 <li>

@@ -3,6 +3,7 @@ import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
 import { getRegisters, getUserRegisters } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
+import { Search } from '../../../public/search'
 
 const RegisterList = () => {
   const {user, setUser} = useContext(AppContext)
@@ -35,6 +36,7 @@ const RegisterList = () => {
         <h1>Meus chamados</h1>
         <DashboardWrapper>
             <li key='Header'>
+              <span>Buscar no ServiceNow</span>
               <span>Nº do chamado</span>
               <span>Nº da TASK</span>
               <span>Nº do SCTASK</span>
@@ -49,6 +51,7 @@ const RegisterList = () => {
             </li>
           {userRegisters.length > 0 ? userRegisters.map((register: IRegister) => (
             <li key={register.number}>
+              <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${register.number}`}><Search /></Link>
               {user.role == "Supervisor" ? 
               <Link id={register.number} href={`./Dashboard/${register.number}`}>{register.number}</Link> : 
               <span>{register.number}</span>}

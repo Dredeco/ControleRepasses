@@ -34,25 +34,25 @@ const Sidebar = (props: SidebarProps) => {
     <SidebarMain>
         <ul>
             <li onClick={handleHome}>
-              <strong>•</strong><span>
+              <strong>»</strong><span>
                   Início
                 </span>
             </li>
             <li onClick={handleCreateRegister}>
-            <strong>•</strong><span>
+            <strong>»</strong><span>
                 Novo registro
               </span>
             </li>
             {user.key == 'AAXR' || user.role == 'Supervisor' ?
             <li onClick={handleCreateuser}>
-            <strong>•</strong><span>
+            <strong>»</strong><span>
                 Novo usuário
             </span>
             </li> :
               null
             }
             <li onClick={logoff}>
-            <strong>•</strong><span>
+            <strong>»</strong><span>
                 Sair
               </span>
             </li>
