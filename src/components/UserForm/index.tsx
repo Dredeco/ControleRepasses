@@ -21,9 +21,10 @@ const UserForm = () => {
 
   useEffect(() => {
     getUsers()
+    setRole('Analista')
   }, [])
 
-  const handleSubmit = (e: IUserForm) => {
+  const handleSubmit = async (e: IUserForm) => {
     e.preventDefault()
     const user = {
       key,
@@ -31,7 +32,7 @@ const UserForm = () => {
       role
     }
 
-    createUser(user).then(() => alert("Usuário criado"))
+    await createUser(user)
     setPage('home')
   }
 
@@ -49,7 +50,7 @@ const UserForm = () => {
             <Input label='Nome completo' placeholder='Maria José de Jesus' onChange={(e) => setName(e.target.value)} required/>
           </li>
           <li>
-            <Select label='Função' options={roles} defaultValue={roles[0].name} onChange={(e) => setRole(e.target.value)} required/>
+            <Select label='Função' options={roles} onChange={(e) => setRole(e.target.value)} required/>
           </li>
           <div className='btnContainer'>
               <Button className='cancel'>Cancelar</Button>
