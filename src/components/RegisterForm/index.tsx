@@ -100,7 +100,7 @@ const RegisterForm = () => {
             fixProc: fixProc,
             observations: observations
         }
-        createRegister(register)
+        await createRegister(register)
         setPage('home')
     }
 
@@ -146,7 +146,7 @@ const RegisterForm = () => {
                         name='analista' 
                         label='Nome do Analista' 
                         options={users}
-                        defaultValue={users[0]?.name}
+                        value={user}
                         onChange={(e) => setUser(e.target.value)}
                         required
                     />
@@ -156,7 +156,7 @@ const RegisterForm = () => {
                         name='supervisor' 
                         label='Supervisor' 
                         options={supers}
-                        defaultValue={supers[0]?.name}
+                        value={supervisor}
                         onChange={(e) => setSupervisor(e.target.value)}
                         required
                     />
