@@ -126,7 +126,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
             supervisorObservations: supervisorObservations
         }
         await updateRegister(register)
-        window.location.replace('/Dashboard')
+        window.location.replace('./')
     }
 
   return (
