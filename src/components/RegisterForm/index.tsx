@@ -89,9 +89,9 @@ const RegisterForm = () => {
     const handleSubmit = async (e: IRegisterForm) => {
         e.preventDefault()
         const register = {
-            number: number,
-            task: task,
-            sctask: sctask,
+            number: number.toUpperCase(),
+            task: task.toUpperCase(),
+            sctask: sctask.toUpperCase(),
             date: date,
             user: user,
             supervisor: supervisor,

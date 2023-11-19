@@ -35,7 +35,7 @@ export const DashboardWrapper = styled.ul`
     text-align: center;
     align-items: center;
 
-    span{
+    span, a{
       padding: .5rem .5rem;
       flex: 1;
       min-width: 50px;

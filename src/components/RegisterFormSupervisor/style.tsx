@@ -51,6 +51,18 @@ export const RegisterFormBody= styled.ul`
         display: flex;
         justify-content: center;
 
+        a{
+            text-align: center;
+            width: 30rem;
+            border: 3px solid #aaa;
+            border-radius: 10px;
+            padding: 1rem .5rem;
+            font-size: 1.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            color: #fff;
+        }
+
         button{
             color: #fff;
         }

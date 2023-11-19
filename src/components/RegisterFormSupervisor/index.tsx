@@ -1,6 +1,6 @@
 "use client"
 
-import React, { FormEvent, SetStateAction, useContext, useEffect, useState } from 'react'
+import React, { FormEvent, FormEventHandler, SetStateAction, useContext, useEffect, useState } from 'react'
 import { Button } from '@/components/Button'
 import { Input } from '@/components/Input'
 import { Select } from '@/components/Select'
@@ -11,6 +11,7 @@ import { getUsers } from '@/api/userService'
 import { AppContext } from '@/context/AppContext'
 import Sidebar from '../Sidebar'
 import Link from 'next/link'
+import { RedirectType, redirect, useRouter } from 'next/navigation'
 
 const classificacoes = [
     {name: "#000 - Situações em que nenhuma das opções abaixo se enquadra."},
@@ -74,9 +75,9 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
             let actualIncident = await getRegisterByNumber(incidentNumber.incidentNumber)
             setIncident(actualIncident)
 
-            setNumber(actualIncident.number)
-            setTask(actualIncident.task)
-            setSctask(actualIncident.sctask)
+            setNumber(actualIncident.number.toUpperCase())
+            setTask(actualIncident.task.toUpperCase())
+            setSctask(actualIncident.sctask.toUpperCase())
             setDate(actualIncident.date)
             setUser(actualIncident.user)
             setSupervisor(actualIncident.supervisor)
@@ -102,16 +103,15 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                 }
             }
             setUsers(userData)
-            setUser(userData[0].name)
             
             setSupers(superData)
-            setSupervisor(superData[0].name)
         }
         getUsersData()
         getIncData()
     }, [])
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: IRegisterForm) => {
+        e.preventDefault()
         const register = {
             number: number,
             task: task,
@@ -122,20 +122,17 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
             classification: classification,
             system: system,
             fixProc: fixProc,
-            observations: observations
+            observations: observations,
+            supervisorObservations: supervisorObservations
         }
-        updateRegister(register)
-        setPage('home')
-    }
-
-    const handleCancel = async () => {
-        setPage('home')
+        await updateRegister(register)
+        window.location.replace('/Dashboard')
     }
 
   return (
     <>
     <MainRegisterForm>
-        <RegisterFormController>
+        <RegisterFormController onSubmit={(e) => handleSubmit(e)}>
             <RegisterFormHeader>
                 <h1>Dados do chamado</h1>
             </RegisterFormHeader>
@@ -177,7 +174,6 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                     <Select 
                         name='analista' 
                         label='Nome do Analista' 
-                        defaultValue={user}
                         value={user}
                         options={users}
                         onChange={(e) => setUser(e.target.value)}
@@ -189,7 +185,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                         name='supervisor' 
                         label='Supervisor' 
                         options={supers}
-                        defaultValue={incident.supervisor}
+                        value={supervisor}
                         onChange={(e) => setSupervisor(e.target.value)}
                         required
                     />
@@ -237,8 +233,8 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                     />
                 </li>
                 <div className='btnContainer'>
-                    <Link className='cancel' href="/Dashboard">Cancelar</Link>
-                    <Button className='send' onClick={handleSubmit}>Salvar</Button>
+                    <Link className='cancel' href='./'>Cancelar</Link>
+                    <Button type='submit' className='send'>Salvar</Button>
                 </div>
             </RegisterFormBody>
         </RegisterFormController>
