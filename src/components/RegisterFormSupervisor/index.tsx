@@ -13,24 +13,6 @@ import Sidebar from '../Sidebar'
 import Link from 'next/link'
 import { RedirectType, redirect, useRouter } from 'next/navigation'
 
-const classificacoes = [
-    {name: "#000 - Situações em que nenhuma das opções abaixo se enquadra."},
-    {name: "#RRP - Portal - Repasse realizado conforme o procedimento exige repasse."},
-    {name: "#DRS - Desbloqueio e reativações de senha em sistemas que o procedimento exige repasse."},
-    {name: "#H01 - Suporte necessário localmente de hardware para remanejar ou mover equipamentos de lugar."},
-    {name: "#H03 - Suporte exclusivo local em hardware de TI com defeito ou para substituição."},
-    {name: "#H04 - Suporte local exclusivo em hardware em Telecomunicações."},
-    {name: "#H06 - Fornecer suprimentos tais como papeis, cartuchos ou tonners."},
-    {name: "#I01 - Indisponibilidade do Bomgar."},
-    {name: "#I02 - Indisponibilidade da Base de conhecimento."},
-    {name: "#I03 - Indisponibilidade recurso ou sistema (necessidade repassar até termos o CAOS)"},
-    {name: "#I04 - Inviabilidade de atendimento remoto por lentidão excessiva."},
-    {name: "#I05 - Inviabilidade de atendimento remoto por causa de indisponbilidade da rede no usuário."},
-    {name: "#PSO - Sistema Operacional com problemas não sendo possível solucionar."},
-    {name: "#TLE - Transferir licenças de software entre equipamentos."},
-    {name: "#USR - Usuário solicitou realmente que fosse repassado o chamado."},
-]
-
 const classificacao = [
     {name: "Configurar / Atualizar"},
     {name: "Entregar / Fornecer"},
@@ -62,7 +44,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
     const [date, setDate] = useState('')
     const [user, setUser] = useState('')
     const [supervisor, setSupervisor] = useState('')
-    const [classification, setClassification] = useState(classificacoes[0].name)
+    const [classification, setClassification] = useState(classificacao[0].name)
     const [system, setSystem] = useState(aplicacao[0].name)
     const [fixProc, setFixProc] = useState('')
     const [observations, setObservations] = useState('')

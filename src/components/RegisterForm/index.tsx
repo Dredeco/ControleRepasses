@@ -7,6 +7,7 @@ import { Textarea } from '@/components/Textarea'
 import { createRegister } from '@/api/RegisterService'
 import { getUsers } from '@/api/userService'
 import { AppContext } from '@/context/AppContext'
+import { generateStaticParams } from '@/app/Dashboard/[incidentNumber]/page'
 
 const classificacao = [
     {name: "Configurar / Atualizar"},
@@ -83,7 +84,9 @@ const RegisterForm = () => {
             observations: observations
         }
         await createRegister(register)
+        generateStaticParams()
         setPage('home')
+        window.location.reload
     }
 
   return (
