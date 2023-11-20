@@ -2,9 +2,9 @@ import { getRegisterByNumber, getRegisters } from '@/api/RegisterService'
 import RegisterFormSupervisor from '@/components/RegisterFormSupervisor'
 import React, { useEffect } from 'react'
 
-export const dynamicParams = true
+export const dynamicParams = 'force-dynamic'
 export const dynamic = 'auto'
-export const revalidate = false
+export const revalidate = 0
 
 export async function generateStaticParams() {
   const incidents = await getRegisters()
