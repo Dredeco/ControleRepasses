@@ -9,6 +9,7 @@ import { AppContext } from '@/context/AppContext'
 import { redirect } from 'next/navigation'
 import UserForm from '@/components/UserForm'
 import RegisterFormSupervisor from '@/components/RegisterFormSupervisor'
+import { generateStaticParams } from './[incidentNumber]/page'
 
 const DashboardMain = styled.div`
   width: 100%;
@@ -23,6 +24,7 @@ const Dashboard = () => {
   
   
   useEffect(() => {
+    generateStaticParams()
     if(user.name) {
       setLoading(false)
     } else {
