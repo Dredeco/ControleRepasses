@@ -3,7 +3,6 @@ import RegisterFormSupervisor from '@/components/RegisterFormSupervisor'
 import React, { useEffect } from 'react'
 
 export const dynamicParams = true
-export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export async function generateStaticParams() {

@@ -3,7 +3,7 @@ const nextConfig = {
     compiler: {
         styledComponents: true
     },
-    output: 'standalone',
+    output: 'export',
 }
 
 module.exports = nextConfig
