@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 
 export const dynamicParams = true
 export const dynamic = 'force-dynamic'
-export const revalidate = false
+export const revalidate = 0
 
 export async function generateStaticParams() {
   const incidents = await getRegisters()
