@@ -1,3 +1,6 @@
+export const dynamicParams = true
+export const revalidate = 60
+
 import { getRegisters } from '@/api/RegisterService'
 import RegisterFormSupervisor from '@/components/RegisterFormSupervisor'
 import React from 'react'
@@ -11,8 +14,6 @@ export async function generateStaticParams() {
   }))
 }
 
-export const dynamicParams = true
-export const revalidate = 60
 
 const IncidentInfo = async ({ params }: { params: { incidentNumber: string }}) => {
   

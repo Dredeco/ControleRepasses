@@ -4,6 +4,7 @@ import { getRegisters, getUserRegisters } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
 import { Search } from '../../../public/search'
+import { revalidate } from '@/app/Dashboard/[incidentNumber]/page'
 
 const RegisterList = () => {
   const {user, setUser} = useContext(AppContext)
