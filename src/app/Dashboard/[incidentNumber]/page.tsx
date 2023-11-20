@@ -1,7 +1,6 @@
-import { getRegisterByNumber, getRegisters } from '@/api/RegisterService'
+import { getRegisters } from '@/api/RegisterService'
 import RegisterFormSupervisor from '@/components/RegisterFormSupervisor'
-import { revalidatePath } from 'next/cache'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 
 export async function generateStaticParams() {
@@ -18,7 +17,7 @@ export const revalidate = 60
 const IncidentInfo = async ({ params }: { params: { incidentNumber: string }}) => {
   
   return (
-    <RegisterFormSupervisor incidentNumber={() => params.incidentNumber} />
+    <RegisterFormSupervisor incidentNumber={params.incidentNumber} />
   )
 }
 
