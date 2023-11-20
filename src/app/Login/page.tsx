@@ -21,7 +21,6 @@ const Login = () => {
       await getUser(userKey)
       .then((e) => {
         if(e.name) {
-          console.log(e)
           setUser(e)
           localStorage.setItem('user', JSON.stringify(e))
           router.push('/Dashboard')

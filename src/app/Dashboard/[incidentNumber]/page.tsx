@@ -11,8 +11,9 @@ export async function generateStaticParams() {
   }))
 }
 
+export const dynamicParams = true
+
 const IncidentInfo = ({ params }: any) => {
-  generateStaticParams()
   
   return (
     <RegisterFormSupervisor incidentNumber={params.incidentNumber} />

@@ -1,5 +1,3 @@
-import { error } from "console";
-
 const axios = require('axios');
 
 export const createRegister = async (register: IRegister) => {
@@ -32,7 +30,6 @@ export const getUserRegisters = async(name: string) => {
 
     const {incidentUser} = response.data
 
-    console.log(incidentUser)
     return incidentUser
 }
 
