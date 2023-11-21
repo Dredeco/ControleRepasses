@@ -64,6 +64,9 @@ const RegisterForm = () => {
             
             setSupers(superData)
             setSupervisor(superData[0].name)
+
+            let myDate = new Date()
+            setDate(myDate.toISOString().split("T")[0])
         }
         getData()
     }, [])
@@ -84,7 +87,6 @@ const RegisterForm = () => {
         }
         await createRegister(register)
         setPage('home')
-        window.location.reload
     }
 
   return (
@@ -119,7 +121,8 @@ const RegisterForm = () => {
                 <li>
                     <Input 
                         label='Data' 
-                        type='date' 
+                        type='date'
+                        value={date}
                         onChange={(e) => setDate(e.target.value)}
                         required
                     />
