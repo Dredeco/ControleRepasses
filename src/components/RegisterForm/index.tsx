@@ -7,6 +7,7 @@ import { Textarea } from '@/components/Textarea'
 import { createRegister } from '@/api/RegisterService'
 import { getUsers } from '@/api/userService'
 import { AppContext } from '@/context/AppContext'
+import { teams } from '../UserForm'
 
 const classificacao = [
     {name: "Configurar / Atualizar"},
@@ -33,7 +34,8 @@ const RegisterForm = () => {
     const [task, setTask] = useState('')
     const [sctask, setSctask] = useState('')
     const [date, setDate] = useState('')
-    const [user, setUser] = useState('')
+    const [analyst, setAnalyst] = useState('')
+    const [team, setTeam] = useState('')
     const [supervisor, setSupervisor] = useState('')
     const [classification, setClassification] = useState(classificacao[0].name)
     const [system, setSystem] = useState(aplicacao[0].name)
@@ -41,7 +43,7 @@ const RegisterForm = () => {
     const [observations, setObservations] = useState('')
     const [users, setUsers] = useState(Object)
     const [supers, setSupers] = useState(Object)
-    const {setPage} = useContext(AppContext)
+    const {setPage, user} = useContext(AppContext)
 
     useEffect(() => {
         const getData  = async () => {
@@ -60,13 +62,15 @@ const RegisterForm = () => {
                 }
             }
             setUsers(userData)
-            setUser(userData[0].name)
+            setAnalyst(user.name)
             
             setSupers(superData)
             setSupervisor(superData[0].name)
 
             let myDate = new Date()
             setDate(myDate.toISOString().split("T")[0])
+            setTeam(user.team)
+
         }
         getData()
     }, [])
@@ -78,7 +82,7 @@ const RegisterForm = () => {
             task: task.toUpperCase(),
             sctask: sctask.toUpperCase(),
             date: date,
-            user: user,
+            user: analyst,
             supervisor: supervisor,
             classification: classification,
             system: system,
@@ -132,8 +136,18 @@ const RegisterForm = () => {
                         name='analista' 
                         label='Nome do Analista' 
                         options={users}
-                        value={user}
-                        onChange={(e) => setUser(e.target.value)}
+                        value={analyst}
+                        onChange={(e) => setAnalyst(e.target.value)}
+                        required
+                    />
+                </li>
+                <li>
+                    <Select 
+                        name='equipe' 
+                        label='Equipe' 
+                        options={teams}
+                        value={team}
+                        onChange={(e) => setTeam(e.target.value)}
                         required
                     />
                 </li>

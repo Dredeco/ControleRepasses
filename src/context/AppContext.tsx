@@ -9,7 +9,8 @@ export const AppContext = createContext({
         _id: '',
         key: '',
         name: '',
-        role: ''
+        role: '',
+        team: ''
     },
     setUser: (value: any) => {},
     page: '',
