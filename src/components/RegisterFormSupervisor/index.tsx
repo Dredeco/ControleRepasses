@@ -12,6 +12,7 @@ import { AppContext } from '@/context/AppContext'
 import Sidebar from '../Sidebar'
 import Link from 'next/link'
 import { RedirectType, redirect, useRouter } from 'next/navigation'
+import { teams } from '../UserForm'
 
 const classificacao = [
     {name: "Configurar / Atualizar"},
@@ -43,6 +44,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
     const [sctask, setSctask] = useState('')
     const [date, setDate] = useState('')
     const [user, setUser] = useState('')
+    const [team, setTeam] = useState('')
     const [supervisor, setSupervisor] = useState('')
     const [classification, setClassification] = useState(classificacao[0].name)
     const [system, setSystem] = useState(aplicacao[0].name)
@@ -100,6 +102,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
             sctask: sctask,
             date: date,
             user: user,
+            team: team,
             supervisor: supervisor,
             classification: classification,
             system: system,
@@ -108,7 +111,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
             supervisorObservations: supervisorObservations
         }
         await updateRegister(register)
-        window.location.href = 'https://dredeco.github.io/ControleRepasses/Dashboard'
+       // window.location.href = 'https://dredeco.github.io/ControleRepasses/Dashboard'
     }
 
   return (
@@ -159,6 +162,16 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                         value={user}
                         options={users}
                         onChange={(e) => setUser(e.target.value)}
+                        required
+                    />
+                </li>
+                <li>
+                    <Select 
+                        name='equipe' 
+                        label='Equipe' 
+                        options={teams}
+                        value={team}
+                        onChange={(e) => setTeam(e.target.value)}
                         required
                     />
                 </li>

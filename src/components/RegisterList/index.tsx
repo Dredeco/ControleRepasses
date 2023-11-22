@@ -43,6 +43,7 @@ const RegisterList = () => {
               <span>Nº do SCTASK</span>
               <span>Data</span>
               <span>Nome do Analista</span>
+              <span>Equipe</span>
               <span>Supervisor</span>
               <span>Classificação</span>
               <span>Sistema, Aplicativo ou Hardware</span>
@@ -60,6 +61,7 @@ const RegisterList = () => {
               <span>{register.sctask}</span>
               <span>{register.date}</span>
               <span>{register.user}</span>
+              <span>{register.team}</span>
               <span>{register.supervisor}</span>
               <span>{register.classification}</span>
               <span>{register.system}</span>

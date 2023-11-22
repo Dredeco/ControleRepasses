@@ -55,6 +55,9 @@ const RegisterForm = () => {
                     superData.push(
                         JSON.parse(`{"name": "${data[i].name}"}`)
                     )
+                    if(data[i].team == user.team) {
+                        setSupervisor(data[i].name)
+                    }
                 } else {
                     userData.push(
                         JSON.parse(`{"name": "${data[i].name}"}`)
@@ -62,17 +65,15 @@ const RegisterForm = () => {
                 }
             }
             setUsers(userData)
-            setAnalyst(user.name)
-            
             setSupers(superData)
-            setSupervisor(superData[0].name)
 
             let myDate = new Date()
             setDate(myDate.toISOString().split("T")[0])
-            setTeam(user.team)
-
+            
         }
         getData()
+        setAnalyst(user.name)
+        setTeam(user.team)
     }, [])
 
     const handleSubmit = async (e: IRegisterForm) => {
@@ -83,6 +84,7 @@ const RegisterForm = () => {
             sctask: sctask.toUpperCase(),
             date: date,
             user: analyst,
+            team: team,
             supervisor: supervisor,
             classification: classification,
             system: system,

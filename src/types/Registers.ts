@@ -4,6 +4,7 @@ interface IRegister {
     sctask: string,
     date: string,
     user: string,
+    team: string,
     supervisor: string,
     classification: string,
     system: string,
