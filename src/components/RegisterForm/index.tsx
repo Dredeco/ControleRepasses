@@ -72,7 +72,7 @@ const RegisterForm = () => {
             
         }
         getData()
-        setAnalyst(user.name)
+        setAnalyst(user.nome)
         setTeam(user.team)
     }, [])
 

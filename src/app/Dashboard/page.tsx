@@ -23,7 +23,7 @@ const Dashboard = () => {
   
   
   useEffect(() => {
-    if(user.name) {
+    if(user.nome) {
       setLoading(false)
     } else {
       setUser(JSON.parse(localStorage.getItem('user') as string))

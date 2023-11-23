@@ -3,39 +3,43 @@ import React, { FormEvent, useContext, useState } from 'react'
 import { LoginContainer, LoginMain } from './styles'
 import { Input } from '@/components/Input'
 import { Button } from '@/components/Button'
-import { getUser } from '@/api/userService'
+import { getUser, login } from '@/api/userService'
 import { redirect, useRouter } from 'next/navigation'
 import { AppContext } from '@/context/AppContext'
+import { json } from 'stream/consumers'
 
 interface ILoginForm extends FormEvent<HTMLFormElement> {}
 
 const Login = () => {
-  const [userKey, setUserKey] = useState('')
+  const [registration, setRegistration] = useState('')
+  const [password, setPassword] = useState('')
   const {setUser} = useContext(AppContext)
   const router = useRouter()
   
 
   const validateUser = async (e: ILoginForm) => {
     e.preventDefault()
-    try {      
-      await getUser(userKey)
-      .then((e) => {
-        if(e.name) {
-          setUser(e)
-          localStorage.setItem('user', JSON.stringify(e))
-          router.push('/Dashboard')
+    try{
+      await login(registration, password)
+      .then((res: any) => {
+        if(res.nome) {
+          setUser(res)
+          localStorage.setItem('user', JSON.stringify(res))
+          router.push("/Dashboard")
         }
       })
     } catch (error) {
-      alert('Usuário não encontrado')
+      alert("Usuário não encontrado")
     }
   }
 
   return (
     <LoginMain>
       <LoginContainer onSubmit={(e) => validateUser(e)}>
-        <h1>Informe a sua chave</h1>
-        <Input type='text' placeholder='XXXX' onChange={(e) => setUserKey(e.target.value.toUpperCase())}/>
+        <label>Chave</label>
+        <Input type='text' placeholder='XXXX' onChange={(e) => setRegistration(e.target.value)}/>
+        <label>Senha</label>
+        <Input type='password' placeholder='XXXX' onChange={(e) => setPassword(e.target.value)}/>
         <div>
           <Button>Entrar</Button>
         </div>
