@@ -23,7 +23,6 @@ const Login = () => {
       await login(registration, password)
       .then((res: any) => {
         if(res.nome) {
-          console.log(res)
           const newUser = {
             id: res.id,
             key: res.tododeskData.chave,

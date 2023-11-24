@@ -9,6 +9,19 @@ import { getUsers } from '@/api/userService'
 import { AppContext } from '@/context/AppContext'
 import { teams } from '../UserForm'
 
+const motives = [
+    {name: "Usuário solicitou realmente que fosse repassado o chamado"},
+    {name: "Sistema Operacional com problemas não sendo possível solucionar."},
+    {name: "Repasse realizado conforme o procedimento exige repasse."},
+    {name: "Suporte exclusivo local em hardware de TI com defeito ou para substituição."},
+    {name: "Suporte local exclusivo em hardware em Telecomunicações."},
+    {name: "Fornecer suprimentos tais como papeis, cartuchos ou tonners."},
+    {name: "Indisponibilidade do Bomgar."},
+    {name: "Indisponibilidade recurso ou sistema (CAOS)"},
+    {name: "Inviabilidade de atendimento remoto por lentidão excessiva."},
+    {name: "Inviabilidade de atendimento remoto por causa de indisponbilidade da rede no usuário."}
+]
+
 const classificacao = [
     {name: "Configurar / Atualizar"},
     {name: "Entregar / Fornecer"},
@@ -30,20 +43,18 @@ interface IRegisterForm extends FormEvent<HTMLFormElement> {
 }
 
 const RegisterForm = () => {
+    const { user } = useContext(AppContext)
     const [number, setNumber] = useState('')
     const [task, setTask] = useState('')
     const [sctask, setSctask] = useState('')
     const [date, setDate] = useState('')
-    const [analyst, setAnalyst] = useState('')
     const [team, setTeam] = useState('')
+    const [motive, setMotive] = useState(motives[0].name)
     const [supervisor, setSupervisor] = useState('')
     const [classification, setClassification] = useState(classificacao[0].name)
     const [system, setSystem] = useState(aplicacao[0].name)
     const [fixProc, setFixProc] = useState('')
     const [observations, setObservations] = useState('')
-    const [users, setUsers] = useState(Object)
-    const [supers, setSupers] = useState(Object)
-    const {setPage, user} = useContext(AppContext)
 
     useEffect(() => {
         let myDate = new Date()
@@ -57,16 +68,17 @@ const RegisterForm = () => {
             task: task.toUpperCase(),
             sctask: sctask.toUpperCase(),
             date: date,
-            user: analyst,
-            team: team,
-            supervisor: supervisor,
+            user: user.name,
+            team: user.team,
+            supervisor: user.supervisor,
             classification: classification,
+            motive: motive,
             system: system,
             fixProc: fixProc,
             observations: observations
         }
         await createRegister(register)
-        setPage('home')
+        //setPage('home')
     }
 
   return (
@@ -112,8 +124,8 @@ const RegisterForm = () => {
                         name='analista' 
                         label='Nome do Analista' 
                         value={user.name}
-                        onChange={(e) => setAnalyst(e.target.value)}
                         required
+                        readOnly
                     />
                 </li>
                 <li>
@@ -121,8 +133,8 @@ const RegisterForm = () => {
                         name='equipe' 
                         label='Equipe' 
                         value={user.team}
-                        onChange={(e) => setTeam(e.target.value)}
                         required
+                        readOnly
                     />
                 </li>
                 <li>
@@ -130,8 +142,8 @@ const RegisterForm = () => {
                         name='supervisor' 
                         label='Supervisor' 
                         value={user.supervisor}
-                        onChange={(e) => setSupervisor(e.target.value)}
                         required
+                        readOnly
                     />
                 </li>
                 <li>
@@ -152,10 +164,11 @@ const RegisterForm = () => {
                     />
                 </li>
                 <li>
-                    <Input 
-                        label='Artigo a ser corrigido?'
-                        placeholder='KP - Atender ...'
-                        onChange={(e) => setFixProc(e.target.value)}
+                    <Select 
+                        label='Motivo do repasse'
+                        options={motives}
+                        value={motive}
+                        onChange={(e) => setMotive(e.target.value)}
                     />
                 </li>
                 <li>

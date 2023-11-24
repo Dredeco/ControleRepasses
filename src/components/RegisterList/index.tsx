@@ -12,23 +12,11 @@ const RegisterList = () => {
   
 
   useEffect(() => {
-    if(user.name == '') {
-      const LoggedUser = localStorage.getItem('user')
-      setUser(JSON.parse(LoggedUser as string))
+    const getAllRegister = async () => {
+      const register = await getRegisters()
+      setUserRegisters(register)
     }
-
-    const getRegister = async() => {
-      if(user.role == 'analista' || user.role == "Analista") {
-        await getUserRegisters(user.name)
-        .then((e) => {
-          setUserRegisters(e)
-        })
-      } else {
-        const superList = await getRegisters()
-        setUserRegisters(superList)
-      }
-    }
-    getRegister()
+    getAllRegister()
   }, [])
 
   return (
