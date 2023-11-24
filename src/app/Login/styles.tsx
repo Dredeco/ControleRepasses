@@ -13,6 +13,7 @@ export const LoginContainer = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 1rem;
 
     h1{
         margin-bottom: 1rem;

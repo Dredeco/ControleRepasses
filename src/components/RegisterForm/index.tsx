@@ -46,34 +46,8 @@ const RegisterForm = () => {
     const {setPage, user} = useContext(AppContext)
 
     useEffect(() => {
-        const getData  = async () => {
-            const data = await getUsers()
-            let userData: any = []
-            let superData: any = []
-            for(let i = 0; i < data.length; i++) {
-                if(data[i].role == "Supervisor") {
-                    superData.push(
-                        JSON.parse(`{"name": "${data[i].name}"}`)
-                    )
-                    if(data[i].team == user.team) {
-                        setSupervisor(data[i].name)
-                    }
-                } else {
-                    userData.push(
-                        JSON.parse(`{"name": "${data[i].name}"}`)
-                    )
-                }
-            }
-            setUsers(userData)
-            setSupers(superData)
-
-            let myDate = new Date()
-            setDate(myDate.toISOString().split("T")[0])
-            
-        }
-        getData()
-        setAnalyst(user.nome)
-        setTeam(user.team)
+        let myDate = new Date()
+        setDate(myDate.toISOString().split("T")[0])
     }, [])
 
     const handleSubmit = async (e: IRegisterForm) => {
@@ -134,31 +108,28 @@ const RegisterForm = () => {
                     />
                 </li>
                 <li>
-                    <Select 
+                    <Input 
                         name='analista' 
                         label='Nome do Analista' 
-                        options={users}
-                        value={analyst}
+                        value={user.name}
                         onChange={(e) => setAnalyst(e.target.value)}
                         required
                     />
                 </li>
                 <li>
-                    <Select 
+                    <Input 
                         name='equipe' 
                         label='Equipe' 
-                        options={teams}
-                        value={team}
+                        value={user.team}
                         onChange={(e) => setTeam(e.target.value)}
                         required
                     />
                 </li>
                 <li>
-                    <Select 
+                    <Input 
                         name='supervisor' 
                         label='Supervisor' 
-                        options={supers}
-                        value={supervisor}
+                        value={user.supervisor}
                         onChange={(e) => setSupervisor(e.target.value)}
                         required
                     />

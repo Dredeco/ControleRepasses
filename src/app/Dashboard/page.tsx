@@ -8,7 +8,6 @@ import RegisterForm from '@/components/RegisterForm'
 import { AppContext } from '@/context/AppContext'
 import { redirect } from 'next/navigation'
 import UserForm from '@/components/UserForm'
-import RegisterFormSupervisor from '@/components/RegisterFormSupervisor'
 
 const DashboardMain = styled.div`
   width: 100%;
@@ -23,10 +22,11 @@ const Dashboard = () => {
   
   
   useEffect(() => {
-    if(user.nome) {
+    if(user.name) {
       setLoading(false)
     } else {
       setUser(JSON.parse(localStorage.getItem('user') as string))
+      setLoading(false)
     }
   }, [user])
   

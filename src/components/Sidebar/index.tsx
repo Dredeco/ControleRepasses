@@ -43,14 +43,11 @@ const Sidebar = (props: SidebarProps) => {
                 Novo registro
               </span>
             </li>
-            {user.key == 'AAXR' || user.role == 'Supervisor' ?
-            <li onClick={handleCreateuser}>
+            <li onClick={handleCreateRegister}>
             <strong>»</strong><span>
-                Novo usuário
-            </span>
-            </li> :
-              null
-            }
+                Análise de conclusão
+              </span>
+            </li>
             <li onClick={logoff}>
             <strong>»</strong><span>
                 Sair
