@@ -14,6 +14,19 @@ import Link from 'next/link'
 import { RedirectType, redirect, useRouter } from 'next/navigation'
 import { teams } from '../UserForm'
 
+const motives = [
+    {name: "Usuário solicitou realmente que fosse repassado o chamado"},
+    {name: "Sistema Operacional com problemas não sendo possível solucionar."},
+    {name: "Repasse realizado conforme o procedimento exige repasse."},
+    {name: "Suporte exclusivo local em hardware de TI com defeito ou para substituição."},
+    {name: "Suporte local exclusivo em hardware em Telecomunicações."},
+    {name: "Fornecer suprimentos tais como papeis, cartuchos ou tonners."},
+    {name: "Indisponibilidade do Bomgar."},
+    {name: "Indisponibilidade recurso ou sistema (CAOS)"},
+    {name: "Inviabilidade de atendimento remoto por lentidão excessiva."},
+    {name: "Inviabilidade de atendimento remoto por causa de indisponbilidade da rede no usuário."}
+]
+
 const classificacao = [
     {name: "Configurar / Atualizar"},
     {name: "Entregar / Fornecer"},
@@ -48,6 +61,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
     const [supervisor, setSupervisor] = useState('')
     const [classification, setClassification] = useState(classificacao[0].name)
     const [system, setSystem] = useState(aplicacao[0].name)
+    const [motive, setMotive] = useState(motives[0].name)
     const [fixProc, setFixProc] = useState('')
     const [observations, setObservations] = useState('')
     const [supervisorObservations, setSupervisorObservations] = useState('')
@@ -68,29 +82,10 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
             setClassification(actualIncident.classification)
             setSystem(actualIncident.system)
             setFixProc(actualIncident.fixproc)
+            setMotive(actualIncident.motive)
             setObservations(actualIncident.observations)
             setSupervisorObservations(actualIncident.supervisorObservations)
         }
-        const getUsersData  = async () => {
-            const data = await getUsers()
-            let userData: any = []
-            let superData: any = []
-            for(let i = 0; i < data.length; i++) {
-                if(data[i].role == "Supervisor") {
-                    superData.push(
-                        JSON.parse(`{"name": "${data[i].name}"}`)
-                    )
-                } else {
-                    userData.push(
-                        JSON.parse(`{"name": "${data[i].name}"}`)
-                    )
-                }
-            }
-            setUsers(userData)
-            
-            setSupers(superData)
-        }
-        getUsersData()
         getIncData()
     }, [])
 
@@ -106,6 +101,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
             supervisor: supervisor,
             classification: classification,
             system: system,
+            motive: motive,
             fixProc: fixProc,
             observations: observations,
             supervisorObservations: supervisorObservations

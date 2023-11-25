@@ -22,7 +22,7 @@ const RegisterList = () => {
   return (
     <DashboardMain>
       <DashboardContainer>
-        <h1>Meus chamados</h1>
+        <h1>Repasses não justificados</h1>
         <DashboardWrapper>
             <li key='Header'>
               <span>Buscar no ServiceNow</span>
@@ -42,12 +42,10 @@ const RegisterList = () => {
           {userRegisters.length > 0 ? userRegisters.map((register: IRegister) => (
             <li key={register.number}>
               <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${register.number}`}><Search /></Link>
-              {user.role == "Supervisor" ? 
-              <Link id={register.number} href={`./Dashboard/${register.number}`}>{register.number}</Link> : 
-              <span>{register.number}</span>}
+              <Link id={register.number} href={`./Dashboard/${register.number}`}>{register.number}</Link>
               <span>{register.task}</span>
               <span>{register.sctask}</span>
-              <span>{register.date}</span>
+              <span>{register.date.split("T")[0]}</span>
               <span>{register.user}</span>
               <span>{register.team}</span>
               <span>{register.supervisor}</span>
