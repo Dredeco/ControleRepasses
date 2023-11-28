@@ -6,7 +6,8 @@ import { Button } from '@/components/Button'
 import { getUser, login } from '@/api/userService'
 import { redirect, useRouter } from 'next/navigation'
 import { AppContext } from '@/context/AppContext'
-import { json } from 'stream/consumers'
+import { PersonIcon } from '../../../public/personIcon'
+import { LockIcon } from '../../../public/lockIcon'
 
 interface ILoginForm extends FormEvent<HTMLFormElement> {}
 
@@ -45,7 +46,9 @@ const Login = () => {
   return (
     <LoginMain>
       <LoginContainer onSubmit={(e) => validateUser(e)}>
+        <PersonIcon />
         <Input type='text' placeholder='Matrícula' onChange={(e) => setRegistration(e.target.value)}/>
+        <LockIcon />
         <Input type='password' placeholder='Senha' onChange={(e) => setPassword(e.target.value)}/>
         <div>
           <Button>Entrar</Button>

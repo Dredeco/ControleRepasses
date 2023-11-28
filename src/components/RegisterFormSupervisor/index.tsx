@@ -6,13 +6,12 @@ import { Input } from '@/components/Input'
 import { Select } from '@/components/Select'
 import { MainRegisterForm, RegisterFormBody, RegisterFormController, RegisterFormHeader } from './style'
 import { Textarea } from '@/components/Textarea'
-import { createRegister, getRegisterByNumber, updateRegister } from '@/api/RegisterService'
-import { getUsers } from '@/api/userService'
+import { getRegisterByNumber, updateRegister } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
-import Sidebar from '../Sidebar'
 import Link from 'next/link'
 import { RedirectType, redirect, useRouter } from 'next/navigation'
 import { teams } from '../UserForm'
+import { registers, registersJustified } from '@/api/db'
 
 const motives = [
     {name: "Usuário solicitou realmente que fosse repassado o chamado"},
@@ -38,75 +37,56 @@ const classificacao = [
 
 const aplicacao = [
     {name: "Aplicativos e Sistemas Diversos"},
-    {name: "Impressora/Scanner"},
-    {name: "Micro/Windows"},
-    {name: "Ponto de Rede/Rede"},
-    {name: "Periférico (Teclado/Mouse/Monitor/Diversos)"}
+    {name: "Impressora / Scanner"},
+    {name: "Micro / Windows"},
+    {name: "Ponto de Rede / Rede"},
+    {name: "Periférico (Teclado / Mouse / Monitor / Diversos)"}
 ]
 
 interface IRegisterForm extends FormEvent<HTMLFormElement> {
 }
 
 const RegisterFormSupervisor = (incidentNumber: any) => {
-    const [users, setUsers] = useState(Object)
-    const [supers, setSupers] = useState(Object)
-
     const [incident, setIncident] = useState(Object)
-    const [number, setNumber] = useState('')
-    const [task, setTask] = useState('')
-    const [sctask, setSctask] = useState('')
-    const [date, setDate] = useState('')
-    const [user, setUser] = useState('')
-    const [team, setTeam] = useState('')
-    const [supervisor, setSupervisor] = useState('')
     const [classification, setClassification] = useState(classificacao[0].name)
     const [system, setSystem] = useState(aplicacao[0].name)
     const [motive, setMotive] = useState(motives[0].name)
-    const [fixProc, setFixProc] = useState('')
     const [observations, setObservations] = useState('')
     const [supervisorObservations, setSupervisorObservations] = useState('')
 
-    const {setPage} = useContext(AppContext)
+    const {user} = useContext(AppContext)
+    const router = useRouter()
 
     useEffect(() => {
         const getIncData = async () => {
-            let actualIncident = await getRegisterByNumber(incidentNumber.incidentNumber)
-            setIncident(actualIncident)
-
-            setNumber(actualIncident.number.toUpperCase())
-            setTask(actualIncident.task.toUpperCase())
-            setSctask(actualIncident.sctask.toUpperCase())
-            setDate(actualIncident.date)
-            setUser(actualIncident.user)
-            setSupervisor(actualIncident.supervisor)
-            setClassification(actualIncident.classification)
-            setSystem(actualIncident.system)
-            setFixProc(actualIncident.fixproc)
-            setMotive(actualIncident.motive)
-            setObservations(actualIncident.observations)
-            setSupervisorObservations(actualIncident.supervisorObservations)
+            let actualIncident = registers.filter((res) => res.numero == incidentNumber.incidentNumber)
+            setIncident(actualIncident[0])
         }
         getIncData()
+        setObservations(incident.observations)
     }, [])
 
     const handleSubmit = async (e: IRegisterForm) => {
         e.preventDefault()
         const register = {
-            number: number,
-            task: task,
-            sctask: sctask,
-            date: date,
-            user: user,
-            team: team,
-            supervisor: supervisor,
+            number: incident.numero,
+            task: incident.task,
+            sctask: incident.sctask,
+            date: incident.data,
+            user: user.name,
+            team: user.team,
+            supervisor: user.supervisor,
             classification: classification,
             system: system,
             motive: motive,
-            fixProc: fixProc,
             observations: observations,
             supervisorObservations: supervisorObservations
         }
-        await updateRegister(register)
+
+        registersJustified.push(register)
+        alert("Chamado atualizado!")
+        router.push("/Dashboard")
+        //await updateRegister(register)
        // window.location.href = 'https://dredeco.github.io/ControleRepasses/Dashboard'
     }
 
@@ -115,70 +95,62 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
     <MainRegisterForm>
         <RegisterFormController onSubmit={(e) => handleSubmit(e)}>
             <RegisterFormHeader>
-                <h1>Dados do chamado: {incident.number}</h1>
+                <h1>Dados do chamado: {incident.numero}</h1>
             </RegisterFormHeader>
             <RegisterFormBody>
                 <li>
                     <Input 
                         label='Nº do Chamado'
-                        defaultValue={incident.number}
-                        onChange={(e) => setNumber(e.target.value)}
-                        required
+                        value={incident.numero}
+                        disabled
                     />
                 </li>
-                <li>
-                    <Input 
-                        label='Nº da TASK' 
-                        defaultValue={incident.task}
-                        placeholder='TASKXXXXXX'
-                        onChange={(e) => setTask(e.target.value)}
-                    />
-                </li>
-                <li>
-                    <Input 
-                        label='Nº da SCTASK (RITM)' 
-                        defaultValue={incident.sctask}
-                        placeholder='SCTASKXXXX'
-                        onChange={(e) => setSctask(e.target.value)}
-                    />
-                </li>
+                {incident.task ? 
+                    <li>
+                        <Input 
+                            label='Nº da TASK' 
+                            value={incident.task}
+                            disabled
+                        />
+                    </li>
+                    :
+                    <li>
+                        <Input 
+                            label='Nº da SCTASK (RITM)' 
+                            value={incident.sctask}
+                            placeholder='SCTASKXXXX'
+                        />
+                    </li>}
                 <li>
                     <Input 
                         label='Data' 
-                        defaultValue={incident.date}
+                        defaultValue={incident.data}
                         type='date' 
-                        onChange={(e) => setDate(e.target.value)}
-                        required
+                        disabled
                     />
                 </li>
                 <li>
-                    <Select 
+                    <Input 
                         name='analista' 
                         label='Nome do Analista' 
-                        value={user}
-                        options={users}
-                        onChange={(e) => setUser(e.target.value)}
-                        required
+                        value={user.name}
+                        disabled
                     />
                 </li>
                 <li>
-                    <Select 
+                    <Input 
                         name='equipe' 
                         label='Equipe' 
-                        options={teams}
-                        value={team}
-                        onChange={(e) => setTeam(e.target.value)}
-                        required
+                        value={user.team}
+                        disabled
                     />
                 </li>
                 <li>
-                    <Select 
+                    <Input 
                         name='supervisor' 
                         label='Supervisor' 
-                        options={supers}
-                        value={supervisor}
-                        onChange={(e) => setSupervisor(e.target.value)}
-                        required
+                        value={user.supervisor}
+                        disabled
                     />
                 </li>
                 <li>
@@ -186,7 +158,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                         name='classificação' 
                         label='Classificação' 
                         options={classificacao} 
-                        defaultValue={incident.classification}
+                        value={classification}
                         onChange={(e) => setClassification(e.target.value)}
                         required
                     />
@@ -195,34 +167,36 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                     <Select 
                         label='Sistema, Aplicativo ou Hardware' 
                         options={aplicacao} 
-                        defaultValue={incident.system}
+                        value={incident.system}
                         onChange={(e) => setSystem(e.target.value)}
                         required
                     />
                 </li>
                 <li>
-                    <Input 
-                        label='Artigo a ser corrigido?'
-                        defaultValue={incident.fixProc}
-                        placeholder='KP - Atender ...'
-                        onChange={(e) => setFixProc(e.target.value)}
+                    <Select 
+                        label='Motivo do repasse' 
+                        options={motives} 
+                        defaultValue={motives[0].name}
+                        onChange={(e) => setMotive(e.target.value)}
+                        required
                     />
                 </li>
                 <li>
                     <Textarea 
-                    label='Motivo do repasse:' 
+                    label='Justificativa do repasse:' 
                     defaultValue={incident.observations}
                     onChange={(e) => setObservations(e.target.value)}
                     required
                     />
                 </li>
+                {user.role == "OPERADOR TECNICO" ? <></> :
                 <li>
                     <Textarea 
                     label='Análise da Supervisão:' 
                     defaultValue={incident.supervisorObservations}
                     onChange={(e) => setSupervisorObservations(e.target.value)}
                     />
-                </li>
+                </li>}
                 <div className='btnContainer'>
                     <Link className='cancel' href='./'>Cancelar</Link>
                     <Button type='submit' className='send'>Salvar</Button>

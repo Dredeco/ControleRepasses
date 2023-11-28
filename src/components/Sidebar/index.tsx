@@ -1,8 +1,6 @@
-import React, {AllHTMLAttributes, MouseEventHandler, useContext} from 'react'
-import styled from 'styled-components'
+import React, {AllHTMLAttributes, MouseEventHandler, useContext, useEffect} from 'react'
 import { SidebarMain } from './styles'
 import { AppContext } from '@/context/AppContext'
-import { redirect } from 'next/dist/server/api-utils'
 import { useRouter } from 'next/navigation'
 
 interface SidebarProps extends AllHTMLAttributes<HTMLLIElement> {
@@ -12,39 +10,38 @@ interface SidebarProps extends AllHTMLAttributes<HTMLLIElement> {
 const Sidebar = (props: SidebarProps) => {
   const {setPage, user} = useContext(AppContext)
   const router = useRouter()
+
+  useEffect(() => {
+    document.getElementById("home")?.classList.add("selected")
+  }, [])
   
   const handleHome = () => {
     setPage("home")
+    document.getElementById("conclusion")?.classList.remove("selected")
+    document.getElementById("home")?.classList.add("selected")
   }
 
   const handleCreateRegister = () => {
     setPage("register")
-  }
-
-  const handleCreateuser = () => {
-    setPage("newUser")
+    document.getElementById("home")?.classList.remove("selected")
+    document.getElementById("conclusion")?.classList.add("selected")
   }
 
   const logoff = () => {
     localStorage.setItem('user', JSON.stringify({}))
-    router.push('/Login')
+    router.push("/Login")
   }
 
   return (
     <SidebarMain>
         <ul>
             <li onClick={handleHome}>
-              <strong>»</strong><span>
+              <strong>»</strong><span id='home'>
                   Início
                 </span>
             </li>
             <li onClick={handleCreateRegister}>
-            <strong>»</strong><span>
-                Novo registro
-              </span>
-            </li>
-            <li onClick={handleCreateRegister}>
-            <strong>»</strong><span>
+            <strong>»</strong><span id="conclusion">
                 Análise de conclusão
               </span>
             </li>

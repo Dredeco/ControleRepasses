@@ -6,19 +6,22 @@ import Link from 'next/link'
 import { Search } from '../../../public/search'
 import { Xicon } from '../../../public/xIcon'
 import { CheckIcon } from '../../../public/checkIcon'
-import { registers } from '@/api/db'
+import { registers, registersJustified } from '@/api/db'
 import { Input } from '../Input'
 
-const RegisterList = () => {
+const RegisterListJustified = () => {
   const {user, setUser} = useContext(AppContext)
   const [userRegisters, setUserRegisters] = useState([])
+  
 
+  useEffect(() => {
+  }, [])
 
   return (
     <DashboardMain>
       <DashboardContainer>
         <div>
-          <h1>REPASSES NÃO JUSTIFICADOS</h1>
+          <h1>REPASSES JUSTIFICADOS</h1>
           <Input placeholder='Filtrar por Nome / Chamado' />
         </div>
         <DashboardWrapper>
@@ -29,13 +32,13 @@ const RegisterList = () => {
               <span>Data</span>
               <span>Nome do Analista</span>
             </li>
-          {registers.length > 0 ? registers.map((register: any) => (
-            <li key={register.numero}>
+          {registersJustified.length > 0 ? registersJustified.map((register: any) => (
+            <li key={register.number}>
               <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${register.number}`}><Search /></Link>
-              <Link id={register.numero} href={`./Dashboard/${register.numero}`}>{register.numero}</Link>
+              <Link id={register.number} href={`./Dashboard/${register.number}`}>{register.number}</Link>
               <span>{register.task}</span>
-              <span>{register.data.split("T")[0]}</span>
-              <span>{register.analista}</span>
+              <span>{register.date}</span>
+              <span>{register.user}</span>
             </li>
           )) : <></>}
         </DashboardWrapper>
@@ -44,4 +47,4 @@ const RegisterList = () => {
   )
 }
 
-export default RegisterList
+export default RegisterListJustified

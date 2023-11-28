@@ -37,10 +37,10 @@ export const getUserRegisters = async(name: string) => {
 }
 
 export const getRegisterByNumber = async(number: string) => {
-    const response = await axios.get(`https://cr-api.onrender.com/api/incident/${number}`)
+    const response = await axios.get(`http://localhost:5000/register/${number}`)
     .then((res: Response) => res)
 
-    return response.data.incidentNumber
+    return response.data.register
 }
 
 export const updateRegister = async (register: IRegister) => {

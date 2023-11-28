@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
 export const SidebarMain = styled.aside`
-  width: 100%;
-  max-width: 200px;
-  background-color: #222222dd;
+  min-width: 200px;
+  background: rgb(119,114,180);
+  background: linear-gradient(180deg, rgba(119,114,180,1) 0%, rgba(148,187,233,1) 100%); 
   color: #fff;
 
   ul{
@@ -17,8 +17,14 @@ export const SidebarMain = styled.aside`
       display: flex;
       gap: 1rem;
 
+      .selected{
+        color: #9debda;
+        font-weight: bold;
+      }
+
       > :hover{
-        color: #ccc;
+        color: #1a3a47;
+        font-weight: bold;
       }
     }
   }
