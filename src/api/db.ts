@@ -15,7 +15,7 @@ export const registers = [
         task: "TASK002",
         sctask: "",
         analista: "Andre Luis Fernandes de Souza",
-        status: "Encerrado",
+        status: "Em andamento",
         data: "2023-11-01",
         mesaTarefa: "N3-N3-SUPORTE_TECNICO_DE_VOZ",
         incidenteRepassado: "",

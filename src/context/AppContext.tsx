@@ -7,10 +7,10 @@ import { createContext, useEffect, useState } from "react"
 export const AppContext = createContext({
     user: {
         _id: '',
-        key: '',
-        name: '',
-        role: '',
-        team: '',
+        chave: '',
+        nome: '',
+        funcao: '',
+        equipe: '',
         supervisor: ''
     },
     setUser: (value: any) => {},

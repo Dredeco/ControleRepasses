@@ -26,11 +26,11 @@ const Login = () => {
         if(res.nome) {
           const newUser = {
             id: res.id,
-            key: res.tododeskData.chave,
-            name: res.nome,
+            chave: res.tododeskData.chave,
+            nome: res.nome,
             supervisor: res.tododeskData.responsavel,
-            team: res.tododeskData.equipe,
-            role: res.tododeskData.funcao
+            equipe: res.tododeskData.equipe,
+            funcao: res.tododeskData.funcao
           }
 
           localStorage.setItem('user', JSON.stringify(newUser))

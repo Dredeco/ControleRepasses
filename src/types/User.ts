@@ -1,7 +1,7 @@
 export interface IUser {
     _id?: string,
-    key: string,
-    name: string,
-    role: string,
-    team: string
+    chave: string,
+    nome: string,
+    funcao: string,
+    equipe: string
 }

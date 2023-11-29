@@ -9,6 +9,7 @@ import { AppContext } from '@/context/AppContext'
 import { redirect, useRouter } from 'next/navigation'
 import UserForm from '@/components/UserForm'
 import RegisterListJustified from '@/components/RegisterListJustified'
+import { IUser } from '@/types/User'
 
 const DashboardMain = styled.div`
   width: 100%;
@@ -33,8 +34,8 @@ const Dashboard = () => {
   
   
   useEffect(() => {
-    const loggedUser: any = JSON.parse(localStorage.getItem("user") as string)
-    if(loggedUser.name) {
+    const loggedUser: IUser = JSON.parse(localStorage.getItem("user") as string)
+    if(loggedUser.nome) {
       setLoading(false)
     } else {
       router.push('/Login');

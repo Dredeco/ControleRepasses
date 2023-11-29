@@ -11,10 +11,16 @@ import { Input } from '../Input'
 
 const RegisterListJustified = () => {
   const {user, setUser} = useContext(AppContext)
-  const [userRegisters, setUserRegisters] = useState([])
+  const [chamadosJustificados, setChamadosJustificados] = useState([])
   
 
   useEffect(() => {
+    const getData =async () => {
+      const listaJustificados = await getRegisters()
+      setChamadosJustificados(listaJustificados)
+    }
+
+    getData()
   }, [])
 
   return (
@@ -31,14 +37,16 @@ const RegisterListJustified = () => {
               <span>Nº da TASK</span>
               <span>Data</span>
               <span>Nome do Analista</span>
+              <span>Justificativa</span>
             </li>
-          {registersJustified.length > 0 ? registersJustified.map((register: any) => (
-            <li key={register.number}>
-              <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${register.number}`}><Search /></Link>
-              <Link id={register.number} href={`./Dashboard/${register.number}`}>{register.number}</Link>
+          {chamadosJustificados.length > 0 ? chamadosJustificados.map((register: any) => (
+            <li key={register.numero}>
+              <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${register.numero}`}><Search /></Link>
+              <Link id={register.numero} href={`./Dashboard/${register.numero}`}>{register.numero}</Link>
               <span>{register.task}</span>
-              <span>{register.date}</span>
-              <span>{register.user}</span>
+              <span>{register.data.split("T")[0]}</span>
+              <span>{register.analista}</span>
+              <span>{register.justificativa}</span>
             </li>
           )) : <></>}
         </DashboardWrapper>
