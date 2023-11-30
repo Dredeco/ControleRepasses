@@ -9,9 +9,8 @@ import { Textarea } from '@/components/Textarea'
 import { createRegister, getRegisterByNumber, getRegistersNumber, updateRegister } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
-import { RedirectType, redirect, useRouter } from 'next/navigation'
-import { teams } from '../UserForm'
-import { registers, registersJustified } from '@/api/db'
+import { useRouter } from 'next/navigation'
+import { registers } from '@/api/db'
 
 const motivos = [
     {name: "Usuário solicitou realmente que fosse repassado o chamado"},
@@ -231,7 +230,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                     onChange={(e) => setAnaliseSupervisor(e.target.value)}
                     />
                 </li>}
-                {user.funcao == "OPERADOR TECNIC" ? <></> :
+                {user.funcao == "OPERADOR TECNICO" ? <></> :
                 <>
                 <li>
                     <Textarea 

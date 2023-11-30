@@ -8,8 +8,9 @@ import RegisterForm from '@/components/RegisterForm'
 import { AppContext } from '@/context/AppContext'
 import { redirect, useRouter } from 'next/navigation'
 import UserForm from '@/components/UserForm'
-import RegisterListJustified from '@/components/RegisterListJustified'
+import RegisterListJustified from '@/components/JustifiedRegistersList'
 import { IUser } from '@/types/User'
+import PassedOnRegisters from '@/components/PassedOnRegisters'
 
 const DashboardMain = styled.div`
   width: 100%;
@@ -17,14 +18,6 @@ const DashboardMain = styled.div`
   min-height: calc(100vh - 14rem);
   display: flex;
   background: #222;
-
-  .list-container{
-    row-gap: 1rem;
-    width: calc(100% - 200px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
 `
 
 const Dashboard = () => {
@@ -48,10 +41,7 @@ const Dashboard = () => {
       <>
         <Sidebar handleClick={setPage}/>
         {page == 'home' ?
-        <div className='list-container'>
-          <RegisterList /> 
-          <RegisterListJustified />
-        </div>
+        <PassedOnRegisters />
         : page == 'newUser' ? 
         <UserForm /> 
         : 

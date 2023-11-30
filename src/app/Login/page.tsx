@@ -23,6 +23,7 @@ const Login = () => {
     try{
       await login(registration, password)
       .then((res: any) => {
+        console.log(res)
         if(res.nome) {
           const newUser = {
             id: res.id,
