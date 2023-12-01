@@ -11,9 +11,10 @@ import UserForm from '@/components/UserForm'
 import RegisterListJustified from '@/components/JustifiedRegistersList'
 import { IUser } from '@/types/User'
 import PassedOnRegisters from '@/components/PassedOnRegisters'
+import ClosedRegisters from '@/components/ClosedRegisters'
 
 const DashboardMain = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 100%;
   min-height: calc(100vh - 14rem);
   display: flex;
@@ -45,7 +46,7 @@ const Dashboard = () => {
         : page == 'newUser' ? 
         <UserForm /> 
         : 
-        <RegisterForm />}
+        <ClosedRegisters />}
       </>}
     </DashboardMain>
   )

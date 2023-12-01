@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
 
-export const PassedOnRegistersMain = styled.section`
+export const ClosedRegistersMain = styled.section`
   width: calc(100vh - 14rem);
   min-height: 100%;
   display: flex;

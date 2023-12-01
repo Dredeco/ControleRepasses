@@ -9,7 +9,7 @@ import { CheckIcon } from '../../../public/checkIcon'
 import { registers, registersJustified } from '@/api/db'
 import { Input } from '../Input'
 
-const JustifiedRegistersList = () => {
+const ClosedRegistersList = () => {
   const {user, setUser} = useContext(AppContext)
   const [chamadosJustificados, setChamadosJustificados] = useState([])
   
@@ -59,4 +59,4 @@ const JustifiedRegistersList = () => {
   )
 }
 
-export default JustifiedRegistersList
+export default ClosedRegistersList

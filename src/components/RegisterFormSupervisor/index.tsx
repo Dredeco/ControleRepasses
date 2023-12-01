@@ -110,7 +110,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
         }
 
         alert("Chamado atualizado!")
-       // router.push("/Dashboard")
+        router.push("/Dashboard")
         //await updateRegister(register)
        // window.location.href = 'https://dredeco.github.io/ControleRepasses/Dashboard'
     }
