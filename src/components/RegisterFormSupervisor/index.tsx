@@ -60,6 +60,9 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
     const {user} = useContext(AppContext)
     const router = useRouter()
 
+    const roleSupervisor = false;
+    const roleSniper = false;
+
     useEffect(() => {
         const getIncData = async () => {
             const actualIncident = registers.filter((res) => res.numero == incidentNumber.incidentNumber)

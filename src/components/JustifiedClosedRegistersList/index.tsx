@@ -9,7 +9,7 @@ import { CheckIcon } from '../../../public/checkIcon'
 import { registers, registersJustified } from '@/api/db'
 import { Input } from '../Input'
 
-const ClosedRegistersList = () => {
+const JustifiedClosedRegistersList = () => {
   const {user, setUser} = useContext(AppContext)
   const [chamadosJustificados, setChamadosJustificados] = useState([])
   
@@ -27,7 +27,7 @@ const ClosedRegistersList = () => {
     <DashboardMain>
       <DashboardContainer>
         <div>
-          <h1>REPASSES ENCERRADOS</h1>
+          <h1>REPASSES ENCERRADOS ANALISADOS</h1>
           <Input placeholder='Filtrar por Nome / Chamado' />
         </div>
         <DashboardWrapper>
@@ -59,4 +59,4 @@ const ClosedRegistersList = () => {
   )
 }
 
-export default ClosedRegistersList
+export default JustifiedClosedRegistersList

@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <HeaderMain>
         <HeaderContainer>
-          <Link href="/">
+          <Link href="/Dashboard">
             <h1>Controle de Repasses</h1>
           </Link>
         </HeaderContainer>

@@ -1,11 +1,15 @@
 import React from 'react'
 import { ClosedRegistersMain } from './style'
 import ClosedRegistersList from '../ClosedRegistersList'
+import JustifiedClosedRegistersList from '../JustifiedClosedRegistersList'
 
 const ClosedRegisters = () => {
   return (
     <ClosedRegistersMain>
-      <ClosedRegistersList />
+      <div className='list-container'>
+        <ClosedRegistersList />
+        <JustifiedClosedRegistersList />
+      </div>
     </ClosedRegistersMain>
   )
 }

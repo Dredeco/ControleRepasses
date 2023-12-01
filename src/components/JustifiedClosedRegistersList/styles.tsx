@@ -28,7 +28,7 @@ export const DashboardContainer = styled.div`
     }
     h1 {
       font-size: 2rem;
-      color: #e688a0;
+      color: #7ac4b5;
     }
   }
 

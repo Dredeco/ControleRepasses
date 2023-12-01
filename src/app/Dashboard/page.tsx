@@ -14,8 +14,7 @@ import PassedOnRegisters from '@/components/PassedOnRegisters'
 import ClosedRegisters from '@/components/ClosedRegisters'
 
 const DashboardMain = styled.div`
-  width: 100vw;
-  height: 100%;
+  width: 100%;
   min-height: calc(100vh - 14rem);
   display: flex;
   background: #222;

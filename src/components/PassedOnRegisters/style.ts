@@ -1,7 +1,8 @@
 import { styled } from "styled-components";
 
 export const PassedOnRegistersMain = styled.section`
-  width: calc(100vh - 14rem);
+  width: 100%;
+  min-width: calc(100% - 20rem);
   min-height: 100%;
   display: flex;
   background: #222;

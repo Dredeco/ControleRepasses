@@ -8,11 +8,15 @@ interface SidebarProps extends AllHTMLAttributes<HTMLLIElement> {
 }
 
 const Sidebar = (props: SidebarProps) => {
-  const {setPage, user} = useContext(AppContext)
+  const {page, setPage, user} = useContext(AppContext)
   const router = useRouter()
 
   useEffect(() => {
-    document.getElementById("home")?.classList.add("selected")
+    if(page == "home"){
+      document.getElementById("home")?.classList.add("selected")
+    } else {
+      document.getElementById("conclusion")?.classList.add("selected")
+    }
   }, [])
   
   const handleHome = () => {
