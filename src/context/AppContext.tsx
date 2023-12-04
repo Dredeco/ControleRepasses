@@ -15,7 +15,9 @@ export const AppContext = createContext({
     },
     setUser: (value: any) => {},
     page: '',
-    setPage: (value: string) => {}
+    setPage: (value: string) => {},
+    filter: '',
+    setFilter: (value: string) => {},
 })
 
 interface ProviderProps {
@@ -25,6 +27,7 @@ interface ProviderProps {
 export const AppContextProvider = ({children}: ProviderProps) => {
     const [user, setUser] = useState(Object)
     const [page, setPage] = useState('home')
+    const [filter, setFilter] = useState('')
 
     useEffect(() => {
         const LoggedUser = localStorage.getItem('user')
@@ -34,7 +37,7 @@ export const AppContextProvider = ({children}: ProviderProps) => {
     }, [])
     
     return (
-        <AppContext.Provider value={{user, setUser, page, setPage}}>
+        <AppContext.Provider value={{user, setUser, page, setPage, filter, setFilter}}>
             {children}
         </AppContext.Provider>
     )

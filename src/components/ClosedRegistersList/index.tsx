@@ -11,12 +11,12 @@ import { Input } from '../Input'
 
 const ClosedRegistersList = () => {
   const {user, setUser} = useContext(AppContext)
-  const [chamadosJustificados, setChamadosJustificados] = useState([])
+  const [chamadosJustificados, setChamadosJustificados] = useState(Array)
   
 
   useEffect(() => {
     const getData =async () => {
-      const listaJustificados = await getRegisters()
+      const listaJustificados = registers.filter((res) => res.status.includes("Resolvido"))
       setChamadosJustificados(listaJustificados)
     }
 

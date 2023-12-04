@@ -10,7 +10,7 @@ import { registers, registersJustified } from '@/api/db'
 import { Input } from '../Input'
 
 const JustifiedClosedRegistersList = () => {
-  const {user, setUser} = useContext(AppContext)
+  const {user, setUser, filter, setFilter} = useContext(AppContext)
   const [chamadosJustificados, setChamadosJustificados] = useState([])
   
 
@@ -20,15 +20,21 @@ const JustifiedClosedRegistersList = () => {
       setChamadosJustificados(listaJustificados)
     }
 
+    const getFilter = async () => {
+      const result = await chamadosJustificados.filter((res: any) => res.numero.toLowerCase().includes(filter.toLowerCase()))
+      setChamadosJustificados(result)
+    }
+
     getData()
-  }, [])
+    getFilter()
+  }, [filter])
 
   return (
     <DashboardMain>
       <DashboardContainer>
         <div>
           <h1>REPASSES ENCERRADOS ANALISADOS</h1>
-          <Input placeholder='Filtrar por Nome / Chamado' />
+          <Input onChange={(e) => setFilter(e.target.value)} placeholder='Filtrar por Nome / Chamado' />
         </div>
         <DashboardWrapper>
             <li key='Header'>

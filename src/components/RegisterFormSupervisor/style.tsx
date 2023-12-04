@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const MainRegisterForm = styled.section`
     width: 100%;
+    height: 85.9vh;
     background-color: #e2e2e2;
     display: flex;
     justify-content: center;

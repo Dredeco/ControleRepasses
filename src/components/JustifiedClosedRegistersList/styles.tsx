@@ -5,6 +5,7 @@ export const DashboardMain = styled.section`
   min-width: 98%;
   margin: 0 auto;
   min-height: 30rem;
+  max-height: 40rem;
   padding: 2rem 2%;
   display: flex;
   justify-content: center;
@@ -28,7 +29,7 @@ export const DashboardContainer = styled.div`
     }
     h1 {
       font-size: 2rem;
-      color: #7ac4b5;
+      color: #7772b4;
     }
   }
 
@@ -55,6 +56,10 @@ export const DashboardWrapper = styled.ul`
     font-size: 1.2rem;
     text-align: center;
     align-items: center;
+
+    :nth-child(2){
+    font-weight: bold;
+    }
 
     span, a{
       padding: .5rem .5rem;
