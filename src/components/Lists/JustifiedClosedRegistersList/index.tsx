@@ -3,14 +3,14 @@ import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
 import { getRegisters, getUserRegisters } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
-import { Search } from '../../../public/search'
-import { Xicon } from '../../../public/xIcon'
-import { CheckIcon } from '../../../public/checkIcon'
+import { Search } from '../../../../public/icons/search'
+import { Xicon } from '../../../../public/icons/xIcon'
+import { CheckIcon } from '../../../../public/icons/checkIcon'
 import { registers, registersJustified } from '@/api/db'
-import { Input } from '../Input'
+import { Input } from '../../Input'
 
-const JustifiedRegistersList = () => {
-  const {user, setUser} = useContext(AppContext)
+const JustifiedClosedRegistersList = () => {
+  const {user, setUser, filter, setFilter} = useContext(AppContext)
   const [chamadosJustificados, setChamadosJustificados] = useState([])
   
 
@@ -20,15 +20,21 @@ const JustifiedRegistersList = () => {
       setChamadosJustificados(listaJustificados)
     }
 
+    const getFilter = async () => {
+      const result = await chamadosJustificados.filter((res: any) => res.numero.toLowerCase().includes(filter.toLowerCase()))
+      setChamadosJustificados(result)
+    }
+
     getData()
-  }, [])
+    getFilter()
+  }, [filter])
 
   return (
     <DashboardMain>
       <DashboardContainer>
         <div>
-          <h1>REPASSES JUSTIFICADOS</h1>
-          <Input placeholder='Filtrar por Nome / Chamado' />
+          <h1>REPASSES ENCERRADOS ANALISADOS</h1>
+          <Input onChange={(e) => setFilter(e.target.value)} placeholder='Filtrar por Nome / Chamado' />
         </div>
         <DashboardWrapper>
             <li key='Header'>
@@ -59,4 +65,4 @@ const JustifiedRegistersList = () => {
   )
 }
 
-export default JustifiedRegistersList
+export default JustifiedClosedRegistersList

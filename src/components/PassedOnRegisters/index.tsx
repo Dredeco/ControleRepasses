@@ -1,6 +1,6 @@
 import React from 'react'
-import RegisterList from '../RegisterList'
-import JustifiedRegistersList from '../JustifiedRegistersList'
+import RegisterList from '../Lists/RegisterList'
+import JustifiedRegistersList from '../Lists/JustifiedRegistersList'
 import {PassedOnRegistersMain} from './style'
 
 const PassedOnRegisters = () => {

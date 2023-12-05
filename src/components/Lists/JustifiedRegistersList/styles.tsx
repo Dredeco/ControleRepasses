@@ -15,7 +15,7 @@ export const DashboardMain = styled.section`
 `
 
 export const DashboardContainer = styled.div`
-  width: inherit;
+  width: 100%;
   display: flex;
   flex-direction: column;
 
@@ -29,54 +29,49 @@ export const DashboardContainer = styled.div`
     }
     h1 {
       font-size: 2rem;
-      color: #e789a1;
+      color: #7ac4b5;
     }
   }
 
 `
 
-export const DashboardWrapper = styled.ul`
-  min-width: 120rem;
+export const DashboardWrapper = styled.table`
+  min-width: fit-content;
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
+  word-break: break-all;
 
   > :nth-child(1){
     font-weight: bold;
+    font-size: 1.35rem;
   }
 
   > :nth-child(2n + 1){
-    background-color: #f3c3cf;
+    background-color: #c7eee6;
   }
 
-  li{
+  tr{
     display: flex;
-    width: 100%;
     flex-direction: row;
     font-size: 1.2rem;
-    text-align: center;
-    align-items: center;
+    word-break: break-all;
+
+    th, td {
+      background-color: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20rem;
+      max-width: 20rem;
+      padding: .5rem .5rem;
+    }
 
     :nth-child(2){
     font-weight: bold;
     }
-
-    span, a{
-      padding: .5rem .5rem;
-      flex: 1;
-      min-width: 50px;
-    }
-
-    a {
-      :hover {
-        svg {
-          stroke: red !important;
-        }
-      }
-    }
-
   }
-  li + li {
+  td {
     border-top: 1px solid #000;
   }
 

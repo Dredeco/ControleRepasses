@@ -1,7 +1,7 @@
 import React from 'react'
 import { ClosedRegistersMain } from './style'
-import ClosedRegistersList from '../ClosedRegistersList'
-import JustifiedClosedRegistersList from '../JustifiedClosedRegistersList'
+import ClosedRegistersList from '../Lists/ClosedRegistersList'
+import JustifiedClosedRegistersList from '../Lists/JustifiedClosedRegistersList'
 
 const ClosedRegisters = () => {
   return (

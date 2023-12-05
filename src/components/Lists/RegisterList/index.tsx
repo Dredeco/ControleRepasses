@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from 'react'
 import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
 import { getRegistersNumber } from '@/api/RegisterService'
 import Link from 'next/link'
-import { Search } from '../../../public/search'
+import { Search } from '../../../../public/icons/search'
 import { registers } from '@/api/db'
-import { Input } from '../Input'
+import { Input } from '../../Input'
 import { AppContext } from '@/context/AppContext'
 
 const RegisterList = () => {
@@ -50,33 +50,41 @@ const RegisterList = () => {
           <Input onChange={(e) => setFilter(e.target.value)} placeholder='Filtrar por Nome / Chamado' />
         </div>
         <DashboardWrapper>
-            <li key='Header'>
-              <span>Buscar no ServiceNow</span>
-              <span>Nº do chamado</span>
-              <span>Nº da TASK</span>
-              <span>Status</span>
-              <span>Data</span>
-              <span>Nome do Analista</span>
-            </li>
+            <tr key='Header'>
+              <th>Buscar no ServiceNow</th>
+              <th>Nº do chamado</th>
+              <th>Nº da TASK</th>
+              <th>Status</th>
+              <th>Data</th>
+              <th>Nome do Analista</th>
+            </tr>
             {chamadosFiltrados.length > 0 ? chamadosFiltrados.map((chamado: any) => (
-            <li key={chamado.numero}>
-              <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
-              <Link id={chamado.numero} href={`./Dashboard/${chamado.numero}`}>{chamado.numero}</Link>
-              <span>{chamado.task}</span>
-              <span>{chamado.status}</span>
-              <span>{chamado.data.split("T")[0]}</span>
-              <span>{chamado.analista}</span>
-            </li>
+            <tr key={chamado.numero}>
+              <td>
+                <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
+              </td>
+              <td>
+                <Link id={chamado.numero} href={`./Dashboard/${chamado.numero}`}>{chamado.numero}</Link>
+              </td>
+              <td>{chamado.task}</td>
+              <td>{chamado.status}</td>
+              <td>{chamado.data.split("T")[0]}</td>
+              <td>{chamado.analista}</td>
+            </tr>
           )) :
           chamadosNaoJustificados.map((chamado: any) => (
-            <li key={chamado.numero}>
-              <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
-              <Link id={chamado.numero} href={`./Dashboard/${chamado.numero}`}>{chamado.numero}</Link>
-              <span>{chamado.task}</span>
-              <span>{chamado.status}</span>
-              <span>{chamado.data.split("T")[0]}</span>
-              <span>{chamado.analista}</span>
-            </li>
+            <tr key={chamado.numero}>
+              <td>
+                <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
+              </td>
+              <td>
+                <Link id={chamado.numero} href={`./Dashboard/${chamado.numero}`}>{chamado.numero}</Link>
+              </td>
+              <td>{chamado.task}</td>
+              <td>{chamado.status}</td>
+              <td>{chamado.data.split("T")[0]}</td>
+              <td>{chamado.analista}</td>
+            </tr>
           ))}
         </DashboardWrapper>
       </DashboardContainer>
