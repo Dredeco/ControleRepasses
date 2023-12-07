@@ -30,7 +30,6 @@ const RegisterList = () => {
         const result = await chamadosNaoJustificados.filter((res: any) => res.numero.toLowerCase().includes(filter.toLowerCase()))
         if(!result.length) {
           const result2 = await chamadosNaoJustificados.filter((res: any) => res.analista.toLowerCase().includes(filter.toLowerCase()))
-          console.log(result2)
           setChamadosFiltrados(result2)
         } else 
         setChamadosFiltrados(result)
@@ -50,6 +49,7 @@ const RegisterList = () => {
           <Input onChange={(e) => setFilter(e.target.value)} placeholder='Filtrar por Nome / Chamado' />
         </div>
         <DashboardWrapper>
+          <thead>
             <tr key='Header'>
               <th>Buscar no ServiceNow</th>
               <th>Nº do chamado</th>
@@ -57,7 +57,10 @@ const RegisterList = () => {
               <th>Status</th>
               <th>Data</th>
               <th>Nome do Analista</th>
+              <th>Mesa da tarefa</th>
             </tr>
+          </thead>
+          <tbody>
             {chamadosFiltrados.length > 0 ? chamadosFiltrados.map((chamado: any) => (
             <tr key={chamado.numero}>
               <td>
@@ -70,6 +73,7 @@ const RegisterList = () => {
               <td>{chamado.status}</td>
               <td>{chamado.data.split("T")[0]}</td>
               <td>{chamado.analista}</td>
+              <td>{chamado.mesaTarefa}</td>
             </tr>
           )) :
           chamadosNaoJustificados.map((chamado: any) => (
@@ -84,8 +88,10 @@ const RegisterList = () => {
               <td>{chamado.status}</td>
               <td>{chamado.data.split("T")[0]}</td>
               <td>{chamado.analista}</td>
+              <td>{chamado.mesaTarefa}</td>
             </tr>
           ))}
+          </tbody>
         </DashboardWrapper>
       </DashboardContainer>
     </DashboardMain>

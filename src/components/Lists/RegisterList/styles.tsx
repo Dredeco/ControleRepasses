@@ -42,20 +42,24 @@ export const DashboardWrapper = styled.table`
   margin-top: 2rem;
   word-break: break-all;
 
-  > :nth-child(1){
-    font-weight: bold;
-    font-size: 1.35rem;
-  }
-
-  > :nth-child(2n + 1){
+  > thead {
     background-color: #f7d1db;
   }
 
+  > thead, tbody {
+    > :nth-child(2n + 2){
+      background-color: #f7d1db;
+    }
+  }
+
+
   tr{
     display: flex;
+    justify-content: space-between;
     flex-direction: row;
     font-size: 1.2rem;
     word-break: break-all;
+    border-bottom: 1px solid #000;
 
     th, td {
       background-color: inherit;
@@ -70,9 +74,6 @@ export const DashboardWrapper = styled.table`
     :nth-child(2){
     font-weight: bold;
     }
-  }
-  td {
-    border-top: 1px solid #000;
   }
 
 `

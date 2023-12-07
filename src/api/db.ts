@@ -8,7 +8,7 @@ export const registers = [
         data: "2023-11-27",
         mesaTarefa: "N3-MICROSOFT_OFFICE",
         incidenteRepassado: "",
-        mesaIncidenteRepassado: "",
+        mesaChamado: "",
     },
     {
         numero: "INC002",
@@ -19,7 +19,7 @@ export const registers = [
         data: "2023-11-01",
         mesaTarefa: "N3-N3-SUPORTE_TECNICO_DE_VOZ",
         incidenteRepassado: "",
-        mesaIncidenteRepassado: "",
+        mesaChamado: "",
     },
     {
         numero: "INC003",
@@ -30,7 +30,7 @@ export const registers = [
         data: "2023-11-27",
         mesaTarefa: "N3-MICROSOFT_OFFICE",
         incidenteRepassado: "",
-        mesaIncidenteRepassado: "",
+        mesaChamado: "",
     },
     {
         numero: "INC004",
@@ -41,7 +41,7 @@ export const registers = [
         data: "2023-11-27",
         mesaTarefa: "N3-MICROSOFT_OFFICE",
         incidenteRepassado: "",
-        mesaIncidenteRepassado: "",
+        mesaChamado: "",
     },
     {
         numero: "INC005",
@@ -52,7 +52,7 @@ export const registers = [
         data: "2023-11-27",
         mesaTarefa: "N3-MICROSOFT_OFFICE",
         incidenteRepassado: "",
-        mesaIncidenteRepassado: "",
+        mesaChamado: "",
     },
     {
         numero: "INC006",
@@ -63,7 +63,7 @@ export const registers = [
         data: "2023-11-27",
         mesaTarefa: "N3-MICROSOFT_OFFICE",
         incidenteRepassado: "",
-        mesaIncidenteRepassado: "",
+        mesaChamado: "",
     },
     {
         numero: "INC007",
@@ -74,7 +74,7 @@ export const registers = [
         data: "2023-11-27",
         mesaTarefa: "N3-MICROSOFT_OFFICE",
         incidenteRepassado: "",
-        mesaIncidenteRepassado: "",
+        mesaChamado: "",
     },
 ]
 

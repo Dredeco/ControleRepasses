@@ -1,15 +1,19 @@
-import React, { FormEvent, SetStateAction, useContext, useEffect, useState } from 'react'
+"use client"
+
+import React, { FormEvent, FormEventHandler, SetStateAction, useContext, useEffect, useState } from 'react'
 import { Button } from '@/components/Button'
 import { Input } from '@/components/Input'
 import { Select } from '@/components/Select'
 import { MainRegisterForm, RegisterFormBody, RegisterFormController, RegisterFormHeader } from './style'
 import { Textarea } from '@/components/Textarea'
-import { createRegister } from '@/api/RegisterService'
-import { getUsers } from '@/api/userService'
+import { createRegister, getRegisterByNumber, getRegisters, getRegistersNumber, updateRegister } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
-import { teams } from '../UserForm'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { registers } from '@/api/db'
+import { IUser } from '@/types/User'
 
-const motives = [
+const motivos = [
     {name: "Usuário solicitou realmente que fosse repassado o chamado"},
     {name: "Sistema Operacional com problemas não sendo possível solucionar."},
     {name: "Repasse realizado conforme o procedimento exige repasse."},
@@ -22,7 +26,7 @@ const motives = [
     {name: "Inviabilidade de atendimento remoto por causa de indisponbilidade da rede no usuário."}
 ]
 
-const classificacao = [
+const classificacoes = [
     {name: "Configurar / Atualizar"},
     {name: "Entregar / Fornecer"},
     {name: "Manifestação"},
@@ -33,108 +37,141 @@ const classificacao = [
 
 const aplicacao = [
     {name: "Aplicativos e Sistemas Diversos"},
-    {name: "Impressora/Scanner"},
-    {name: "Micro/Windows"},
-    {name: "Ponto de Rede/Rede"},
-    {name: "Periférico (Teclado/Mouse/Monitor/Diversos)"}
+    {name: "Impressora / Scanner"},
+    {name: "Micro / Windows"},
+    {name: "Ponto de Rede / Rede"},
+    {name: "Periférico (Teclado / Mouse / Monitor / Diversos)"}
 ]
 
 interface IRegisterForm extends FormEvent<HTMLFormElement> {
 }
 
-const RegisterForm = () => {
-    const { user } = useContext(AppContext)
-    const [number, setNumber] = useState('')
-    const [task, setTask] = useState('')
-    const [sctask, setSctask] = useState('')
-    const [date, setDate] = useState('')
-    const [team, setTeam] = useState('')
-    const [motive, setMotive] = useState(motives[0].name)
-    const [supervisor, setSupervisor] = useState('')
-    const [classification, setClassification] = useState(classificacao[0].name)
-    const [system, setSystem] = useState(aplicacao[0].name)
-    const [fixProc, setFixProc] = useState('')
-    const [observations, setObservations] = useState('')
+const RegisterForm = (incidentNumber: any) => {
+    const [chamado, setChamado] = useState(Object)
+    const [classificacao, setClassificacao] = useState(classificacoes[0].name)
+    const [sistema, setSistema] = useState(aplicacao[0].name)
+    const [motivo, setMotivo] = useState(motivos[0].name)
+    const [justificativa, setJustificativa] = useState('')
+    const [analiseSupervisor, setAnaliseSupervisor] = useState('')
+    const [analiseSniper, setAnaliseSniper] = useState('')
+    const [analiseConclusao, setAnaliseConclusao] = useState('')
+    const [corrigirArtigo, setCorrigirArtigo] = useState('')
+    const [listaChamados, setListaChamados] = useState(Array<any> || null)
+
+    const {user, setUser} = useContext(AppContext)
+    const router = useRouter()
 
     useEffect(() => {
-        let myDate = new Date()
-        setDate(myDate.toISOString().split("T")[0])
+        if(!user.nome) {
+            const loggedUser: IUser = JSON.parse(localStorage.getItem("user") as string)
+            setUser(loggedUser)
+        }
+
+        const getIncData = async () => {
+            const chamados = await getRegisters()
+            const actualIncident = await chamados.filter((res: any) => res.numero == incidentNumber.incidentNumber)
+            console.log(actualIncident)
+            setChamado(actualIncident[0])
+            setJustificativa(actualIncident[0].justificativa)
+        }
+
+        getIncData()
     }, [])
 
     const handleSubmit = async (e: IRegisterForm) => {
         e.preventDefault()
         const register = {
-            number: number.toUpperCase(),
-            task: task.toUpperCase(),
-            sctask: sctask.toUpperCase(),
-            date: date,
-            user: user.name,
-            team: user.team,
+            numero: chamado.numero,
+            task: chamado.task,
+            sctask: chamado.sctask,
+            data: chamado.data,
+            mesaTarefa: chamado.mesaTarefa,
+            mesaChamado: chamado.mesaChamado,
+            status: chamado.status,
+            analista: user.nome,
+            equipe: user.equipe,
             supervisor: user.supervisor,
-            classification: classification,
-            motive: motive,
-            system: system,
-            fixProc: fixProc,
-            observations: observations
+            classificacao: classificacao,
+            sistema: sistema,
+            motivo: motivo,
+            corrigirArtigo: corrigirArtigo,
+            justificativa: justificativa,
+            analiseSupervisor: analiseSupervisor,
+            analiseSniper: analiseSniper,
+            analiseConclusao: analiseConclusao
         }
-        await createRegister(register)
-        //setPage('home')
+
+        if(listaChamados.length) {
+            for(let i=0; i < listaChamados.length; i++){
+                if(listaChamados[i].numero == chamado.numero){
+                    updateRegister(register)
+                } else {
+                    createRegister(register)
+                }
+            }
+        } else {
+            createRegister(register)
+        }
+
+        alert("Chamado atualizado!")
+        router.push("/Dashboard")
+        //await updateRegister(register)
+       // window.location.href = 'https://dredeco.github.io/ControleRepasses/Dashboard'
     }
 
   return (
+    <>
     <MainRegisterForm>
         <RegisterFormController onSubmit={(e) => handleSubmit(e)}>
             <RegisterFormHeader>
-                <h1>Dados do chamado</h1>
+                <h1>Dados do chamado: {chamado.numero}</h1>
             </RegisterFormHeader>
             <RegisterFormBody>
                 <li>
                     <Input 
-                        label='Nº do Chamado' 
-                        onChange={(e) => setNumber(e.target.value)}
-                        placeholder='INC / RITM'
-                        required
+                        label='Nº do Chamado'
+                        value={chamado.numero}
+                        disabled
                     />
                 </li>
-                <li>
-                    <Input 
-                        label='Nº da TASK' 
-                        placeholder='TASKXXXXXX'
-                        onChange={(e) => setTask(e.target.value)}
-                    />
-                </li>
-                <li>
-                    <Input 
-                        label='Nº da SCTASK (RITM)' 
-                        placeholder='SCTASKXXXX'
-                        onChange={(e) => setSctask(e.target.value)}
-                    />
-                </li>
+                {chamado.task ? 
+                    <li>
+                        <Input 
+                            label='Nº da TASK' 
+                            value={chamado.task}
+                            disabled
+                        />
+                    </li>
+                    :
+                    <li>
+                        <Input 
+                            label='Nº da SCTASK (RITM)' 
+                            value={chamado.sctask}
+                            placeholder='SCTASKXXXX'
+                        />
+                    </li>}
                 <li>
                     <Input 
                         label='Data' 
-                        type='date'
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        required
+                        defaultValue={chamado.data}
+                        type='date' 
+                        disabled
                     />
                 </li>
                 <li>
                     <Input 
                         name='analista' 
                         label='Nome do Analista' 
-                        value={user.name}
-                        required
-                        readOnly
+                        value={user.nome}
+                        disabled
                     />
                 </li>
                 <li>
                     <Input 
                         name='equipe' 
                         label='Equipe' 
-                        value={user.team}
-                        required
-                        readOnly
+                        value={user.equipe}
+                        disabled
                     />
                 </li>
                 <li>
@@ -142,16 +179,16 @@ const RegisterForm = () => {
                         name='supervisor' 
                         label='Supervisor' 
                         value={user.supervisor}
-                        required
-                        readOnly
+                        disabled
                     />
                 </li>
                 <li>
                     <Select 
                         name='classificação' 
                         label='Classificação' 
-                        options={classificacao} 
-                        onChange={(e) => setClassification(e.target.value)}
+                        options={classificacoes} 
+                        value={classificacao}
+                        onChange={(e) => setClassificacao(e.target.value)}
                         required
                     />
                 </li>
@@ -159,32 +196,76 @@ const RegisterForm = () => {
                     <Select 
                         label='Sistema, Aplicativo ou Hardware' 
                         options={aplicacao} 
-                        onChange={(e) => setSystem(e.target.value)}
+                        value={sistema}
+                        onChange={(e) => setSistema(e.target.value)}
                         required
                     />
                 </li>
                 <li>
                     <Select 
-                        label='Motivo do repasse'
-                        options={motives}
-                        value={motive}
-                        onChange={(e) => setMotive(e.target.value)}
+                        label='Motivo do repasse' 
+                        options={motivos} 
+                        value={motivo}
+                        onChange={(e) => setMotivo(e.target.value)}
+                        required
+                        disabled={user.funcao == "OPERADOR TECNICO" ? false : true}
                     />
                 </li>
                 <li>
                     <Textarea 
-                    label='Motivo do repasse:' 
-                    onChange={(e) => setObservations(e.target.value)}
+                    label='Justificativa do repasse:' 
+                    value={justificativa}
+                    onChange={(e) => setJustificativa(e.target.value)}
                     required
                     />
                 </li>
+                {user.funcao == "SUPERVISOR TÉCNICO" ? 
+                <li>
+                    <Textarea 
+                    label='Análise da Supervisão:' 
+                    defaultValue={chamado.supervisorObservations}
+                    onChange={(e) => setAnaliseSupervisor(e.target.value)}
+                    />
+                </li>
+                :
+                <></>}
+                {user.funcao == "SNIPER TÉCNICO" ? 
+                <li>
+                    <Textarea 
+                    label='Análise do Sniper:' 
+                    defaultValue={chamado.supervisorObservations}
+                    onChange={(e) => setAnaliseSupervisor(e.target.value)}
+                    />
+                </li>
+                :
+                <></>}
+                {chamado.status == "Resolvido" || chamado.status == "Encerrado" ? <></> :
+                <>
+                <li>
+                    <Textarea 
+                    label='Análise de Conclusão:' 
+                    defaultValue={chamado.supervisorObservations}
+                    onChange={(e) => setAnaliseSupervisor(e.target.value)}
+                    />
+                </li>
+                <li>
+                    <Input 
+                        name='corrigir artigo' 
+                        label='Artigo a corrigir?' 
+                        value={chamado.corrigirArtigo}
+                        onChange={(e) => setCorrigirArtigo(e.target.value)}
+                        disabled
+                    />
+                </li>
+                </>}
                 <div className='btnContainer'>
-                    <Button className='cancel'>Cancelar</Button>
-                    <Button className='send'>Salvar</Button>
+                    <Link className='cancel' href='./'>Cancelar</Link>
+                    <Button type='submit' className='send'>Salvar</Button>
                 </div>
             </RegisterFormBody>
         </RegisterFormController>
     </MainRegisterForm>
+    </>
   )
 }
 

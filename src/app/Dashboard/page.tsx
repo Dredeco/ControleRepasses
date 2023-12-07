@@ -3,12 +3,8 @@
 import Sidebar from '@/components/Sidebar'
 import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
-import RegisterList from '../../components/RegisterList'
-import RegisterForm from '@/components/RegisterForm'
 import { AppContext } from '@/context/AppContext'
-import { redirect, useRouter } from 'next/navigation'
-import UserForm from '@/components/UserForm'
-import RegisterListJustified from '@/components/Lists/JustifiedRegistersList'
+import { useRouter } from 'next/navigation'
 import { IUser } from '@/types/User'
 import PassedOnRegisters from '@/components/PassedOnRegisters'
 import ClosedRegisters from '@/components/ClosedRegisters'
@@ -42,8 +38,6 @@ const Dashboard = () => {
         <Sidebar handleClick={setPage}/>
         {page == 'home' ?
         <PassedOnRegisters />
-        : page == 'newUser' ? 
-        <UserForm /> 
         : 
         <ClosedRegisters />}
       </>}

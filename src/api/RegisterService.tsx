@@ -6,6 +6,9 @@ export const createRegister = async (register: IRegister) => {
         task: register.task,
         sctask: register.sctask,
         data: register.data,
+        mesaTarefa: register.mesaTarefa,
+        mesaChamado: register.mesaChamado,
+        status: register.status,
         analista: register.analista,
         equipe: register.equipe,
         supervisor: register.supervisor,
@@ -24,21 +27,21 @@ export const createRegister = async (register: IRegister) => {
 }
 
 export const getRegisters = async() => {
-    const response = await axios.get('http://localhost:5000/register')
+    const response = await axios.get('http://localhost:5000/chamados')
     .then((res: any) => res.data.registers)
 
     return response
 }
 
 export const getRegistersNumber = async() => {
-    const response = await axios.get('http://localhost:5000/register/number')
+    const response = await axios.get('http://localhost:5000/chamados/numero')
     .then((res: any) => res.data.registers)
 
     return response
 }
 
 export const getUserRegisters = async(name: string) => {
-    const response = await axios.get(`https://cr-api.onrender.com/api/incident/user/${name}`)
+    const response = await axios.get(`http://localhost:5000/chamados/analista/${name}`)
     .then((res: Response) => res)
 
     const {incidentUser} = response.data
@@ -47,18 +50,21 @@ export const getUserRegisters = async(name: string) => {
 }
 
 export const getRegisterByNumber = async(numero: string) => {
-    const response = await axios.get(`http://localhost:5000/register/${numero}`)
-    .then((res: Response) => res)
+    const response = await axios.get(`http://localhost:5000/chamados/${numero}`)
+    .then((res: Response) => res.json())
 
-    return response.data.register
+    return response
 }
 
 export const updateRegister = async (register: IRegister) => {
-    const response = await axios.post(`https://cr-api.onrender.com/api/incident/${register.numero}`, {
+    const response = await axios.patch(`http://localhost:5000/chamados/${register.numero}`, {
         numero: register.numero,
         task: register.task,
         sctask: register.sctask,
         data: register.data,
+        mesaTarefa: register.mesaTarefa,
+        mesaChamado: register.mesaChamado,
+        status: register.status,
         analista: register.analista,
         equipe: register.equipe,
         supervisor: register.supervisor,

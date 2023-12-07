@@ -6,11 +6,12 @@ import { Input } from '@/components/Input'
 import { Select } from '@/components/Select'
 import { MainRegisterForm, RegisterFormBody, RegisterFormController, RegisterFormHeader } from './style'
 import { Textarea } from '@/components/Textarea'
-import { createRegister, getRegisterByNumber, getRegistersNumber, updateRegister } from '@/api/RegisterService'
+import { createRegister, getRegisterByNumber, getRegisters, getRegistersNumber, updateRegister } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { registers } from '@/api/db'
+import { IUser } from '@/types/User'
 
 const motivos = [
     {name: "Usuário solicitou realmente que fosse repassado o chamado"},
@@ -56,28 +57,36 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
     const [analiseConclusao, setAnaliseConclusao] = useState('')
     const [corrigirArtigo, setCorrigirArtigo] = useState('')
     const [listaChamados, setListaChamados] = useState(Array<any> || null)
+    const [data, setData] = useState('')
 
-    const {user} = useContext(AppContext)
+    const {user, setUser} = useContext(AppContext)
     const router = useRouter()
-
-    const roleSupervisor = false;
-    const roleSniper = false;
+    var novoChamado = false
 
     useEffect(() => {
-        const getIncData = async () => {
-            const actualIncident = registers.filter((res) => res.numero == incidentNumber.incidentNumber)
-            setChamado(actualIncident[0])
+        if(!user.nome) {
+            const loggedUser: IUser = JSON.parse(localStorage.getItem("user") as string)
+            setUser(loggedUser)
         }
 
-        const getLista =async () => {
-            const listaNumeros = await getRegistersNumber()
-            setListaChamados(listaNumeros)
-            console.log(listaNumeros)
+        const getIncData = async () => {
+            const buscarChamados = await getRegisters()
+            setListaChamados(buscarChamados)
+
+            const actualIncident = await buscarChamados.filter((res: any) => res.numero == incidentNumber.incidentNumber)
+            if(actualIncident.length == 0) {
+                const buscarChamados2 = await registers.filter((res: any) => res.numero == incidentNumber.incidentNumber)
+                setChamado(buscarChamados2[0])
+                novoChamado = true
+                setData(buscarChamados2[0].data)
+            } else {
+                setData(buscarChamados[0].data.split("T")[0])
+                setChamado(actualIncident[0])
+                setJustificativa(actualIncident[0].justificativa)
+            }
         }
 
         getIncData()
-        getLista()
-        setJustificativa(chamado.observacao)
     }, [])
 
     const handleSubmit = async (e: IRegisterForm) => {
@@ -87,6 +96,9 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
             task: chamado.task,
             sctask: chamado.sctask,
             data: chamado.data,
+            mesaTarefa: chamado.mesaTarefa,
+            mesaChamado: chamado.mesaChamado,
+            status: chamado.status,
             analista: user.nome,
             equipe: user.equipe,
             supervisor: user.supervisor,
@@ -100,16 +112,10 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
             analiseConclusao: analiseConclusao
         }
 
-        if(listaChamados.length) {
-            for(let i=0; i < listaChamados.length; i++){
-                if(listaChamados[i].numero == chamado.numero){
-                    updateRegister(register)
-                } else {
-                    createRegister(register)
-                }
-            }
-        } else {
+        if(novoChamado == true) {
             createRegister(register)
+        } else {
+            updateRegister(register)
         }
 
         alert("Chamado atualizado!")
@@ -152,7 +158,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                 <li>
                     <Input 
                         label='Data' 
-                        defaultValue={chamado.data}
+                        value={data}
                         type='date' 
                         disabled
                     />
@@ -207,6 +213,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                         value={motivo}
                         onChange={(e) => setMotivo(e.target.value)}
                         required
+                        disabled={user.funcao == "OPERADOR TECNICO" ? false : true}
                     />
                 </li>
                 <li>
@@ -217,23 +224,27 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                     required
                     />
                 </li>
-                {user.funcao == "OPERADOR TECNICO" ? <></> :
+                {user.funcao == "SUPERVISOR TÉCNICO" ? 
                 <li>
                     <Textarea 
                     label='Análise da Supervisão:' 
                     defaultValue={chamado.supervisorObservations}
                     onChange={(e) => setAnaliseSupervisor(e.target.value)}
                     />
-                </li>}
-                {user.funcao == "OPERADOR TECNICO" ? <></> :
+                </li>
+                :
+                <></>}
+                {user.funcao == "SNIPER TÉCNICO" ? 
                 <li>
                     <Textarea 
                     label='Análise do Sniper:' 
                     defaultValue={chamado.supervisorObservations}
                     onChange={(e) => setAnaliseSupervisor(e.target.value)}
                     />
-                </li>}
-                {user.funcao == "OPERADOR TECNICO" ? <></> :
+                </li>
+                :
+                <></>}
+                {chamado.status == "Resolvido" || chamado.status == "Encerrado" ? 
                 <>
                 <li>
                     <Textarea 
@@ -248,10 +259,11 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                         label='Artigo a corrigir?' 
                         value={chamado.corrigirArtigo}
                         onChange={(e) => setCorrigirArtigo(e.target.value)}
-                        disabled
                     />
                 </li>
-                </>}
+                </>
+                :
+                <></>}
                 <div className='btnContainer'>
                     <Link className='cancel' href='./'>Cancelar</Link>
                     <Button type='submit' className='send'>Salvar</Button>

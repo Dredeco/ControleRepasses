@@ -9,7 +9,7 @@ import { ClockIcon } from '../../../../public/icons/clockIcon'
 const JustifiedRegistersList = () => {
   const {filter, setFilter} = useContext(AppContext)
   const [chamadosFiltrados, setChamadosFiltrados] = useState(Array<Object>)
-  const [chamadosJustificados, setChamadosJustificados] = useState([])
+  const [chamadosJustificados, setChamadosJustificados] = useState(Array<Object>)
   
 
   useEffect(() => {
@@ -22,7 +22,6 @@ const JustifiedRegistersList = () => {
       const result = await chamadosJustificados.filter((res: any) => res.numero.toLowerCase().includes(filter.toLowerCase()))
       if(!result.length) {
         const result2 = await chamadosJustificados.filter((res: any) => res.analista.toLowerCase().includes(filter.toLowerCase()))
-        console.log(result2)
         setChamadosFiltrados(result2)
       } else 
       setChamadosFiltrados(result)
@@ -45,6 +44,7 @@ const JustifiedRegistersList = () => {
               <th>Nº da TASK</th>
               <th>Data</th>
               <th>Nome do Analista</th>
+              <th>Mesa da Tarefa</th>
               <th>Justificativa</th>
               <th>Análise Sniper</th>
               <th>Análise Supervisor</th>
@@ -60,6 +60,7 @@ const JustifiedRegistersList = () => {
               <td>{register.task}</td>
               <td>{register.data.split("T")[0]}</td>
               <td>{register.analista}</td>
+              <td>{register.mesaTarefa}</td>
               <td>{register.justificativa}</td>
               {register.analiseSniper.length > 0 ? 
               <td>{register.analiseSniper}</td>
