@@ -67,6 +67,7 @@ export const updateRegister = async (register: IRegister) => {
         status: register.status,
         analista: register.analista,
         equipe: register.equipe,
+        motivo: register.motivo,
         supervisor: register.supervisor,
         classificacao: register.classificacao,
         sistema: register.sistema,

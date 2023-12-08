@@ -6,11 +6,13 @@ import { Search } from '../../../../public/icons/search'
 import { registers } from '@/api/db'
 import { Input } from '../../Input'
 import { AppContext } from '@/context/AppContext'
+import { IUser } from '@/types/User'
 
 const RegisterList = () => {
   const {filter, setFilter} = useContext(AppContext)
   const [chamadosNaoJustificados, setChamadosNaoJustificados] = useState(Array<Object>)
   const [chamadosFiltrados, setChamadosFiltrados] = useState(Array<Object>)
+  const {user} = useContext(AppContext)
 
   useEffect(() => {
     const getData = async () => {
@@ -20,27 +22,28 @@ const RegisterList = () => {
       const todosChamados = listaChamadosNaoJustificados.filter((chamadosA: any) => 
         !listaChamadosJustificados.some((chamadosB: any) => 
           chamadosA.numero === chamadosB.numero
-          )
         )
-        setChamadosNaoJustificados(await todosChamados)
+      )
+      const chamadosDoAnalista = todosChamados.filter((chamado: any) => chamado.analista == user.nome) 
+
+      setChamadosNaoJustificados(chamadosDoAnalista)
     }
+    getData()
 
     setTimeout(() => {
       const getFilter = async () => {
-        const result = await chamadosNaoJustificados.filter((res: any) => res.numero.toLowerCase().includes(filter.toLowerCase()))
+        const result = chamadosNaoJustificados.filter((res: any) => res.numero.toLowerCase().includes(filter.toLowerCase()))
         if(!result.length) {
-          const result2 = await chamadosNaoJustificados.filter((res: any) => res.analista.toLowerCase().includes(filter.toLowerCase()))
+          const result2 = chamadosNaoJustificados.filter((res: any) => res.analista.toLowerCase().includes(filter.toLowerCase()))
           setChamadosFiltrados(result2)
-        } else 
-        setChamadosFiltrados(result)
+        } else {
+          setChamadosFiltrados(result)
+        }
       }
       getFilter()
     }, 1000)
-    
-
-    getData()
   }, [filter])
-
+  
   return (
     <DashboardMain>
       <DashboardContainer>

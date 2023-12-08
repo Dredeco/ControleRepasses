@@ -30,7 +30,7 @@ export const AppContextProvider = ({children}: ProviderProps) => {
     const [filter, setFilter] = useState('')
 
     useEffect(() => {
-        const LoggedUser = localStorage.getItem('user')
+        const LoggedUser = JSON.parse(localStorage.getItem("user") as string)
         if(LoggedUser) {
             setUser(LoggedUser)
         }

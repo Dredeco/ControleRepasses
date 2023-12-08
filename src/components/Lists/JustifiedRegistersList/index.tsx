@@ -42,6 +42,7 @@ const JustifiedRegistersList = () => {
               <th>Buscar no ServiceNow</th>
               <th>Nº do chamado</th>
               <th>Nº da TASK</th>
+              <th>Status</th>
               <th>Data</th>
               <th>Nome do Analista</th>
               <th>Mesa da Tarefa</th>
@@ -58,6 +59,7 @@ const JustifiedRegistersList = () => {
                 <Link id={register.numero} href={`./Dashboard/${register.numero}`}>{register.numero}</Link>
               </td>
               <td>{register.task}</td>
+              <td>{register.status}</td>
               <td>{register.data.split("T")[0]}</td>
               <td>{register.analista}</td>
               <td>{register.mesaTarefa}</td>

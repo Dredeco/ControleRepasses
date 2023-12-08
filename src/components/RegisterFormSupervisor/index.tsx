@@ -64,11 +64,6 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
     var novoChamado = false
 
     useEffect(() => {
-        if(!user.nome) {
-            const loggedUser: IUser = JSON.parse(localStorage.getItem("user") as string)
-            setUser(loggedUser)
-        }
-
         const getIncData = async () => {
             const buscarChamados = await getRegisters()
             setListaChamados(buscarChamados)
@@ -83,6 +78,9 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                 setData(buscarChamados[0].data.split("T")[0])
                 setChamado(actualIncident[0])
                 setJustificativa(actualIncident[0].justificativa)
+                setClassificacao(actualIncident[0].classificacao)
+                setMotivo(actualIncident[0].motivo)
+                setSistema(actualIncident[0].sistema)
             }
         }
 
@@ -222,6 +220,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                     value={justificativa}
                     onChange={(e) => setJustificativa(e.target.value)}
                     required
+                    disabled={user.funcao == "OPERADOR TECNICO" ? false : true}
                     />
                 </li>
                 {user.funcao == "SUPERVISOR TÉCNICO" ? 

@@ -44,6 +44,9 @@ export const DashboardWrapper = styled.table`
 
   > thead {
     background-color: #f7d1db;
+    tr {
+      font-size: 1.35rem;
+    }
   }
 
   > thead, tbody {

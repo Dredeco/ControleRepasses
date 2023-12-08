@@ -17,7 +17,7 @@ export const registers = [
         analista: "Andre Luis Fernandes de Souza",
         status: "Em andamento",
         data: "2023-11-01",
-        mesaTarefa: "N3-N3-SUPORTE_TECNICO_DE_VOZ",
+        mesaTarefa: "N3-SUPORTE_TECNICO_DE_VOZ",
         incidenteRepassado: "",
         mesaChamado: "",
     },
