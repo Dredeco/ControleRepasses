@@ -25,7 +25,7 @@ const Sidebar = (props: SidebarProps) => {
     document.getElementById("home")?.classList.add("selected")
   }
 
-  const handleCreateRegister = () => {
+  const handleJustified = () => {
     setPage("register")
     document.getElementById("home")?.classList.remove("selected")
     document.getElementById("conclusion")?.classList.add("selected")
@@ -44,9 +44,14 @@ const Sidebar = (props: SidebarProps) => {
                   Início
                 </span>
             </li>
-            <li onClick={handleCreateRegister}>
+            <li onClick={handleJustified}>
             <strong>»</strong><span id="conclusion">
                 Análise de conclusão
+              </span>
+            </li>
+            <li onClick={handleJustified}>
+            <strong>»</strong><span id="conclusion">
+                Dados da equipe
               </span>
             </li>
             <li onClick={logoff}>

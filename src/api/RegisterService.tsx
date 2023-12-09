@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 export const createRegister = async (register: IRegister) => {
-    const response = await axios.post('http://localhost:5000/register', {
+    const response = await axios.post('http://localhost:5000/chamados', {
         numero: register.numero,
         task: register.task,
         sctask: register.sctask,

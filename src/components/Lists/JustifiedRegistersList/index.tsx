@@ -29,7 +29,7 @@ const JustifiedRegistersList = () => {
     getFilter()
 
     getData()
-  }, [])
+  }, [filter])
 
   return (
     <DashboardMain>
@@ -38,6 +38,7 @@ const JustifiedRegistersList = () => {
           <h1>REPASSES JUSTIFICADOS</h1>
         </div>
         <DashboardWrapper>
+          <thead>
             <tr key='Header'>
               <th>Buscar no ServiceNow</th>
               <th>Nº do chamado</th>
@@ -46,42 +47,79 @@ const JustifiedRegistersList = () => {
               <th>Data</th>
               <th>Nome do Analista</th>
               <th>Mesa da Tarefa</th>
+              <th>Sistema</th>
+              <th>Motivo</th>
               <th>Justificativa</th>
               <th>Análise Sniper</th>
               <th>Análise Supervisor</th>
             </tr>
-          {chamadosJustificados.length > 0 ? chamadosJustificados.map((register: any) => (
-            <tr key={register.numero}>
+          </thead>
+          <tbody>
+            {chamadosFiltrados.length > 0 ? chamadosFiltrados.map((chamado: any) => (
+            <tr key={chamado.numero}>
               <td>
-                <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${register.numero}`}><Search /></Link>
+                <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
               </td>
+              <td>{chamado.numero}</td>
               <td>
-                <Link id={register.numero} href={`./Dashboard/${register.numero}`}>{register.numero}</Link>
+              <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
               </td>
-              <td>{register.task}</td>
-              <td>{register.status}</td>
-              <td>{register.data.split("T")[0]}</td>
-              <td>{register.analista}</td>
-              <td>{register.mesaTarefa}</td>
-              <td>{register.justificativa}</td>
-              {register.analiseSniper.length > 0 ? 
-              <td>{register.analiseSniper}</td>
+              <td>{chamado.status}</td>
+              <td>{chamado.data.split("T")[0]}</td>
+              <td>{chamado.analista}</td>
+              <td>{chamado.mesaTarefa}</td>
+              <td>{chamado.sistema}</td>
+              <td>{chamado.motivo}</td>
+              <td>{chamado.justificativa}</td>
+              {chamado.analiseSniper ?
+              <td>{chamado.analiseSniper}</td>
               :
               <td>
                 <ClockIcon />
-                <span>Em análise</span>
-              </td>
-              }
-              {register.analiseSupervisor.length > 0 ?
-              <td>{register.analiseSupervisor}</td>
+                <p>Em análise</p>
+              </td>}
+              {chamado.analiseSupervisor ?
+              <td>{chamado.analiseSupervisor}</td>
               :
               <td>
                 <ClockIcon />
-                <span>Em análise</span>
-              </td>
-              }
+                <p>Em análise</p>
+              </td>}
             </tr>
-          )) : <></>}
+          )) :
+          chamadosJustificados.map((chamado: any) => (
+            <tr key={chamado.numero}>
+              <td>
+                <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
+              </td>
+              <td>{chamado.numero}</td>
+              <td>
+              <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
+              </td>
+              <td>{chamado.status}</td>
+              <td>{chamado.data.split("T")[0]}</td>
+              <td>{chamado.analista}</td>
+              <td>{chamado.mesaTarefa}</td>
+              <td>{chamado.sistema}</td>
+              <td>{chamado.motivo}</td>
+              <td>{chamado.justificativa}</td>
+              {chamado.analiseSniper ?
+              <td>{chamado.analiseSniper}</td>
+              :
+              <td>
+                <ClockIcon />
+                <p>Em análise</p>
+              </td>}
+              {chamado.analiseSupervisor ?
+              <td>{chamado.analiseSupervisor}</td>
+              :
+              <td>
+                <ClockIcon />
+                <p>Em análise</p>
+              </td>}
+            </tr>
+          ))}
+          </tbody>
         </DashboardWrapper>
       </DashboardContainer>
     </DashboardMain>

@@ -40,22 +40,28 @@ export const DashboardWrapper = styled.table`
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
-  word-break: break-all;
+  text-align: center;
 
-  > :nth-child(1){
-    font-weight: bold;
-    font-size: 1.35rem;
+  > thead {
+    background-color: #ade4d9;
+    tr {
+      font-size: 1.35rem;
+    }
   }
 
-  > :nth-child(2n + 1){
-    background-color: #c7eee6;
+  > tbody {
+    > :nth-child(2n + 2){
+      background-color: #ade4d9;
+    }
   }
+
 
   tr{
     display: flex;
+    justify-content: space-between;
     flex-direction: row;
     font-size: 1.2rem;
-    word-break: break-all;
+    border-bottom: 1px solid #000;
 
     th, td {
       background-color: inherit;
@@ -65,14 +71,19 @@ export const DashboardWrapper = styled.table`
       min-width: 20rem;
       max-width: 20rem;
       padding: .5rem .5rem;
+
+      p {
+        font-weight: bold;
+        padding-left: 5px;
+      }
     }
 
     :nth-child(2){
     font-weight: bold;
     }
+    
+    :nth-child(3){
+    font-weight: bold;
+    }
   }
-  td {
-    border-top: 1px solid #000;
-  }
-
 `

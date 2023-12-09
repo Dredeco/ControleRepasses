@@ -5,7 +5,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '@/context/AppContext'
 import { useRouter } from 'next/navigation'
-import { IUser } from '@/types/User'
 import PassedOnRegisters from '@/components/PassedOnRegisters'
 import ClosedRegisters from '@/components/ClosedRegisters'
 
@@ -17,14 +16,13 @@ const DashboardMain = styled.div`
 `
 
 const Dashboard = () => {
-  const {page, setPage} = useContext(AppContext)
+  const {page, setPage, user} = useContext(AppContext)
   const [isLoading, setLoading] = useState(true)
   const router = useRouter()
   
   
   useEffect(() => {
-    const loggedUser: IUser = JSON.parse(localStorage.getItem("user") as string)
-    if(loggedUser.nome) {
+    if(user.nome) {
       setLoading(false)
     } else {
       router.push('/Login');

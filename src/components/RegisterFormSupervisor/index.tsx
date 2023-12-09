@@ -46,7 +46,7 @@ const aplicacao = [
 interface IRegisterForm extends FormEvent<HTMLFormElement> {
 }
 
-const RegisterFormSupervisor = (incidentNumber: any) => {
+const RegisterFormSupervisor = (numeroTask: any) => {
     const [chamado, setChamado] = useState(Object)
     const [classificacao, setClassificacao] = useState(classificacoes[0].name)
     const [sistema, setSistema] = useState(aplicacao[0].name)
@@ -58,22 +58,22 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
     const [corrigirArtigo, setCorrigirArtigo] = useState('')
     const [listaChamados, setListaChamados] = useState(Array<any> || null)
     const [data, setData] = useState('')
+    const [novoChamado, setNovoChamado] = useState(false)
 
     const {user, setUser} = useContext(AppContext)
     const router = useRouter()
-    var novoChamado = false
 
     useEffect(() => {
         const getIncData = async () => {
             const buscarChamados = await getRegisters()
             setListaChamados(buscarChamados)
 
-            const actualIncident = await buscarChamados.filter((res: any) => res.numero == incidentNumber.incidentNumber)
+            const actualIncident = await buscarChamados.filter((res: any) => res.task == numeroTask.numeroTask)
             if(actualIncident.length == 0) {
-                const buscarChamados2 = await registers.filter((res: any) => res.numero == incidentNumber.incidentNumber)
+                const buscarChamados2 = await registers.filter((res: any) => res.task == numeroTask.numeroTask)
                 setChamado(buscarChamados2[0])
-                novoChamado = true
                 setData(buscarChamados2[0].data)
+                setNovoChamado(true)
             } else {
                 setData(buscarChamados[0].data.split("T")[0])
                 setChamado(actualIncident[0])
@@ -110,13 +110,14 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
             analiseConclusao: analiseConclusao
         }
 
-        if(novoChamado == true) {
+        if(novoChamado) {
             createRegister(register)
+            alert("Chamado registrado!")
         } else {
             updateRegister(register)
+            alert("Chamado atualizado!")
         }
 
-        alert("Chamado atualizado!")
         router.push("/Dashboard")
         //await updateRegister(register)
        // window.location.href = 'https://dredeco.github.io/ControleRepasses/Dashboard'
@@ -218,6 +219,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                     <Textarea 
                     label='Justificativa do repasse:' 
                     value={justificativa}
+                    placeholder='Informe porque o chamado foi repassado.'
                     onChange={(e) => setJustificativa(e.target.value)}
                     required
                     disabled={user.funcao == "OPERADOR TECNICO" ? false : true}
@@ -248,6 +250,7 @@ const RegisterFormSupervisor = (incidentNumber: any) => {
                 <li>
                     <Textarea 
                     label='Análise de Conclusão:' 
+                    placeholder='Informe o que foi feito para resolver o problema e se poderia ser resolvido no N1.'
                     defaultValue={chamado.supervisorObservations}
                     onChange={(e) => setAnaliseSupervisor(e.target.value)}
                     />

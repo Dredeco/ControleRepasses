@@ -3,10 +3,11 @@ import styled from 'styled-components'
 export const MainRegisterForm = styled.section`
     width: 100%;
     height: fit-content;
-    min-height: calc(90vh);
+    min-height: calc(100vh - 14rem);
     background-color: #e2e2e2;
     display: flex;
     justify-content: center;
+    align-items: center;
 `
 
 export const RegisterFormController = styled.form`
@@ -53,28 +54,36 @@ export const RegisterFormBody= styled.ul`
         display: flex;
         justify-content: center;
         column-gap: 1rem;
+        margin-top: 2rem;
 
-        a{
-            text-align: center;
+        a, button{
+            display:flex;
+            align-items: center;
+            justify-content: center;
             width: 30rem;
             border-radius: 10px;
             padding: 1rem .5rem;
             font-size: 1.8rem;
             cursor: pointer;
             text-decoration: none;
-        }
-
-        button, a{
-            color: #fff;
+            color: white;
             border: none;
         }
 
-        :nth-child(1){
+        .cancel {
             background-color: #e94444;
+            &:hover{
+                background-color: #c43939;
+                transition: 1s;
+            }
         }
 
-        :nth-child(2){
-            background-color: #21be43;
+        .send, button {
+            background-color: #21be43 !important;
+            &:hover{
+                background-color: #1b9c37 !important;
+                transition: 1s;
+            }
         }
     }
 

@@ -18,15 +18,13 @@ const RegisterList = () => {
     const getData = async () => {
       const listaChamadosJustificados = await getRegistersNumber()
       const listaChamadosNaoJustificados = registers
-
-      const todosChamados = listaChamadosNaoJustificados.filter((chamadosA: any) => 
+      const chamadosDoAnalista = listaChamadosNaoJustificados.filter((chamado: any) => chamado.analista == user.nome) 
+      const todosChamados = chamadosDoAnalista.filter((chamadosA: any) => 
         !listaChamadosJustificados.some((chamadosB: any) => 
           chamadosA.numero === chamadosB.numero
         )
       )
-      const chamadosDoAnalista = todosChamados.filter((chamado: any) => chamado.analista == user.nome) 
-
-      setChamadosNaoJustificados(chamadosDoAnalista)
+      setChamadosNaoJustificados(todosChamados)
     }
     getData()
 
@@ -69,10 +67,10 @@ const RegisterList = () => {
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
               </td>
+              <td>{chamado.numero}</td>
               <td>
-                <Link id={chamado.numero} href={`./Dashboard/${chamado.numero}`}>{chamado.numero}</Link>
+              <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
               </td>
-              <td>{chamado.task}</td>
               <td>{chamado.status}</td>
               <td>{chamado.data.split("T")[0]}</td>
               <td>{chamado.analista}</td>
@@ -84,10 +82,10 @@ const RegisterList = () => {
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
               </td>
+              <td>{chamado.numero}</td>
               <td>
-                <Link id={chamado.numero} href={`./Dashboard/${chamado.numero}`}>{chamado.numero}</Link>
+              <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
               </td>
-              <td>{chamado.task}</td>
               <td>{chamado.status}</td>
               <td>{chamado.data.split("T")[0]}</td>
               <td>{chamado.analista}</td>

@@ -46,7 +46,7 @@ export const DashboardWrapper = styled.ul`
   }
 
   > :nth-child(2n + 1){
-    background-color: #e7e7e7;
+    background-color: #c9c5f1;
   }
 
   li{

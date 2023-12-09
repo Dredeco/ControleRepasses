@@ -77,6 +77,10 @@ export const DashboardWrapper = styled.table`
     :nth-child(2){
     font-weight: bold;
     }
+    
+    :nth-child(3){
+    font-weight: bold;
+    }
   }
 
 `

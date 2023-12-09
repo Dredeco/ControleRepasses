@@ -1,23 +1,30 @@
 'use client'
-import React, { FormEvent, useContext, useState } from 'react'
-import { LoginContainer, LoginMain } from './styles'
-import { Input } from '@/components/Input'
-import { Button } from '@/components/Button'
-import { login } from '@/api/userService'
+import React, { FormEvent, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppContext } from '@/context/AppContext'
+import { login } from '@/api/userService'
+import { Input } from '@/components/Input'
+import { Button } from '@/components/Button'
+
 import { PersonIcon } from '../../../public/icons/personIcon'
 import { LockIcon } from '../../../public/icons/lockIcon'
+import { LoginContainer, LoginMain } from './styles'
 
 interface ILoginForm extends FormEvent<HTMLFormElement> {}
 
 const Login = () => {
   const [registration, setRegistration] = useState('')
   const [password, setPassword] = useState('')
-  const {setUser} = useContext(AppContext)
+  const {setUser, user} = useContext(AppContext)
   const router = useRouter()
   
   //SUPERVISOR TÉCNICO
+
+  useEffect(() => {
+    if(user.nome){
+      router.push("/Dashboard")
+    }
+  })
 
   const validateUser = async (e: ILoginForm) => {
     e.preventDefault()

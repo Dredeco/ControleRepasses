@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Login from '@/app/Login/page'
 
@@ -11,15 +10,10 @@ const MainContainer = styled.main`
   `
 
 export default function Home() {
-  const [page, setPage] = useState("home")
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  useEffect(() => {
-  }, [page])
 
   return (
     <MainContainer>
-      {!isLoggedIn ? <Login /> : <div></div>   }
+      <Login />
     </MainContainer>
   )
 }

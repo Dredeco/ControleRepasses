@@ -34,7 +34,6 @@ const JustifiedClosedRegistersList = () => {
       <DashboardContainer>
         <div>
           <h1>REPASSES ENCERRADOS ANALISADOS</h1>
-          <Input onChange={(e) => setFilter(e.target.value)} placeholder='Filtrar por Nome / Chamado' />
         </div>
         <DashboardWrapper>
             <li key='Header'>
