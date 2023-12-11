@@ -31,6 +31,12 @@ export const RegisterFormBody= styled.ul`
     justify-content: center;
     gap: 1rem;
 
+    h2 {
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
     li{
         label{
             width: max-content;

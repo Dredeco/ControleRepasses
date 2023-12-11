@@ -31,9 +31,9 @@ const Sidebar = (props: SidebarProps) => {
     document.getElementById("conclusion")?.classList.add("selected")
   }
 
-  const logoff = () => {
+  const logoff = async () => {
     localStorage.setItem('user', JSON.stringify({}))
-    router.push("/Login")
+    router.push("/")
   }
 
   return (

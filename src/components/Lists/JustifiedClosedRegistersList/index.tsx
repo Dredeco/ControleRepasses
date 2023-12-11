@@ -10,22 +10,42 @@ import { registers, registersJustified } from '@/api/db'
 import { Input } from '../../Input'
 
 const JustifiedClosedRegistersList = () => {
-  const {user, setUser, filter, setFilter} = useContext(AppContext)
-  const [chamadosJustificados, setChamadosJustificados] = useState([])
+  const {filter} = useContext(AppContext)
+  const [chamadosJustificados, setChamadosJustificados] = useState(Array<Object>)
   
 
   useEffect(() => {
+    const listaNaoJustificados = registers
+    
     const getData =async () => {
       const listaJustificados = await getRegisters()
-      setChamadosJustificados(listaJustificados)
-    }
+      const chamadosAtualizados: any[] = []
+      const tempMap = new Map();
+
+      listaJustificados.forEach((res: any) => {
+        const key = res["numero_chamado"];
+        if(!tempMap.has(key)) {
+          tempMap.set(key, res)
+        }
+      });
+
+      listaNaoJustificados.forEach((res: any) => {
+        const key = res["numero_chamado"];
+        if(tempMap.has(key)) {
+          const mergedObj = {...tempMap.get(key), ...res}
+          chamadosAtualizados.push(mergedObj)
+        }
+      })
+
+      setChamadosJustificados(chamadosAtualizados)
+  }
+  getData()
 
     const getFilter = async () => {
       const result = await chamadosJustificados.filter((res: any) => res.numero.toLowerCase().includes(filter.toLowerCase()))
       setChamadosJustificados(result)
     }
 
-    getData()
     getFilter()
   }, [filter])
 
@@ -47,15 +67,15 @@ const JustifiedClosedRegistersList = () => {
               <span>Análise Supervisor</span>
             </li>
           {chamadosJustificados.length > 0 ? chamadosJustificados.map((register: any) => (
-            <li key={register.numero}>
-              <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${register.numero}`}><Search /></Link>
-              <Link id={register.numero} href={`./Dashboard/${register.numero}`}>{register.numero}</Link>
+            <li key={register.numero_chamado}>
+              <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${register.numero_chamado}`}><Search /></Link>
+              <Link id={register.numero_chamado} href={`./Dashboard/${register.task}`}>{register.task}</Link>
               <span>{register.task}</span>
-              <span>{register.data.split("T")[0]}</span>
-              <span>{register.analista}</span>
+              <span>{register.data_task.split("T")[0]}</span>
+              <span>{register.analista_task}</span>
               <span>{register.justificativa}</span>
-              <span>{register.analiseSniper}</span>
-              <span>{register.analiseSupervisor}</span>
+              <span>{register.analise_sniper}</span>
+              <span>{register.analise_supervisor}</span>
             </li>
           )) : <></>}
         </DashboardWrapper>

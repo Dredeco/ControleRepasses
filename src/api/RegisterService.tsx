@@ -2,25 +2,23 @@ const axios = require('axios');
 
 export const createRegister = async (register: IRegister) => {
     const response = await axios.post('http://localhost:5000/chamados', {
-        numero: register.numero,
+        numero_chamado: register.numero_chamado,
         task: register.task,
         sctask: register.sctask,
-        data: register.data,
-        mesaTarefa: register.mesaTarefa,
-        mesaChamado: register.mesaChamado,
-        status: register.status,
-        analista: register.analista,
+        analista_task: register.analista_task,
         equipe: register.equipe,
-        supervisor: register.supervisor,
         classificacao: register.classificacao,
         sistema: register.sistema,
         motivo: register.motivo,
-        corrigirArtigo: register.corrigirArtigo,
         justificativa: register.justificativa,
-        analiseSupervisor: register.analiseSupervisor,
-        analiseSniper: register.analiseSniper,
-        analiseConclusao: register.analiseConclusao
-    }).catch((error: any) => console.log(error))
+        analise_conclusao: register.analise_conclusao,
+        analise_supervisor: register.analise_supervisor,
+        analise_sniper: register.analise_sniper,
+        nome_artigo: register.nome_artigo,
+        solicitacao_artigo: register.solicitacao_artigo,
+        validacao_artigo: register.validacao_artigo,
+        justificativa_artigo: register.justificativa_artigo
+    })
     
     console.log(response)
     return response
@@ -57,25 +55,23 @@ export const getRegisterByNumber = async(numero: string) => {
 }
 
 export const updateRegister = async (register: IRegister) => {
-    const response = await axios.patch(`http://localhost:5000/chamados/${register.numero}`, {
-        numero: register.numero,
+    const response = await axios.patch(`http://localhost:5000/chamados/${register.numero_chamado}`, {
+        numero_chamado: register.numero_chamado,
         task: register.task,
         sctask: register.sctask,
-        data: register.data,
-        mesaTarefa: register.mesaTarefa,
-        mesaChamado: register.mesaChamado,
-        status: register.status,
-        analista: register.analista,
+        analista_task: register.analista_task,
         equipe: register.equipe,
-        motivo: register.motivo,
-        supervisor: register.supervisor,
         classificacao: register.classificacao,
         sistema: register.sistema,
-        corrigirArtigo: register.corrigirArtigo,
+        motivo: register.motivo,
         justificativa: register.justificativa,
-        analiseSupervisor: register.analiseSupervisor,
-        analiseSniper: register.analiseSniper,
-        analiseConclusao: register.analiseConclusao
+        analise_supervisor: register.analise_supervisor,
+        analise_sniper: register.analise_sniper,
+        analise_conclusao: register.analise_conclusao,
+        nome_artigo: register.nome_artigo,
+        solicitacao_artigo: register.solicitacao_artigo,
+        validacao_artigo: register.validacao_artigo,
+        justificativa_artigo: register.justificativa_artigo
     }).catch((error: any) => console.log(error))
     
     return alert("Registro alterado com sucesso.")

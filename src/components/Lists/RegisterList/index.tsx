@@ -18,10 +18,10 @@ const RegisterList = () => {
     const getData = async () => {
       const listaChamadosJustificados = await getRegistersNumber()
       const listaChamadosNaoJustificados = registers
-      const chamadosDoAnalista = listaChamadosNaoJustificados.filter((chamado: any) => chamado.analista == user.nome) 
+      const chamadosDoAnalista = listaChamadosNaoJustificados.filter((chamado: any) => chamado.analista_task == user.nome) 
       const todosChamados = chamadosDoAnalista.filter((chamadosA: any) => 
         !listaChamadosJustificados.some((chamadosB: any) => 
-          chamadosA.numero === chamadosB.numero
+          chamadosA.numero_chamado === chamadosB.numero_chamado
         )
       )
       setChamadosNaoJustificados(todosChamados)
@@ -30,9 +30,9 @@ const RegisterList = () => {
 
     setTimeout(() => {
       const getFilter = async () => {
-        const result = chamadosNaoJustificados.filter((res: any) => res.numero.toLowerCase().includes(filter.toLowerCase()))
+        const result = chamadosNaoJustificados.filter((res: any) => res.numero_chamado.toLowerCase().includes(filter.toLowerCase()))
         if(!result.length) {
-          const result2 = chamadosNaoJustificados.filter((res: any) => res.analista.toLowerCase().includes(filter.toLowerCase()))
+          const result2 = chamadosNaoJustificados.filter((res: any) => res.analista_task.toLowerCase().includes(filter.toLowerCase()))
           setChamadosFiltrados(result2)
         } else {
           setChamadosFiltrados(result)
@@ -54,42 +54,42 @@ const RegisterList = () => {
             <tr key='Header'>
               <th>Buscar no ServiceNow</th>
               <th>Nº do chamado</th>
-              <th>Nº da TASK</th>
-              <th>Status</th>
+              <th>Nº da Task</th>
+              <th>Status da Task</th>
               <th>Data</th>
+              <th>Mesa da Task</th>
               <th>Nome do Analista</th>
-              <th>Mesa da tarefa</th>
             </tr>
           </thead>
           <tbody>
             {chamadosFiltrados.length > 0 ? chamadosFiltrados.map((chamado: any) => (
-            <tr key={chamado.numero}>
+            <tr key={chamado.numero_chamado}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
               </td>
-              <td>{chamado.numero}</td>
+              <td>{chamado.numero_chamado}</td>
               <td>
               <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
               </td>
-              <td>{chamado.status}</td>
-              <td>{chamado.data.split("T")[0]}</td>
-              <td>{chamado.analista}</td>
-              <td>{chamado.mesaTarefa}</td>
+              <td>{chamado.status_task}</td>
+              <td>{chamado.data_task.split("T")[0]}</td>
+              <td>{chamado.analista_task}</td>
+              <td>{chamado.mesa_task}</td>
             </tr>
           )) :
           chamadosNaoJustificados.map((chamado: any) => (
-            <tr key={chamado.numero}>
+            <tr key={chamado.numero_chamado}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
               </td>
-              <td>{chamado.numero}</td>
+              <td>{chamado.numero_chamado}</td>
               <td>
               <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
               </td>
-              <td>{chamado.status}</td>
-              <td>{chamado.data.split("T")[0]}</td>
-              <td>{chamado.analista}</td>
-              <td>{chamado.mesaTarefa}</td>
+              <td>{chamado.status_task}</td>
+              <td>{chamado.data_task.split("T")[0]}</td>
+              <td>{chamado.mesa_task}</td>
+              <td>{chamado.analista_task}</td>
             </tr>
           ))}
           </tbody>

@@ -5,6 +5,8 @@ import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
 import { Search } from '../../../../public/icons/search'
 import { ClockIcon } from '../../../../public/icons/clockIcon'
+import { registers } from '@/api/db'
+
 
 const JustifiedRegistersList = () => {
   const {filter, setFilter} = useContext(AppContext)
@@ -13,10 +15,31 @@ const JustifiedRegistersList = () => {
   
 
   useEffect(() => {
+    const listaNaoJustificados = registers
+    
     const getData =async () => {
       const listaJustificados = await getRegisters()
-      setChamadosJustificados(listaJustificados)
-    }
+      const chamadosAtualizados: any[] = []
+      const tempMap = new Map();
+
+      listaJustificados.forEach((res: any) => {
+        const key = res["numero_chamado"];
+        if(!tempMap.has(key)) {
+          tempMap.set(key, res)
+        }
+      });
+
+      listaNaoJustificados.forEach((res: any) => {
+        const key = res["numero_chamado"];
+        if(tempMap.has(key)) {
+          const mergedObj = {...tempMap.get(key), ...res}
+          chamadosAtualizados.push(mergedObj)
+        }
+      })
+
+      setChamadosFiltrados(chamadosAtualizados)
+  }
+  getData()
 
     const getFilter = async () => {
       const result = await chamadosJustificados.filter((res: any) => res.numero.toLowerCase().includes(filter.toLowerCase()))
@@ -28,7 +51,6 @@ const JustifiedRegistersList = () => {
     }
     getFilter()
 
-    getData()
   }, [filter])
 
   return (
@@ -55,31 +77,31 @@ const JustifiedRegistersList = () => {
             </tr>
           </thead>
           <tbody>
-            {chamadosFiltrados.length > 0 ? chamadosFiltrados.map((chamado: any) => (
-            <tr key={chamado.numero}>
+          {chamadosFiltrados.length > 0 ? chamadosFiltrados.map((chamado: any) => (
+            <tr key={chamado.numero_chamado}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
               </td>
-              <td>{chamado.numero}</td>
+              <td>{chamado.numero_chamado}</td>
               <td>
               <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
               </td>
-              <td>{chamado.status}</td>
-              <td>{chamado.data.split("T")[0]}</td>
-              <td>{chamado.analista}</td>
-              <td>{chamado.mesaTarefa}</td>
+              <td>{chamado.status_task}</td>
+              <td>{chamado.data_task.split("T")[0]}</td>
+              <td>{chamado.analista_task}</td>
+              <td>{chamado.mesa_task}</td>
               <td>{chamado.sistema}</td>
               <td>{chamado.motivo}</td>
               <td>{chamado.justificativa}</td>
-              {chamado.analiseSniper ?
-              <td>{chamado.analiseSniper}</td>
+              {chamado.analise_sniper ?
+              <td>{chamado.analise_sniper}</td>
               :
               <td>
                 <ClockIcon />
                 <p>Em análise</p>
               </td>}
-              {chamado.analiseSupervisor ?
-              <td>{chamado.analiseSupervisor}</td>
+              {chamado.analise_supervisor ?
+              <td>{chamado.analise_supervisor}</td>
               :
               <td>
                 <ClockIcon />
@@ -88,38 +110,38 @@ const JustifiedRegistersList = () => {
             </tr>
           )) :
           chamadosJustificados.map((chamado: any) => (
-            <tr key={chamado.numero}>
+            <tr key={chamado.numero_task}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
               </td>
-              <td>{chamado.numero}</td>
+              <td>{chamado.numero_task}</td>
               <td>
               <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
               </td>
-              <td>{chamado.status}</td>
-              <td>{chamado.data.split("T")[0]}</td>
-              <td>{chamado.analista}</td>
-              <td>{chamado.mesaTarefa}</td>
+              <td>{chamado.status_task}</td>
+              <td>{chamado.data_task.split("T")[0]}</td>
+              <td>{chamado.analista_task}</td>
+              <td>{chamado.mesa_task}</td>
               <td>{chamado.sistema}</td>
               <td>{chamado.motivo}</td>
               <td>{chamado.justificativa}</td>
-              {chamado.analiseSniper ?
-              <td>{chamado.analiseSniper}</td>
+              {chamado.analise_sniper ?
+              <td>{chamado.analise_sniper}</td>
               :
               <td>
                 <ClockIcon />
                 <p>Em análise</p>
               </td>}
-              {chamado.analiseSupervisor ?
-              <td>{chamado.analiseSupervisor}</td>
+              {chamado.analise_supervisor ?
+              <td>{chamado.analise_supervisor}</td>
               :
               <td>
                 <ClockIcon />
                 <p>Em análise</p>
               </td>}
             </tr>
-          ))}
-          </tbody>
+              ))}
+              </tbody>
         </DashboardWrapper>
       </DashboardContainer>
     </DashboardMain>

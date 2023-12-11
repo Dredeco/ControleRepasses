@@ -35,49 +35,55 @@ export const DashboardContainer = styled.div`
 
 `
 
-export const DashboardWrapper = styled.ul`
-  min-width: 120rem;
+export const DashboardWrapper = styled.table`
+  min-width: fit-content;
   display: flex;
   flex-direction: column;
   margin-top: 2rem;
+  text-align: center;
 
-  > :nth-child(1){
-    font-weight: bold;
+  > thead {
+    background-color: #f7e89f;
+    tr {
+      font-size: 1.35rem;
+    }
   }
 
-  > :nth-child(2n + 1){
-    background-color: #fff4be;
+  > tbody {
+    > :nth-child(2n + 2){
+      background-color: #f7e89f;
+    }
   }
 
-  li{
+
+  tr{
     display: flex;
-    width: 100%;
+    justify-content: space-between;
     flex-direction: row;
     font-size: 1.2rem;
-    text-align: center;
-    align-items: center;
+    border-bottom: 1px solid #000;
+
+    th, td {
+      background-color: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20rem;
+      max-width: 20rem;
+      padding: .5rem .5rem;
+
+      p {
+        font-weight: bold;
+        padding-left: 5px;
+      }
+    }
 
     :nth-child(2){
     font-weight: bold;
     }
-
-    span, a{
-      padding: .5rem .5rem;
-      flex: 1;
-      min-width: 50px;
+    
+    :nth-child(3){
+    font-weight: bold;
     }
-
-    a {
-      :hover {
-        svg {
-          stroke: red !important;
-        }
-      }
-    }
-
   }
-  li + li {
-    border-top: 1px solid #000;
-  }
-
 `

@@ -12,6 +12,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { registers } from '@/api/db'
 import { IUser } from '@/types/User'
+import { act } from 'react-dom/test-utils'
 
 const motivos = [
     {name: "Usuário solicitou realmente que fosse repassado o chamado"},
@@ -43,6 +44,16 @@ const aplicacao = [
     {name: "Periférico (Teclado / Mouse / Monitor / Diversos)"}
 ]
 
+const atualizar = [
+    {name: "Não"},
+    {name: "Sim"}
+]
+
+const tipoAtualizacao = [
+    {name: "Atualizar"},
+    {name: "Desativar"}
+]
+
 interface IRegisterForm extends FormEvent<HTMLFormElement> {
 }
 
@@ -52,62 +63,75 @@ const RegisterFormSupervisor = (numeroTask: any) => {
     const [sistema, setSistema] = useState(aplicacao[0].name)
     const [motivo, setMotivo] = useState(motivos[0].name)
     const [justificativa, setJustificativa] = useState('')
-    const [analiseSupervisor, setAnaliseSupervisor] = useState('')
-    const [analiseSniper, setAnaliseSniper] = useState('')
-    const [analiseConclusao, setAnaliseConclusao] = useState('')
-    const [corrigirArtigo, setCorrigirArtigo] = useState('')
-    const [listaChamados, setListaChamados] = useState(Array<any> || null)
+    const [analise_supervisor, setAnaliseSupervisor] = useState('')
+    const [analise_sniper, setAnaliseSniper] = useState('')
+    const [analise_conclusao, setAnaliseConclusao] = useState('')
+    const [corrigir_artigo, setCorrigirArtigo] = useState(atualizar[0].name)
     const [data, setData] = useState('')
     const [novoChamado, setNovoChamado] = useState(false)
+    const [nome_artigo, setNomeArtigo] = useState('')
+    const [solicitacao_artigo, setSolicitacaoArtigo] = useState(tipoAtualizacao[0].name)
+    const [validacao_artigo, setValidacaoArtigo] = useState(atualizar[0].name)
+    const [justificativa_artigo, setJustificativaArtigo] = useState('')
 
     const {user, setUser} = useContext(AppContext)
     const router = useRouter()
 
     useEffect(() => {
+        const listaNaoJustificados = registers
         const getIncData = async () => {
-            const buscarChamados = await getRegisters()
-            setListaChamados(buscarChamados)
+            const listaJustificados = await getRegisters()
 
-            const actualIncident = await buscarChamados.filter((res: any) => res.task == numeroTask.numeroTask)
-            if(actualIncident.length == 0) {
-                const buscarChamados2 = await registers.filter((res: any) => res.task == numeroTask.numeroTask)
-                setChamado(buscarChamados2[0])
-                setData(buscarChamados2[0].data)
-                setNovoChamado(true)
-            } else {
-                setData(buscarChamados[0].data.split("T")[0])
-                setChamado(actualIncident[0])
-                setJustificativa(actualIncident[0].justificativa)
-                setClassificacao(actualIncident[0].classificacao)
-                setMotivo(actualIncident[0].motivo)
-                setSistema(actualIncident[0].sistema)
-            }
+            const filteredArray: any = [];
+
+            // Filtrar objetos do primeiro array com o valor do atributo informado
+            const filteredObjectsArray1 = listaJustificados.filter((obj: any) => obj["task"] === numeroTask.numeroTask);
+            
+            // Filtrar objetos do segundo array com o valor do atributo informado
+            const filteredObjectsArray2 = listaNaoJustificados.filter((obj: any) => obj["task"] === numeroTask.numeroTask);
+
+            // Mesclar os arrays filtrados e remover atributos duplicados
+            const mergedArray = [...filteredObjectsArray1, ...filteredObjectsArray2];
+            mergedArray.forEach(obj => {
+                const uniqueObj: any = {};
+                const uniqueValues = new Set();
+
+                Object.keys(obj).forEach(key => {
+                if (!uniqueValues.has(obj[key])) {
+                    uniqueObj[key] = obj[key];
+                    uniqueValues.add(obj[key]);
+                }
+                });
+
+                filteredArray.push(uniqueObj);
+            });
+
+            console.log(filteredArray)
+            setChamado(filteredArray)
         }
-
         getIncData()
     }, [])
 
+
     const handleSubmit = async (e: IRegisterForm) => {
         e.preventDefault()
-        const register = {
-            numero: chamado.numero,
-            task: chamado.task,
-            sctask: chamado.sctask,
-            data: chamado.data,
-            mesaTarefa: chamado.mesaTarefa,
-            mesaChamado: chamado.mesaChamado,
-            status: chamado.status,
-            analista: user.nome,
-            equipe: user.equipe,
-            supervisor: user.supervisor,
-            classificacao: classificacao,
-            sistema: sistema,
-            motivo: motivo,
-            corrigirArtigo: corrigirArtigo,
-            justificativa: justificativa,
-            analiseSupervisor: analiseSupervisor,
-            analiseSniper: analiseSniper,
-            analiseConclusao: analiseConclusao
+        const register: IRegister = {
+        numero_chamado: chamado.numero_chamado,
+        task: chamado.task,
+        sctask: chamado.sctask,
+        analista_task: chamado.analista_task,
+        equipe: user.equipe,
+        classificacao: classificacao,
+        sistema: sistema,
+        motivo: motivo,
+        justificativa: justificativa,
+        analise_conclusao: analise_conclusao,
+        analise_supervisor: analise_supervisor,
+        analise_sniper: analise_sniper,
+        nome_artigo: nome_artigo,
+        solicitacao_artigo: solicitacao_artigo,
+        validacao_artigo: validacao_artigo,
+        justificativa_artigo: justificativa_artigo
         }
 
         if(novoChamado) {
@@ -119,8 +143,6 @@ const RegisterFormSupervisor = (numeroTask: any) => {
         }
 
         router.push("/Dashboard")
-        //await updateRegister(register)
-       // window.location.href = 'https://dredeco.github.io/ControleRepasses/Dashboard'
     }
 
   return (
@@ -128,13 +150,13 @@ const RegisterFormSupervisor = (numeroTask: any) => {
     <MainRegisterForm>
         <RegisterFormController onSubmit={(e) => handleSubmit(e)}>
             <RegisterFormHeader>
-                <h1>Dados do chamado: {chamado.numero}</h1>
+                <h1>Dados do chamado: {chamado.numero_chamado}</h1>
             </RegisterFormHeader>
             <RegisterFormBody>
                 <li>
                     <Input 
                         label='Nº do Chamado'
-                        value={chamado.numero}
+                        value={chamado.numero_chamado}
                         disabled
                     />
                 </li>
@@ -218,7 +240,7 @@ const RegisterFormSupervisor = (numeroTask: any) => {
                 <li>
                     <Textarea 
                     label='Justificativa do repasse:' 
-                    value={justificativa}
+                    defaultValue={chamado.justificativa}
                     placeholder='Informe porque o chamado foi repassado.'
                     onChange={(e) => setJustificativa(e.target.value)}
                     required
@@ -229,7 +251,7 @@ const RegisterFormSupervisor = (numeroTask: any) => {
                 <li>
                     <Textarea 
                     label='Análise da Supervisão:' 
-                    defaultValue={chamado.supervisorObservations}
+                    defaultValue={chamado.analise_supervisor}
                     onChange={(e) => setAnaliseSupervisor(e.target.value)}
                     />
                 </li>
@@ -239,30 +261,71 @@ const RegisterFormSupervisor = (numeroTask: any) => {
                 <li>
                     <Textarea 
                     label='Análise do Sniper:' 
-                    defaultValue={chamado.supervisorObservations}
-                    onChange={(e) => setAnaliseSupervisor(e.target.value)}
+                    defaultValue={chamado.analise_sniper}
+                    onChange={(e) => setAnaliseSniper(e.target.value)}
                     />
                 </li>
-                :
+                : // ANÁLISE DE CONCLUSÃO
                 <></>}
-                {chamado.status == "Resolvido" || chamado.status == "Encerrado" ? 
+                {chamado.status_chamado == "Resolvido" || chamado.status_chamado == "Encerrado" ? 
                 <>
                 <li>
                     <Textarea 
                     label='Análise de Conclusão:' 
                     placeholder='Informe o que foi feito para resolver o problema e se poderia ser resolvido no N1.'
-                    defaultValue={chamado.supervisorObservations}
-                    onChange={(e) => setAnaliseSupervisor(e.target.value)}
+                    defaultValue={analise_conclusao}
+                    onChange={(e) => setAnaliseConclusao(e.target.value)}
                     />
                 </li>
                 <li>
-                    <Input 
+                    <Select 
                         name='corrigir artigo' 
-                        label='Artigo a corrigir?' 
-                        value={chamado.corrigirArtigo}
+                        label='Artigo a corrigir?'
+                        options={atualizar} 
+                        value={corrigir_artigo}
                         onChange={(e) => setCorrigirArtigo(e.target.value)}
                     />
                 </li>
+                {corrigir_artigo == "Não" ? 
+                <></>
+                : // ATUALIZAÇÃO DO ARTIGO
+                <>
+                <h2>Atualização do Artigo:</h2>
+                <li>
+                    <Input 
+                        name='nome artigo' 
+                        label='Nome do Artigo' 
+                        onChange={(e) => setNomeArtigo(e.target.value)}
+                    />
+                </li>
+                <li>
+                    <Select 
+                        name='tipo atualizacao' 
+                        label='Tipo da atualização'
+                        options={tipoAtualizacao} 
+                        value={solicitacao_artigo}
+                        onChange={(e) => setSolicitacaoArtigo(e.target.value)}
+                    />
+                </li>
+                <li>
+                    <Select 
+                        name='valudacao do atigo' 
+                        label='Houve validação pelo Responsável Técnico'
+                        options={atualizar} 
+                        value={validacao_artigo}
+                        onChange={(e) => setValidacaoArtigo(e.target.value)}
+                    />
+                </li>
+                <li>
+                    <Textarea 
+                    label='Justificativa da atualização:' 
+                    placeholder=''
+                    value={justificativa_artigo}
+                    onChange={(e) => setJustificativaArtigo(e.target.value)}
+                    />
+                </li>
+                </>
+                }
                 </>
                 :
                 <></>}
