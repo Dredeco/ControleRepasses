@@ -68,7 +68,7 @@ const RegisterFormSupervisor = (numeroTask: any) => {
     const [analise_conclusao, setAnaliseConclusao] = useState('')
     const [corrigir_artigo, setCorrigirArtigo] = useState(atualizar[0].name)
     const [data, setData] = useState('')
-    const [novoChamado, setNovoChamado] = useState(false)
+    const [novoChamado, setNovoChamado] = useState(Boolean)
     const [nome_artigo, setNomeArtigo] = useState('')
     const [solicitacao_artigo, setSolicitacaoArtigo] = useState(tipoAtualizacao[0].name)
     const [validacao_artigo, setValidacaoArtigo] = useState(atualizar[0].name)
@@ -82,36 +82,27 @@ const RegisterFormSupervisor = (numeroTask: any) => {
         const getIncData = async () => {
             const listaJustificados = await getRegisters()
 
-            const filteredArray: any = [];
+            const objetoArray1 = listaNaoJustificados.find((objeto: any) => objeto["task"] == numeroTask.numeroTask);
+            const objetoArray2 = listaJustificados.find((objeto: any) => objeto["task"] == numeroTask.numeroTask);
+            if(objetoArray2 == null) {
+                setNovoChamado(true)
+            } else {
+                setNovoChamado(false)
+            }
 
-            // Filtrar objetos do primeiro array com o valor do atributo informado
-            const filteredObjectsArray1 = listaJustificados.filter((obj: any) => obj["task"] === numeroTask.numeroTask);
-            
-            // Filtrar objetos do segundo array com o valor do atributo informado
-            const filteredObjectsArray2 = listaNaoJustificados.filter((obj: any) => obj["task"] === numeroTask.numeroTask);
+            // Combina os atributos dos dois objetos, evitando duplicatas
+            const atributosCombinados = { ...objetoArray1, ...objetoArray2 };
 
-            // Mesclar os arrays filtrados e remover atributos duplicados
-            const mergedArray = [...filteredObjectsArray1, ...filteredObjectsArray2];
-            mergedArray.forEach(obj => {
-                const uniqueObj: any = {};
-                const uniqueValues = new Set();
-
-                Object.keys(obj).forEach(key => {
-                if (!uniqueValues.has(obj[key])) {
-                    uniqueObj[key] = obj[key];
-                    uniqueValues.add(obj[key]);
-                }
-                });
-
-                filteredArray.push(uniqueObj);
+            // Remover atributos duplicados
+            const atributosUnicos: any = {};
+            Object.keys(atributosCombinados).forEach(key => {
+                atributosUnicos[key] = atributosCombinados[key];
             });
 
-            console.log(filteredArray)
-            setChamado(filteredArray)
+            setChamado(atributosUnicos);        
         }
         getIncData()
     }, [])
-
 
     const handleSubmit = async (e: IRegisterForm) => {
         e.preventDefault()
@@ -133,8 +124,8 @@ const RegisterFormSupervisor = (numeroTask: any) => {
         validacao_artigo: validacao_artigo,
         justificativa_artigo: justificativa_artigo
         }
-
-        if(novoChamado) {
+        console.log(novoChamado)
+        if(novoChamado == true) {
             createRegister(register)
             alert("Chamado registrado!")
         } else {
@@ -179,7 +170,7 @@ const RegisterFormSupervisor = (numeroTask: any) => {
                 <li>
                     <Input 
                         label='Data' 
-                        value={data}
+                        value={chamado.data_task}
                         type='date' 
                         disabled
                     />

@@ -16,16 +16,16 @@ const RegisterList = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const listaChamadosJustificados = await getRegistersNumber()
+      const listaChamadosJustificados: [] = await getRegistersNumber()
       const listaChamadosNaoJustificados = registers
-      const chamadosDoAnalista = listaChamadosNaoJustificados.filter((chamado: any) => chamado.analista_task == user.nome) 
+      const chamadosDoAnalista = listaChamadosNaoJustificados.filter((chamado: any) => chamado.analista_task == user.nome)
       const todosChamados = chamadosDoAnalista.filter((chamadosA: any) => 
         !listaChamadosJustificados.some((chamadosB: any) => 
           chamadosA.numero_chamado === chamadosB.numero_chamado
         )
       )
       setChamadosNaoJustificados(todosChamados)
-    }
+      }
     getData()
 
     setTimeout(() => {
