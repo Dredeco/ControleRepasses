@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
-import { getRegisters, getUserRegisters } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
 import { Search } from '../../../../public/icons/search'
 import { ClockIcon } from '../../../../public/icons/clockIcon'
 import { registers } from '@/api/db'
+import { getTasks } from '@/api/TarefaService'
 
 
 const JustifiedRegistersList = () => {
-  const {filter, setFilter} = useContext(AppContext)
+  const {filter} = useContext(AppContext)
   const [chamadosFiltrados, setChamadosFiltrados] = useState(Array<Object>)
   const [chamadosJustificados, setChamadosJustificados] = useState(Array<Object>)
   
@@ -18,33 +18,33 @@ const JustifiedRegistersList = () => {
     const listaNaoJustificados = registers
     
     const getData =async () => {
-      const listaJustificados = await getRegisters()
+      const listaJustificados = await getTasks()
       const chamadosAtualizados: any[] = []
       const tempMap = new Map();
 
       listaJustificados.forEach((res: any) => {
-        const key = res["numero_chamado"];
+        const key = res["tarefa"];
         if(!tempMap.has(key)) {
           tempMap.set(key, res)
         }
       });
 
       listaNaoJustificados.forEach((res: any) => {
-        const key = res["numero_chamado"];
+        const key = res["tarefa"];
         if(tempMap.has(key)) {
           const mergedObj = {...tempMap.get(key), ...res}
           chamadosAtualizados.push(mergedObj)
         }
       })
 
-      setChamadosFiltrados(chamadosAtualizados)
+      setChamadosJustificados(chamadosAtualizados)
   }
   getData()
 
     const getFilter = async () => {
-      const result = await chamadosJustificados.filter((res: any) => res.numero.toLowerCase().includes(filter.toLowerCase()))
+      const result = await chamadosJustificados.filter((res: any) => res.tarefa.toLowerCase().includes(filter.toLowerCase()))
       if(!result.length) {
-        const result2 = await chamadosJustificados.filter((res: any) => res.analista.toLowerCase().includes(filter.toLowerCase()))
+        const result2 = await chamadosJustificados.filter((res: any) => res.analista_task.toLowerCase().includes(filter.toLowerCase()))
         setChamadosFiltrados(result2)
       } else 
       setChamadosFiltrados(result)
@@ -57,7 +57,7 @@ const JustifiedRegistersList = () => {
     <DashboardMain>
       <DashboardContainer>
         <div>
-          <h1>REPASSES JUSTIFICADOS</h1>
+          <h1>TAREFAS JUSTIFICADAS</h1>
         </div>
         <DashboardWrapper>
           <thead>
@@ -72,19 +72,17 @@ const JustifiedRegistersList = () => {
               <th>Sistema</th>
               <th>Motivo</th>
               <th>Justificativa</th>
-              <th>Análise Sniper</th>
-              <th>Análise Supervisor</th>
             </tr>
           </thead>
           <tbody>
           {chamadosFiltrados.length > 0 ? chamadosFiltrados.map((chamado: any) => (
-            <tr key={chamado.numero_chamado}>
+            <tr key={chamado.tarefa}>
               <td>
-                <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
+                <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero_chamado}`}><Search /></Link>
               </td>
               <td>{chamado.numero_chamado}</td>
               <td>
-              <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
+              <Link id={chamado.tarefa} href={`./Dashboard/Task/${chamado.tarefa}`}>{chamado.tarefa}</Link>
               </td>
               <td>{chamado.status_task}</td>
               <td>{chamado.data_task.split("T")[0]}</td>
@@ -93,30 +91,16 @@ const JustifiedRegistersList = () => {
               <td>{chamado.sistema}</td>
               <td>{chamado.motivo}</td>
               <td>{chamado.justificativa}</td>
-              {chamado.analise_sniper ?
-              <td>{chamado.analise_sniper}</td>
-              :
-              <td>
-                <ClockIcon />
-                <p>Em análise</p>
-              </td>}
-              {chamado.analise_supervisor ?
-              <td>{chamado.analise_supervisor}</td>
-              :
-              <td>
-                <ClockIcon />
-                <p>Em análise</p>
-              </td>}
             </tr>
           )) :
           chamadosJustificados.map((chamado: any) => (
-            <tr key={chamado.numero_task}>
+            <tr key={chamado.tarefa}>
               <td>
-                <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
+                <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero_chamado}`}><Search /></Link>
               </td>
-              <td>{chamado.numero_task}</td>
+              <td>{chamado.numero_chamado}</td>
               <td>
-              <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
+              <Link id={chamado.tarefa} href={`./Dashboard/Task/${chamado.tarefa}`}>{chamado.tarefa}</Link>
               </td>
               <td>{chamado.status_task}</td>
               <td>{chamado.data_task.split("T")[0]}</td>
@@ -125,20 +109,6 @@ const JustifiedRegistersList = () => {
               <td>{chamado.sistema}</td>
               <td>{chamado.motivo}</td>
               <td>{chamado.justificativa}</td>
-              {chamado.analise_sniper ?
-              <td>{chamado.analise_sniper}</td>
-              :
-              <td>
-                <ClockIcon />
-                <p>Em análise</p>
-              </td>}
-              {chamado.analise_supervisor ?
-              <td>{chamado.analise_supervisor}</td>
-              :
-              <td>
-                <ClockIcon />
-                <p>Em análise</p>
-              </td>}
             </tr>
               ))}
               </tbody>

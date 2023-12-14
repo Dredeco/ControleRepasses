@@ -1,20 +1,18 @@
-interface IRegister {
+import { ITarefa } from "./Tarefa";
+
+export interface IRegister {
+    id?: string,
     numero_chamado: string,
-    task: string,
-    sctask: string,
+    tarefas: ITarefa[],
     data_chamado?: string,
-    data_task?: string,
     mesa_chamado?: string,
-    mesa_task?: string,
     status_chamado?: string,
-    status_task?: string,
     analista_chamado?: string,
-    analista_task: string,
-    equipe: string,
+    equipe_chamado: string,
     classificacao: string,
     sistema: string,
     motivo: string,
-    justificativa: string,
+    justificativa_chamado: string,
     analise_supervisor?: string,
     analise_sniper?: string,
     analise_conclusao?: string,

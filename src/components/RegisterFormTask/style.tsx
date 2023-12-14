@@ -2,8 +2,8 @@ import styled from 'styled-components'
 
 export const MainRegisterForm = styled.section`
     width: 100%;
-    padding: 2% 0;
     height: fit-content;
+    padding: 2% 0;
     min-height: calc(100vh - 14rem);
     background-color: #e2e2e2;
     display: flex;

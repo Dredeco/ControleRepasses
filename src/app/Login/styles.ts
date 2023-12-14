@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Bg from "@/assets/bg.png"
 
 export const LoginMain = styled.main`
     width: 100%;
@@ -7,6 +8,7 @@ export const LoginMain = styled.main`
     display: flex;
     justify-content: center;
     align-items: center;
+    background-size: contain;
     background: rgb(119,114,180);
     background: radial-gradient(circle, rgba(119,114,180,1) 0%, rgba(148,187,233,1) 92%); 
 `

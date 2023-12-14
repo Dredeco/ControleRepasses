@@ -1,83 +1,113 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
-import { getRegisters, getUserRegisters } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
 import { Search } from '../../../../public/icons/search'
-import { Xicon } from '../../../../public/icons/xIcon'
-import { CheckIcon } from '../../../../public/icons/checkIcon'
-import { registers, registersJustified } from '@/api/db'
+import { registers } from '@/api/db'
 import { Input } from '../../Input'
+import { getRegisters, getRegistersNumber } from '@/api/RegisterService'
 
 const JustifiedClosedRegistersList = () => {
-  const {filter} = useContext(AppContext)
-  const [chamadosJustificados, setChamadosJustificados] = useState(Array<Object>)
+  const {user, setUser} = useContext(AppContext)
+  const [chamadosJustificados, setChamadosJustificados] = useState(Array)
   
 
   useEffect(() => {
     const listaNaoJustificados = registers
-    
-    const getData =async () => {
-      const listaJustificados = await getRegisters()
-      const chamadosAtualizados: any[] = []
-      const tempMap = new Map();
+    const getData = async () => {
+        const listaJustificados = await getRegisters()
 
-      listaJustificados.forEach((res: any) => {
-        const key = res["numero_chamado"];
-        if(!tempMap.has(key)) {
-          tempMap.set(key, res)
-        }
-      });
+        const mergedArray: any = [];
 
-      listaNaoJustificados.forEach((res: any) => {
-        const key = res["numero_chamado"];
-        if(tempMap.has(key)) {
-          const mergedObj = {...tempMap.get(key), ...res}
-          chamadosAtualizados.push(mergedObj)
-        }
-      })
-
-      setChamadosJustificados(chamadosAtualizados)
-  }
-  getData()
-
-    const getFilter = async () => {
-      const result = await chamadosJustificados.filter((res: any) => res.numero.toLowerCase().includes(filter.toLowerCase()))
-      setChamadosJustificados(result)
-    }
-
-    getFilter()
-  }, [filter])
+        // Criar um mapa temporário para armazenar objetos de ambos os arrays com base no atributo principal
+        const tempMap = new Map();
+      
+        // Adicionar objetos do array1 ao mapa
+        listaJustificados.forEach((obj: any) => {
+          const key = obj["numero_chamado"];
+          if (!tempMap.has(key)) {
+            tempMap.set(key, { ...obj });
+          } else {
+            // Combinar atributos do objeto duplicado
+            tempMap.set(key, { ...tempMap.get(key), ...obj });
+          }
+        });
+      
+        // Adicionar objetos do array2 ao mapa
+        listaNaoJustificados.forEach((obj: any) => {
+          const key = obj["numero_chamado"];
+          if (!tempMap.has(key)) {
+            tempMap.set(key, { ...obj });
+          } else {
+            // Combinar atributos do objeto duplicado
+            tempMap.set(key, { ...tempMap.get(key), ...obj });
+          }
+        });
+      
+        // Converter o mapa de volta para um array e filtrar objetos sem "analise_conclusao"
+        tempMap.forEach(obj => {
+          // Filtrar objetos com o atributo "analise_conclusao" preenchido
+          if (obj.hasOwnProperty('analise_conclusao') && obj['analise_conclusao'] !== '' && obj['analise_conclusao'] !== null) {
+            mergedArray.push(obj);
+          }
+        });
+      
+        setChamadosJustificados(mergedArray);
+      }
+    getData()
+  }, [])
 
   return (
     <DashboardMain>
       <DashboardContainer>
         <div>
-          <h1>REPASSES ENCERRADOS ANALISADOS</h1>
+          <h1>CHAMADOS ANALISADOS</h1>
         </div>
         <DashboardWrapper>
-            <li key='Header'>
-              <span>Buscar no ServiceNow</span>
-              <span>Nº do chamado</span>
-              <span>Nº da TASK</span>
-              <span>Data</span>
-              <span>Nome do Analista</span>
-              <span>Justificativa</span>
-              <span>Análise Sniper</span>
-              <span>Análise Supervisor</span>
-            </li>
-          {chamadosJustificados.length > 0 ? chamadosJustificados.map((register: any) => (
-            <li key={register.numero_chamado}>
-              <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${register.numero_chamado}`}><Search /></Link>
-              <Link id={register.numero_chamado} href={`./Dashboard/${register.task}`}>{register.task}</Link>
-              <span>{register.task}</span>
-              <span>{register.data_task.split("T")[0]}</span>
-              <span>{register.analista_task}</span>
-              <span>{register.justificativa}</span>
-              <span>{register.analise_sniper}</span>
-              <span>{register.analise_supervisor}</span>
-            </li>
-          )) : <></>}
+        <thead>
+            <tr key='Header'>
+              <th>Buscar no ServiceNow</th>
+              <th>Nº do chamado</th>
+              <th>Status</th>
+              <th>Data</th>
+              <th>Mesa da Tarefa</th>
+              <th>Nome do Analista</th>
+              <th>Análise da Conclusão</th>
+            </tr>
+          </thead>
+          <tbody>
+            {chamadosJustificados.length > 0 ? chamadosJustificados.map((chamado: any) => (
+            <tr key={chamado.task}>
+              <td>
+                <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero_chamado}`}><Search /></Link>
+              </td>
+              <td>
+              <Link id={chamado.numero_chamado} href={`./Dashboard/Chamado/${chamado.numero_chamado}`}>{chamado.numero_chamado}</Link>
+              </td>
+              <td>{chamado.status_chamado}</td>
+              <td>{chamado.data_chamado}</td>
+              <td>{chamado.mesa_chamado}</td>
+              <td>{chamado.analista_chamado}</td>
+              <td>{chamado.analise_conclusao}</td>
+            </tr>
+          )) :
+          chamadosJustificados.map((chamado: any) => (
+            <tr key={chamado.task}>
+              <td>
+                <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero_chamado}`}><Search /></Link>
+              </td>
+              <td>
+              <Link id={chamado.numero_chamado} href={`./Dashboard/Chamado/${chamado.numero_chamado}`}>{chamado.numero_chamado}</Link>
+              </td>
+              <td>{chamado.task}</td>
+              <td>{chamado.status_chamado}</td>
+              <td>{chamado.data_task}</td>
+              <td>{chamado.mesa_task}</td>
+              <td>{chamado.analista_task}</td>
+              <td>{chamado.analise_conclusao}</td>
+            </tr>
+          ))}
+          </tbody>
         </DashboardWrapper>
       </DashboardContainer>
     </DashboardMain>

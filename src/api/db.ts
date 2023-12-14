@@ -1,8 +1,7 @@
 export const registers = [
     {
         numero_chamado: "INC001",
-        task: "TASK001",
-        sctask: "",
+        tarefa: "TASK001",
         analista_chamado: "Andre Luis Fernandes de Souza",
         analista_task: "Andre Luis Fernandes de Souza",
         status_chamado: "Resolvido",
@@ -13,9 +12,8 @@ export const registers = [
         mesa_chamado: "N1-SD_PADRAO",
     },
     {
-        numero_chamado: "INC002",
-        task: "TASK002",
-        sctask: "",
+        numero_chamado: "INC001",
+        tarefa: "TASK002",
         analista_chamado: "Andre Luis Fernandes de Souza",
         analista_task: "Andre Luis Fernandes de Souza",
         status_chamado: "Resolvido",
@@ -27,8 +25,7 @@ export const registers = [
     },
     {
         numero_chamado: "INC003",
-        task: "TASK003",
-        sctask: "",
+        tarefa: "TASK003",
         analista_chamado: "Andre Luis Fernandes de Souza",
         analista_task: "Andre Luis Fernandes de Souza",
         status_chamado: "Resolvido",
@@ -40,8 +37,7 @@ export const registers = [
     },
     {
         numero_chamado: "INC004",
-        task: "TASK004",
-        sctask: "",
+        tarefa: "TASK004",
         analista_chamado: "Andre Luis Fernandes de Souza",
         analista_task: "Andre Luis Fernandes de Souza",
         status_chamado: "Resolvido",
@@ -53,8 +49,7 @@ export const registers = [
     },
     {
         numero_chamado: "INC005",
-        task: "TASK005",
-        sctask: "",
+        tarefa: "TASK005",
         analista_chamado: "Andre Luis Fernandes de Souza",
         analista_task: "Andre Luis Fernandes de Souza",
         status_chamado: "Resolvido",
@@ -66,8 +61,7 @@ export const registers = [
     },
     {
         numero_chamado: "INC006",
-        task: "TASK006",
-        sctask: "",
+        tarefa: "TASK006",
         analista_chamado: "Andre Luis Fernandes de Souza",
         analista_task: "Andre Luis Fernandes de Souza",
         status_chamado: "Resolvido",
@@ -79,8 +73,7 @@ export const registers = [
     },
     {
         numero_chamado: "INC007",
-        task: "TASK007",
-        sctask: "",
+        tarefa: "TASK007",
         analista_chamado: "Andre Luis Fernandes de Souza",
         analista_task: "Andre Luis Fernandes de Souza",
         status_chamado: "Resolvido",

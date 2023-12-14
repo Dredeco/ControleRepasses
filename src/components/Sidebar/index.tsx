@@ -41,12 +41,12 @@ const Sidebar = (props: SidebarProps) => {
         <ul>
             <li onClick={handleHome}>
               <strong>»</strong><span id='home'>
-                  Início
+                  Tarefas
                 </span>
             </li>
             <li onClick={handleJustified}>
             <strong>»</strong><span id="conclusion">
-                Análise de conclusão
+                Chamados encerrados
               </span>
             </li>
             <li onClick={handleJustified}>

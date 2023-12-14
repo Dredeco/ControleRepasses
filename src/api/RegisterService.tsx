@@ -1,23 +1,24 @@
+import { IRegister } from "@/types/Registers";
+
 const axios = require('axios');
 
-export const createRegister = async (register: IRegister) => {
+export const createRegister = async (chamado: IRegister) => {
     const response = await axios.post('http://localhost:5000/chamados', {
-        numero_chamado: register.numero_chamado,
-        task: register.task,
-        sctask: register.sctask,
-        analista_task: register.analista_task,
-        equipe: register.equipe,
-        classificacao: register.classificacao,
-        sistema: register.sistema,
-        motivo: register.motivo,
-        justificativa: register.justificativa,
-        analise_conclusao: register.analise_conclusao,
-        analise_supervisor: register.analise_supervisor,
-        analise_sniper: register.analise_sniper,
-        nome_artigo: register.nome_artigo,
-        solicitacao_artigo: register.solicitacao_artigo,
-        validacao_artigo: register.validacao_artigo,
-        justificativa_artigo: register.justificativa_artigo
+        numero_chamado: chamado.numero_chamado,
+        tarefas: chamado.tarefas,
+        analista_chamado: chamado.analista_chamado,
+        equipe_chamado: chamado.equipe_chamado,
+        classificacao: chamado.classificacao,
+        sistema: chamado.sistema,
+        motivo: chamado.motivo,
+        justificativa_chamado: chamado.justificativa_chamado,
+        analise_supervisor: chamado.analise_supervisor,
+        analise_sniper: chamado.analise_sniper,
+        analise_conclusao: chamado.analise_conclusao,
+        nome_artigo: chamado.nome_artigo,
+        solicitacao_artigo: chamado.solicitacao_artigo,
+        validacao_artigo: chamado.validacao_artigo,
+        justificativa_artigo: chamado.justificativa_artigo
     })
     
     console.log(response)
@@ -33,6 +34,13 @@ export const getRegisters = async() => {
 
 export const getRegistersNumber = async() => {
     const response = await axios.get('http://localhost:5000/chamados/numero')
+    .then((res: any) => res.data.registers)
+
+    return response
+}
+
+export const getTaskNumbers = async() => {
+    const response = await axios.get('http://localhost:5000/chamados/task')
     .then((res: any) => res.data.registers)
 
     return response
@@ -54,24 +62,24 @@ export const getRegisterByNumber = async(numero: string) => {
     return response
 }
 
-export const updateRegister = async (register: IRegister) => {
-    const response = await axios.patch(`http://localhost:5000/chamados/${register.numero_chamado}`, {
-        numero_chamado: register.numero_chamado,
-        task: register.task,
-        sctask: register.sctask,
-        analista_task: register.analista_task,
-        equipe: register.equipe,
-        classificacao: register.classificacao,
-        sistema: register.sistema,
-        motivo: register.motivo,
-        justificativa: register.justificativa,
-        analise_supervisor: register.analise_supervisor,
-        analise_sniper: register.analise_sniper,
-        analise_conclusao: register.analise_conclusao,
-        nome_artigo: register.nome_artigo,
-        solicitacao_artigo: register.solicitacao_artigo,
-        validacao_artigo: register.validacao_artigo,
-        justificativa_artigo: register.justificativa_artigo
+export const updateRegister = async (chamado: IRegister) => {
+    const response = await axios.patch(`http://localhost:5000/chamados/${chamado.numero_chamado}`, {
+        id: chamado.id,
+        numero_chamado: chamado.numero_chamado,
+        tarefas: chamado.tarefas,
+        analista_chamado: chamado.analista_chamado,
+        equipe_chamado: chamado.equipe_chamado,
+        classificacao: chamado.classificacao,
+        sistema: chamado.sistema,
+        motivo: chamado.motivo,
+        justificativa_chamado: chamado.justificativa_chamado,
+        analise_supervisor: chamado.analise_supervisor,
+        analise_sniper: chamado.analise_sniper,
+        analise_conclusao: chamado.analise_conclusao,
+        nome_artigo: chamado.nome_artigo,
+        solicitacao_artigo: chamado.solicitacao_artigo,
+        validacao_artigo: chamado.validacao_artigo,
+        justificativa_artigo: chamado.justificativa_artigo
     }).catch((error: any) => console.log(error))
     
     return alert("Registro alterado com sucesso.")

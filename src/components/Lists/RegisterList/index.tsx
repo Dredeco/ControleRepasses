@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
-import { getRegistersNumber } from '@/api/RegisterService'
 import Link from 'next/link'
 import { Search } from '../../../../public/icons/search'
 import { registers } from '@/api/db'
 import { Input } from '../../Input'
 import { AppContext } from '@/context/AppContext'
-import { IUser } from '@/types/User'
+import { getTasksNumbers } from '@/api/TarefaService'
 
 const RegisterList = () => {
   const {filter, setFilter} = useContext(AppContext)
@@ -16,12 +15,12 @@ const RegisterList = () => {
 
   useEffect(() => {
     const getData = async () => {
-      const listaChamadosJustificados: [] = await getRegistersNumber()
+      const listaChamadosJustificados: [] = await getTasksNumbers()
       const listaChamadosNaoJustificados = registers
       const chamadosDoAnalista = listaChamadosNaoJustificados.filter((chamado: any) => chamado.analista_task == user.nome)
       const todosChamados = chamadosDoAnalista.filter((chamadosA: any) => 
         !listaChamadosJustificados.some((chamadosB: any) => 
-          chamadosA.numero_chamado === chamadosB.numero_chamado
+          chamadosA.tarefa === chamadosB.tarefa
         )
       )
       setChamadosNaoJustificados(todosChamados)
@@ -30,7 +29,7 @@ const RegisterList = () => {
 
     setTimeout(() => {
       const getFilter = async () => {
-        const result = chamadosNaoJustificados.filter((res: any) => res.numero_chamado.toLowerCase().includes(filter.toLowerCase()))
+        const result = chamadosNaoJustificados.filter((res: any) => res.task.toLowerCase().includes(filter.toLowerCase()))
         if(!result.length) {
           const result2 = chamadosNaoJustificados.filter((res: any) => res.analista_task.toLowerCase().includes(filter.toLowerCase()))
           setChamadosFiltrados(result2)
@@ -46,7 +45,7 @@ const RegisterList = () => {
     <DashboardMain>
       <DashboardContainer>
         <div>
-          <h1>REPASSES NÃO JUSTIFICADOS</h1>
+          <h1>TAREFAS NÃO JUSTIFICADAS</h1>
           <Input onChange={(e) => setFilter(e.target.value)} placeholder='Filtrar por Nome / Chamado' />
         </div>
         <DashboardWrapper>
@@ -63,13 +62,13 @@ const RegisterList = () => {
           </thead>
           <tbody>
             {chamadosFiltrados.length > 0 ? chamadosFiltrados.map((chamado: any) => (
-            <tr key={chamado.numero_chamado}>
+            <tr key={chamado.tarefa}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
               </td>
               <td>{chamado.numero_chamado}</td>
               <td>
-              <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
+              <Link id={chamado.tarefa} href={`./Dashboard/Task/${chamado.tarefa}`}>{chamado.tarefa}</Link>
               </td>
               <td>{chamado.status_task}</td>
               <td>{chamado.data_task.split("T")[0]}</td>
@@ -78,13 +77,13 @@ const RegisterList = () => {
             </tr>
           )) :
           chamadosNaoJustificados.map((chamado: any) => (
-            <tr key={chamado.numero_chamado}>
+            <tr key={chamado.tarefa}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero}`}><Search /></Link>
               </td>
               <td>{chamado.numero_chamado}</td>
               <td>
-              <Link id={chamado.task} href={`./Dashboard/${chamado.task}`}>{chamado.task}</Link>
+              <Link id={chamado.tarefa} href={`./Dashboard/Task/${chamado.tarefa}`}>{chamado.tarefa}</Link>
               </td>
               <td>{chamado.status_task}</td>
               <td>{chamado.data_task.split("T")[0]}</td>
