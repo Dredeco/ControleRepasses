@@ -8,27 +8,38 @@ interface SidebarProps extends AllHTMLAttributes<HTMLLIElement> {
 }
 
 const Sidebar = (props: SidebarProps) => {
-  const {page, setPage, user} = useContext(AppContext)
+  const {page, setPage} = useContext(AppContext)
   const router = useRouter()
 
   useEffect(() => {
     if(page == "home"){
       document.getElementById("home")?.classList.add("selected")
-    } else {
+    } else if(page == "register") {
       document.getElementById("conclusion")?.classList.add("selected")
+    } else {
+      document.getElementById("home")?.classList.add("selected")
     }
   }, [])
   
   const handleHome = () => {
     setPage("home")
     document.getElementById("conclusion")?.classList.remove("selected")
+    document.getElementById("info")?.classList.remove("selected")
     document.getElementById("home")?.classList.add("selected")
   }
 
   const handleJustified = () => {
     setPage("register")
     document.getElementById("home")?.classList.remove("selected")
+    document.getElementById("info")?.classList.remove("selected")
     document.getElementById("conclusion")?.classList.add("selected")
+  }
+
+  const handleInfo = () => {
+    setPage("info")
+    document.getElementById("home")?.classList.remove("selected")
+    document.getElementById("conclusion")?.classList.remove("selected")
+    document.getElementById("info")?.classList.add("selected")
   }
 
   const logoff = async () => {
@@ -46,11 +57,11 @@ const Sidebar = (props: SidebarProps) => {
             </li>
             <li onClick={handleJustified}>
             <strong>»</strong><span id="conclusion">
-                Chamados encerrados
+                Chamados Encerrados
               </span>
             </li>
-            <li onClick={handleJustified}>
-            <strong>»</strong><span id="conclusion">
+            <li onClick={handleInfo}>
+            <strong>»</strong><span id="info">
                 Dados da equipe
               </span>
             </li>

@@ -7,6 +7,7 @@ import { AppContext } from '@/context/AppContext'
 import { useRouter } from 'next/navigation'
 import PassedOnRegisters from '@/components/PassedOnRegisters'
 import ClosedRegisters from '@/components/ClosedRegisters'
+import InfoCards from '@/components/InfoCards'
 
 const DashboardMain = styled.div`
   width: 100%;
@@ -31,14 +32,14 @@ const Dashboard = () => {
 
   return (
     <DashboardMain>
-      {isLoading == true ? <div>Loading</div> : 
-      <>
         <Sidebar handleClick={setPage}/>
         {page == 'home' ?
         <PassedOnRegisters />
+        : <>{page == "register" ? 
+        <ClosedRegisters />
         : 
-        <ClosedRegisters />}
-      </>}
+        <InfoCards />}</>
+        }
     </DashboardMain>
   )
 }

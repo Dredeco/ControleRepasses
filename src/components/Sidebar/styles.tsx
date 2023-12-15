@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SidebarMain = styled.aside`
-  min-width: 200px;
+  min-width: 220px;
   background: rgb(119,114,180);
   background: linear-gradient(180deg, rgba(119,114,180,1) 0%, rgba(148,187,233,1) 100%); 
   color: #fff;

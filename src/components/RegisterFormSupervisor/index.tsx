@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation'
 import { registers } from '@/api/db'
 import { IUser } from '@/types/User'
 import { act } from 'react-dom/test-utils'
+import { IRegister } from '@/types/Registers'
 
 const motivos = [
     {name: "Usuário solicitou realmente que fosse repassado o chamado"},
@@ -106,16 +107,17 @@ const RegisterFormSupervisor = (numeroTask: any) => {
 
     const handleSubmit = async (e: IRegisterForm) => {
         e.preventDefault()
-        const register: IRegister = {
+        const register: Partial<IRegister> = {
+        id: chamado.id,
         numero_chamado: chamado.numero_chamado,
-        task: chamado.task,
-        sctask: chamado.sctask,
-        analista_task: chamado.analista_task,
-        equipe: user.equipe,
+        tarefas: chamado.task,
+        analista_chamado: chamado.analista_chamado,
+        data_chamado: chamado.data_chamado,
+        equipe_chamado: user.equipe,
         classificacao: classificacao,
         sistema: sistema,
         motivo: motivo,
-        justificativa: justificativa,
+        justificativa_chamado: justificativa,
         analise_conclusao: analise_conclusao,
         analise_supervisor: analise_supervisor,
         analise_sniper: analise_sniper,
@@ -126,10 +128,10 @@ const RegisterFormSupervisor = (numeroTask: any) => {
         }
         console.log(novoChamado)
         if(novoChamado == true) {
-            createRegister(register)
+           // createRegister(register)
             alert("Chamado registrado!")
         } else {
-            updateRegister(register)
+            //updateRegister(register)
             alert("Chamado atualizado!")
         }
 

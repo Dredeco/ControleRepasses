@@ -29,7 +29,7 @@ const RegisterList = () => {
 
     setTimeout(() => {
       const getFilter = async () => {
-        const result = chamadosNaoJustificados.filter((res: any) => res.task.toLowerCase().includes(filter.toLowerCase()))
+        const result = chamadosNaoJustificados.filter((res: any) => res.tarefa.toLowerCase().includes(filter.toLowerCase()))
         if(!result.length) {
           const result2 = chamadosNaoJustificados.filter((res: any) => res.analista_task.toLowerCase().includes(filter.toLowerCase()))
           setChamadosFiltrados(result2)

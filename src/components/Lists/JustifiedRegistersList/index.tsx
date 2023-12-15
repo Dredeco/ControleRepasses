@@ -88,9 +88,9 @@ const JustifiedRegistersList = () => {
               <td>{chamado.data_task.split("T")[0]}</td>
               <td>{chamado.analista_task}</td>
               <td>{chamado.mesa_task}</td>
-              <td>{chamado.sistema}</td>
-              <td>{chamado.motivo}</td>
-              <td>{chamado.justificativa}</td>
+              <td>{chamado.sistema_task}</td>
+              <td>{chamado.motivo_task}</td>
+              <td>{chamado.justificativa_task}</td>
             </tr>
           )) :
           chamadosJustificados.map((chamado: any) => (
@@ -106,9 +106,9 @@ const JustifiedRegistersList = () => {
               <td>{chamado.data_task.split("T")[0]}</td>
               <td>{chamado.analista_task}</td>
               <td>{chamado.mesa_task}</td>
-              <td>{chamado.sistema}</td>
-              <td>{chamado.motivo}</td>
-              <td>{chamado.justificativa}</td>
+              <td>{chamado.sistema_task}</td>
+              <td>{chamado.motivo_task}</td>
+              <td>{chamado.justificativa_task}</td>
             </tr>
               ))}
               </tbody>

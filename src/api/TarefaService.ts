@@ -9,13 +9,16 @@ export const createTarefa = async (tarefa: ITarefa) => {
         tarefa: tarefa.tarefa,
         analista_task: tarefa.analista_task,
         equipe_task: tarefa.equipe_task,
+        classificacao_task: tarefa.classificacao_task,
+        sistema_task: tarefa.sistema_task,
+        motivo_task: tarefa.motivo_task,
         data_task: tarefa.data_task,
         mesa_task: tarefa.mesa_task,
         justificativa_task: tarefa.justificativa_task,
     })
     
     console.log(response)
-    return response
+    return alert(`Tarefa ${tarefa.tarefa} atualizada com sucesso.`)
 }
 
 export const getTasks = async() => {
@@ -55,10 +58,13 @@ export const updateTarefa = async (tarefa: ITarefa) => {
         tarefa: tarefa.tarefa,
         analista_task: tarefa.analista_task,
         equipe_task: tarefa.equipe_task,
+        classificacao_task: tarefa.classificacao_task,
+        sistema_task: tarefa.sistema_task,
+        motivo_task: tarefa.motivo_task,
         data_task: tarefa.data_task,
         mesa_task: tarefa.mesa_task,
         justificativa_task: tarefa.justificativa_task,
     }).catch((error: any) => console.log(error))
     
-    return alert("Registro alterado com sucesso.")
+    return alert(`Tarefa ${tarefa.tarefa} atualizada com sucesso.`)
 }
