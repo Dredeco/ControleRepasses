@@ -24,6 +24,21 @@ export const DashboardContainer = styled.div`
     justify-content: space-between;
     align-items: center;
 
+    .title{
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      button {
+        cursor: pointer;
+        background-color: transparent;
+
+        :hover{
+          fill: green;
+        }
+      }
+    }
+
     input {
       font-size: 1.2rem;
     }

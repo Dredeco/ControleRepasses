@@ -1,36 +1,40 @@
 import styled from "styled-components"
 
 export const DashboardMain = styled.section`
-  width: 98%;
-  min-width: 98%;
-  margin: 0 auto;
+  width: 95%;
+  min-width: 95%;
   min-height: 30rem;
   max-height: 40rem;
-  padding: 2rem 2%;
-  display: flex;
-  justify-content: center;
   overflow-x: auto;
   background-color: #fff;
   border-radius: 1rem;
+  margin: 0 auto;
 `
 
 export const DashboardContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  padding: 2rem 2%;
 
   div{
     display: flex;
-    justify-content: space-between;
+    gap: 1rem;
     align-items: center;
 
-    input {
-      font-size: 1.2rem;
-    }
-    h1 {
-      font-size: 2rem;
-      color: #7ac4b5;
-    }
+      button {
+        cursor: pointer;
+        background-color: transparent;
+
+        :hover{
+          fill: green;
+        }
+      }
+
+      h1 {
+        font-size: 2rem;
+        color: #5b9e91;
+      }
   }
 
 `
@@ -41,6 +45,7 @@ export const DashboardWrapper = styled.table`
   flex-direction: column;
   margin-top: 2rem;
   text-align: center;
+  padding-right: 2rem;
 
   > thead {
     background-color: #ade4d9;

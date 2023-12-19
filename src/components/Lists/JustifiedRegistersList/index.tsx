@@ -1,18 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
 import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
 import { Search } from '../../../../public/icons/search'
-import { ClockIcon } from '../../../../public/icons/clockIcon'
 import { registers } from '@/api/db'
 import { getTasks } from '@/api/TarefaService'
+import { DownloadSheet } from '@/hooks/DownloadSheet'
+import { SheetIcon } from '../../../../public/icons/sheetIcon'
 
 
 const JustifiedRegistersList = () => {
   const {filter} = useContext(AppContext)
   const [chamadosFiltrados, setChamadosFiltrados] = useState(Array<Object>)
   const [chamadosJustificados, setChamadosJustificados] = useState(Array<Object>)
-  
+  const filename = "Tarefas Justificadas"
+  const tableRef = useRef(null)
 
   useEffect(() => {
     const listaNaoJustificados = registers
@@ -58,6 +60,7 @@ const JustifiedRegistersList = () => {
       <DashboardContainer>
         <div>
           <h1>TAREFAS JUSTIFICADAS</h1>
+          <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
         </div>
         <DashboardWrapper>
           <thead>

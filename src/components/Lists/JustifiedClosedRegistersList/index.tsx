@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
 import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
@@ -6,10 +6,14 @@ import { Search } from '../../../../public/icons/search'
 import { registers } from '@/api/db'
 import { Input } from '../../Input'
 import { getRegisters, getRegistersNumber } from '@/api/RegisterService'
+import { SheetIcon } from '../../../../public/icons/sheetIcon'
+import { DownloadSheet } from '@/hooks/DownloadSheet'
 
 const JustifiedClosedRegistersList = () => {
   const {user, setUser} = useContext(AppContext)
   const [chamadosJustificados, setChamadosJustificados] = useState(Array)
+  const tableRef = useRef(null)
+  const filename = "Chamados analisados"
   
 
   useEffect(() => {
@@ -62,6 +66,7 @@ const JustifiedClosedRegistersList = () => {
       <DashboardContainer>
         <div>
           <h1>CHAMADOS ANALISADOS</h1>
+          <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
         </div>
         <DashboardWrapper>
         <thead>
@@ -77,7 +82,7 @@ const JustifiedClosedRegistersList = () => {
           </thead>
           <tbody>
             {chamadosJustificados.length > 0 ? chamadosJustificados.map((chamado: any) => (
-            <tr key={chamado.task}>
+            <tr key={chamado.numero_chamado}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero_chamado}`}><Search /></Link>
               </td>
@@ -92,7 +97,7 @@ const JustifiedClosedRegistersList = () => {
             </tr>
           )) :
           chamadosJustificados.map((chamado: any) => (
-            <tr key={chamado.task}>
+            <tr key={chamado.numero_chamado}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero_chamado}`}><Search /></Link>
               </td>

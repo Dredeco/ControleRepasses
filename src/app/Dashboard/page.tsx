@@ -14,6 +14,7 @@ const DashboardMain = styled.div`
   min-height: calc(100vh - 14rem);
   display: flex;
   background: #222;
+  justify-content: center;
 `
 
 const Dashboard = () => {

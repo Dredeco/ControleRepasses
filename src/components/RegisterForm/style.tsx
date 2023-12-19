@@ -37,6 +37,10 @@ export const RegisterFormBody= styled.ul`
     justify-content: center;
     gap: 1rem;
 
+    h4 {
+        text-align: center;
+    }
+
     h2 {
         margin-top: 3rem;
         margin-bottom: 1.5rem;

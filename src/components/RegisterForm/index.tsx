@@ -151,6 +151,7 @@ const RegisterForm = (numeroChamado: any) => {
                         disabled
                     />
                 </li>
+                
                 <li>
                     <Input 
                         name='analista' 
@@ -196,7 +197,7 @@ const RegisterForm = (numeroChamado: any) => {
                         </>
                     ))
                     :
-                    <><h4>Nenhuma tarefa justificada</h4></>}
+                    <><h4>Não há nenhuma tarefa justificada para o chamado.</h4></>}
                     <h2>Analises do chamado {chamado.numero_chamado}</h2>
                 <li>
                     <Textarea 
@@ -236,7 +237,7 @@ const RegisterForm = (numeroChamado: any) => {
                 </li>
                 <li>
                     <Select
-                        label='Poderia ser reolvido no N1'
+                        label='Poderia ser resolvido no N1'
                         options={atualizar} 
                         value={n1_resolveria}
                         onChange={(e) => setN1Resolveria(e.target.value)}

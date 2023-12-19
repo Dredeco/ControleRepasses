@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
 import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
@@ -6,10 +6,14 @@ import { Search } from '../../../../public/icons/search'
 import { registers } from '@/api/db'
 import { Input } from '../../Input'
 import { getRegisters, getRegistersNumber } from '@/api/RegisterService'
+import { DownloadSheet } from '@/hooks/DownloadSheet'
+import { SheetIcon } from '../../../../public/icons/sheetIcon'
 
 const ClosedRegistersList = () => {
   const {user, setUser} = useContext(AppContext)
   const [chamadosJustificados, setChamadosJustificados] = useState(Array)
+  const tableRef = useRef(null)
+  const filename = "Chamados não analisados"
   
 
   useEffect(() => {
@@ -67,7 +71,10 @@ const ClosedRegistersList = () => {
     <DashboardMain>
       <DashboardContainer>
         <div>
-          <h1>CHAMADOS NÃO ANALISADOS</h1>
+          <div className='title'>
+            <h1>CHAMADOS NÃO ANALISADOS</h1>
+            <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
+          </div>
           <Input placeholder='Filtrar por Nome / Chamado' />
         </div>
         <DashboardWrapper>
@@ -83,7 +90,7 @@ const ClosedRegistersList = () => {
           </thead>
           <tbody>
             {chamadosJustificados.length > 0 ? chamadosJustificados.map((chamado: any) => (
-            <tr key={chamado.task}>
+            <tr key={chamado.numero_chamado}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero_chamado}`}><Search /></Link>
               </td>
@@ -97,7 +104,7 @@ const ClosedRegistersList = () => {
             </tr>
           )) :
           chamadosJustificados.map((chamado: any) => (
-            <tr key={chamado.task}>
+            <tr key={chamado.numero_chamado}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero_chamado}`}><Search /></Link>
               </td>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useRef } from 'react'
 import { DashboardContainer, DashboardMain, DashboardWrapper } from './styles'
 import Link from 'next/link'
 import { Search } from '../../../../public/icons/search'
@@ -6,12 +6,17 @@ import { registers } from '@/api/db'
 import { Input } from '../../Input'
 import { AppContext } from '@/context/AppContext'
 import { getTasksNumbers } from '@/api/TarefaService'
+import { DownloadTableExcel } from 'react-export-table-to-excel'
+import { SheetIcon } from '../../../../public/icons/sheetIcon'
+import { DownloadSheet } from '@/hooks/DownloadSheet'
 
 const RegisterList = () => {
   const {filter, setFilter} = useContext(AppContext)
   const [chamadosNaoJustificados, setChamadosNaoJustificados] = useState(Array<Object>)
   const [chamadosFiltrados, setChamadosFiltrados] = useState(Array<Object>)
   const {user} = useContext(AppContext)
+  const tableRef = useRef(null)
+  const filename = "Tarefas não justificadas"
 
   useEffect(() => {
     const getData = async () => {
@@ -45,10 +50,16 @@ const RegisterList = () => {
     <DashboardMain>
       <DashboardContainer>
         <div>
-          <h1>TAREFAS NÃO JUSTIFICADAS</h1>
+          <div className='title'>
+            <h1>TAREFAS NÃO JUSTIFICADAS</h1>
+            <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
+          </div>
+
           <Input onChange={(e) => setFilter(e.target.value)} placeholder='Filtrar por Nome / Chamado' />
         </div>
-        <DashboardWrapper>
+
+
+        <DashboardWrapper ref={tableRef}>
           <thead>
             <tr key='Header'>
               <th>Buscar no ServiceNow</th>
