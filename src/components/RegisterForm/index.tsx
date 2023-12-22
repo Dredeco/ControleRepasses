@@ -10,9 +10,39 @@ import { Select } from '@/components/Select'
 import { Textarea } from '@/components/Textarea'
 import { AppContext } from '@/context/AppContext'
 import { registers } from '@/api/db'
-import { MainRegisterForm, RegisterFormBody, RegisterFormController, RegisterFormHeader } from './style'
+import { MainRegisterForm, RegisterFormBody, RegisterFormController } from './style'
 import { getTasks } from '@/api/TarefaService'
-import { ITarefa } from '@/types/Tarefa'
+
+const motivos = [
+    {name: "Usuário solicitou realmente que fosse repassado o chamado"},
+    {name: "Sistema Operacional com problemas não sendo possível solucionar."},
+    {name: "Repasse realizado conforme o procedimento exige repasse."},
+    {name: "Suporte exclusivo local em hardware de TI com defeito ou para substituição."},
+    {name: "Suporte local exclusivo em hardware em Telecomunicações."},
+    {name: "Fornecer suprimentos tais como papeis, cartuchos ou tonners."},
+    {name: "Indisponibilidade do Bomgar."},
+    {name: "Indisponibilidade recurso ou sistema (CAOS)"},
+    {name: "Inviabilidade de atendimento remoto por lentidão excessiva."},
+    {name: "Inviabilidade de atendimento remoto por causa de indisponbilidade da rede no usuário."},
+    {name: "Outro motivo (justifique no campo abaixo)."}
+]
+
+const classificacoes = [
+    {name: "Configurar / Atualizar"},
+    {name: "Entregar / Fornecer"},
+    {name: "Manifestação"},
+    {name: "Orientar / Informar"},
+    {name: "Reparar / Prover"},
+    {name: "Transferir / Remanejar / Substituir"}
+]
+
+const aplicacao = [
+    {name: "Aplicativos e Sistemas Diversos"},
+    {name: "Impressora / Scanner"},
+    {name: "Micro / Windows"},
+    {name: "Ponto de Rede / Rede"},
+    {name: "Periférico (Teclado / Mouse / Monitor / Diversos)"}
+]
 
 const atualizar = [
     {name: "Não"},
@@ -34,6 +64,10 @@ const RegisterForm = (numeroChamado: any) => {
     const [analise_supervisor, setAnaliseSupervisor] = useState('')
     const [analise_sniper, setAnaliseSniper] = useState('')
     const [analise_conclusao, setAnaliseConclusao] = useState('')
+    const [classificacao, setClassificacao] = useState(classificacoes[0].name)
+    const [sistema, setSistema] = useState(aplicacao[0].name)
+    const [motivo, setMotivo] = useState(motivos[0].name)
+    const [justificativa, setJustificativa] = useState('')
     const [corrigir_artigo, setCorrigirArtigo] = useState(atualizar[0].name)
     const [data, setData] = useState('')
     const [n1_resolveria, setN1Resolveria] = useState(atualizar[0].name)
@@ -86,6 +120,10 @@ const RegisterForm = (numeroChamado: any) => {
             });
         
             setChamado(atributosCombinados);
+            setClassificacao(atributosCombinados.classificacao_chamado)
+            setMotivo(atributosCombinados.motivo_chamado)
+            setSistema(atributosCombinados.sistema_chamado)
+            setJustificativa(atributosCombinados.justificativa_chamado)
             setAnaliseConclusao(atributosCombinados.analise_conclusao)
             setAnaliseSupervisor(atributosCombinados.analise_supervisor)
             setAnaliseSniper(atributosCombinados.analise_sniper)
@@ -108,6 +146,10 @@ const RegisterForm = (numeroChamado: any) => {
         analista_chamado: chamado.analista_chamado,
         equipe_chamado: user.equipe,
         data_chamado: chamado.data_chamado,
+        motivo: motivo,
+        sistema: sistema,
+        classificacao: classificacao,
+        justificativa_chamado: justificativa,
         n1_resolveria: n1_resolveria,
         analise_conclusao: analise_conclusao,
         analise_supervisor: analise_supervisor,
@@ -128,13 +170,11 @@ const RegisterForm = (numeroChamado: any) => {
         router.push("/Dashboard")
     }
 
-  return (
+    return (
     <>
     <MainRegisterForm>
         <RegisterFormController onSubmit={(e) => handleSubmit(e)}>
-            <RegisterFormHeader>
-                <h1>Dados do chamado {chamado.numero_chamado}</h1>
-            </RegisterFormHeader>
+                <h2>Dados do chamado {chamado.numero_chamado}</h2>
             <RegisterFormBody>
                 <li>
                     <Input 
@@ -156,7 +196,7 @@ const RegisterForm = (numeroChamado: any) => {
                     <Input 
                         name='analista' 
                         label='Nome do Analista' 
-                        value={user.nome}
+                        value={chamado.analista_chamado}
                         disabled
                     />
                 </li>
@@ -198,7 +238,47 @@ const RegisterForm = (numeroChamado: any) => {
                     ))
                     :
                     <><h4>Não há nenhuma tarefa justificada para o chamado.</h4></>}
-                    <h2>Analises do chamado {chamado.numero_chamado}</h2>
+                    
+                    <h2>Analise de repasse do {chamado.numero_chamado}</h2>
+                
+                    <li>
+                    <Select 
+                        name='classificação' 
+                        label='Classificação' 
+                        options={classificacoes} 
+                        value={classificacao}
+                        onChange={(e) => setClassificacao(e.target.value)}
+                        required
+                    />
+                </li>
+                <li>
+                    <Select 
+                        label='Sistema, Aplicativo ou Hardware' 
+                        options={aplicacao} 
+                        value={sistema}
+                        onChange={(e) => setSistema(e.target.value)}
+                        required
+                    />
+                </li>
+                <li>
+                    <Select 
+                        label='Motivo do repasse' 
+                        options={motivos} 
+                        value={motivo}
+                        onChange={(e) => setMotivo(e.target.value)}
+                        required
+                        disabled={user.funcao == "OPERADOR TECNICO" ? false : true}
+                    />
+                </li>
+                <li>
+                    <Textarea 
+                        label='Justificativa do repasse:' 
+                        placeholder='Descreva o motivo do repasse.'
+                        defaultValue={chamado.justificativa_chamado}
+                        onChange={(e) => setJustificativa(e.target.value)}
+                        disabled={user.funcao == "OPERADOR TECNICO" ? false : true}
+                    />
+                </li>
                 <li>
                     <Textarea 
                     label='Análise da Supervisão:' 
@@ -224,8 +304,10 @@ const RegisterForm = (numeroChamado: any) => {
                         disabled={user.funcao == "SNIPER TECNICO" ? false : true}
                     />
                 </li>
+
                 {chamado.status_chamado == "Resolvido" || chamado.status_chamado == "Encerrado" ? 
                 <>
+                <h2>Analise de conclusão do {chamado.numero_chamado}</h2>
                 <li>
                     <Textarea 
                     label='Análise de Conclusão:' 
@@ -304,7 +386,16 @@ const RegisterForm = (numeroChamado: any) => {
         </RegisterFormController>
     </MainRegisterForm>
     </>
-  )
+    )
 }
 
 export default RegisterForm
+
+
+
+
+/* 
+1- Analista que repassou vai classificar e justificar o repasse do chamado
+2- SPOC irá realizar a análise do chamado
+
+*/

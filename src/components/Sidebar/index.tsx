@@ -23,23 +23,34 @@ const Sidebar = (props: SidebarProps) => {
   
   const handleHome = () => {
     setPage("home")
+    document.getElementById("home")?.classList.add("selected")
     document.getElementById("conclusion")?.classList.remove("selected")
     document.getElementById("info")?.classList.remove("selected")
-    document.getElementById("home")?.classList.add("selected")
+    document.getElementById("task")?.classList.remove("selected")
+  }
+
+  const handeTask = () => {
+    setPage("task")
+    document.getElementById("task")?.classList.add("selected")
+    document.getElementById("conclusion")?.classList.remove("selected")
+    document.getElementById("info")?.classList.remove("selected")
+    document.getElementById("home")?.classList.remove("selected")
   }
 
   const handleJustified = () => {
     setPage("register")
+    document.getElementById("conclusion")?.classList.add("selected")
     document.getElementById("home")?.classList.remove("selected")
     document.getElementById("info")?.classList.remove("selected")
-    document.getElementById("conclusion")?.classList.add("selected")
+    document.getElementById("task")?.classList.remove("selected")
   }
 
   const handleInfo = () => {
     setPage("info")
+    document.getElementById("info")?.classList.add("selected")
     document.getElementById("home")?.classList.remove("selected")
     document.getElementById("conclusion")?.classList.remove("selected")
-    document.getElementById("info")?.classList.add("selected")
+    document.getElementById("task")?.classList.remove("selected")
   }
 
   const logoff = async () => {
@@ -52,13 +63,18 @@ const Sidebar = (props: SidebarProps) => {
         <ul>
             <li onClick={handleHome}>
               <strong>»</strong><span id='home'>
-                  Tarefas
+                  Chamados
                 </span>
             </li>
             <li onClick={handleJustified}>
             <strong>»</strong><span id="conclusion">
                 Chamados Encerrados
               </span>
+            </li>
+            <li onClick={handeTask}>
+              <strong>»</strong><span id='task'>
+                  Tarefas
+                </span>
             </li>
             <li onClick={handleInfo}>
             <strong>»</strong><span id="info">

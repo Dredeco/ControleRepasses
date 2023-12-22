@@ -6,15 +6,13 @@ import { registers } from '@/api/db'
 import { Input } from '../../Input'
 import { AppContext } from '@/context/AppContext'
 import { getTasksNumbers } from '@/api/TarefaService'
-import { DownloadTableExcel } from 'react-export-table-to-excel'
 import { SheetIcon } from '../../../../public/icons/sheetIcon'
 import { DownloadSheet } from '@/hooks/DownloadSheet'
 
-const RegisterList = () => {
-  const {filter, setFilter} = useContext(AppContext)
+const TaskList = () => {
+  const {filter, setFilter, user} = useContext(AppContext)
   const [chamadosNaoJustificados, setChamadosNaoJustificados] = useState(Array<Object>)
   const [chamadosFiltrados, setChamadosFiltrados] = useState(Array<Object>)
-  const {user} = useContext(AppContext)
   const tableRef = useRef(null)
   const filename = "Tarefas não justificadas"
 
@@ -109,4 +107,4 @@ const RegisterList = () => {
   )
 }
 
-export default RegisterList
+export default TaskList

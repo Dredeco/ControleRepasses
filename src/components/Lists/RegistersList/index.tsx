@@ -6,22 +6,20 @@ import { Search } from '../../../../public/icons/search'
 import { registers } from '@/api/db'
 import { Input } from '../../Input'
 import { getRegisters, getRegistersNumber } from '@/api/RegisterService'
-import { SheetIcon } from '../../../../public/icons/sheetIcon'
 import { DownloadSheet } from '@/hooks/DownloadSheet'
+import { SheetIcon } from '../../../../public/icons/sheetIcon'
 
-const JustifiedClosedRegistersList = () => {
+const RegistersList = () => {
   const {user, setUser} = useContext(AppContext)
   const [chamadosJustificados, setChamadosJustificados] = useState(Array)
   const tableRef = useRef(null)
-  const filename = "Chamados analisados"
+  const filename = "Chamados não justificados"
   
 
   useEffect(() => {
     const listaNaoJustificados = registers
     const getData = async () => {
         const listaJustificados = await getRegisters()
-
-        const mergedArray: any = [];
 
         // Criar um mapa temporário para armazenar objetos de ambos os arrays com base no atributo principal
         const tempMap = new Map();
@@ -49,14 +47,22 @@ const JustifiedClosedRegistersList = () => {
         });
       
         // Converter o mapa de volta para um array e filtrar objetos sem "analise_conclusao"
-        tempMap.forEach(obj => {
-          // Filtrar objetos com o atributo "analise_conclusao" preenchido
-          if (obj.hasOwnProperty('analise_conclusao') && obj['analise_conclusao'] !== '' && obj['analise_conclusao'] !== null) {
-            mergedArray.push(obj);
+        const filteredArray: any = [];
+        tempMap.forEach((obj: any) => {
+          // Filtrar objetos sem o atributo "analise_conclusao" ou que estejam vazios
+          // e que tenham o atributo "status_chamado" como "Resolvido" ou "Encerrado"
+          if (
+            !obj.hasOwnProperty('analise_conclusao') 
+            || obj.hasOwnProperty('analise_conclusao')
+            && (obj['analise_conclusao'] == null)
+            &&
+            (obj['status_chamado'] === 'Resolvido' || obj['status_chamado'] === 'Encerrado')
+          ) {
+            filteredArray.push(obj);
           }
         });
       
-        setChamadosJustificados(mergedArray);
+        setChamadosJustificados(filteredArray);
       }
     getData()
   }, [])
@@ -65,8 +71,11 @@ const JustifiedClosedRegistersList = () => {
     <DashboardMain>
       <DashboardContainer>
         <div>
-          <h1>CHAMADOS ANALISADOS</h1>
-          <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
+          <div className='title'>
+            <h1>CHAMADOS NÃO JUSTIFICADOS</h1>
+            <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
+          </div>
+          <Input placeholder='Filtrar por Nome / Chamado' />
         </div>
         <DashboardWrapper ref={tableRef}>
         <thead>
@@ -77,7 +86,6 @@ const JustifiedClosedRegistersList = () => {
               <th>Data</th>
               <th>Mesa da Tarefa</th>
               <th>Nome do Analista</th>
-              <th>Análise da Conclusão</th>
             </tr>
           </thead>
           <tbody>
@@ -93,7 +101,6 @@ const JustifiedClosedRegistersList = () => {
               <td>{chamado.data_chamado}</td>
               <td>{chamado.mesa_chamado}</td>
               <td>{chamado.analista_chamado}</td>
-              <td>{chamado.analise_conclusao}</td>
             </tr>
           )) :
           chamadosJustificados.map((chamado: any) => (
@@ -107,9 +114,8 @@ const JustifiedClosedRegistersList = () => {
               <td>{chamado.task}</td>
               <td>{chamado.status_chamado}</td>
               <td>{chamado.data_task}</td>
-              <td>{chamado.mesa_task}</td>
               <td>{chamado.analista_task}</td>
-              <td>{chamado.analise_conclusao}</td>
+              <td>{chamado.mesa_task}</td>
             </tr>
           ))}
           </tbody>
@@ -119,4 +125,4 @@ const JustifiedClosedRegistersList = () => {
   )
 }
 
-export default JustifiedClosedRegistersList
+export default RegistersList

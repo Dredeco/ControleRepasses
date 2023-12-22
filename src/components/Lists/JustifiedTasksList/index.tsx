@@ -4,36 +4,35 @@ import { AppContext } from '@/context/AppContext'
 import Link from 'next/link'
 import { Search } from '../../../../public/icons/search'
 import { registers } from '@/api/db'
-import { Input } from '../../Input'
-import { getRegisters, getRegistersNumber } from '@/api/RegisterService'
+import { getTasks } from '@/api/TarefaService'
 import { DownloadSheet } from '@/hooks/DownloadSheet'
 import { SheetIcon } from '../../../../public/icons/sheetIcon'
 
-const JustifiedRegistersList = () => {
-  const [chamadosJustificados, setChamadosJustificados] = useState(Array)
+
+const JustifiedTaskList = () => {
+  const {filter} = useContext(AppContext)
   const [chamadosFiltrados, setChamadosFiltrados] = useState(Array<Object>)
+  const [chamadosJustificados, setChamadosJustificados] = useState(Array<Object>)
+  const filename = "Tarefas Justificadas"
   const tableRef = useRef(null)
-  const {filter, setFilter, user} = useContext(AppContext)
-  const filename = "Chamados justificados"
-  
 
   useEffect(() => {
     const listaNaoJustificados = registers
     
     const getData =async () => {
-      const listaJustificados = await getRegisters()
+      const listaJustificados = await getTasks()
       const chamadosAtualizados: any[] = []
       const tempMap = new Map();
 
       listaJustificados.forEach((res: any) => {
-        const key = res["numero_chamado"];
+        const key = res["tarefa"];
         if(!tempMap.has(key)) {
           tempMap.set(key, res)
         }
       });
 
       listaNaoJustificados.forEach((res: any) => {
-        const key = res["numero_chamado"];
+        const key = res["tarefa"];
         if(tempMap.has(key)) {
           const mergedObj = {...tempMap.get(key), ...res}
           chamadosAtualizados.push(mergedObj)
@@ -45,9 +44,9 @@ const JustifiedRegistersList = () => {
   getData()
 
     const getFilter = async () => {
-      const result = chamadosJustificados.filter((res: any) => res.numero_chamado.toLowerCase().includes(filter.toLowerCase()))
+      const result = await chamadosJustificados.filter((res: any) => res.tarefa.toLowerCase().includes(filter.toLowerCase()))
       if(!result.length) {
-        const result2 = chamadosJustificados.filter((res: any) => res.analista_chamado.toLowerCase().includes(filter.toLowerCase()))
+        const result2 = await chamadosJustificados.filter((res: any) => res.analista_task.toLowerCase().includes(filter.toLowerCase()))
         setChamadosFiltrados(result2)
       } else 
       setChamadosFiltrados(result)
@@ -60,57 +59,66 @@ const JustifiedRegistersList = () => {
     <DashboardMain>
       <DashboardContainer>
         <div>
-          <div className='title'>
-            <h1>CHAMADOS JUSTIFICADOS</h1>
-            <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
-          </div>
+          <h1>TAREFAS JUSTIFICADAS</h1>
+          <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
         </div>
         <DashboardWrapper ref={tableRef}>
-        <thead>
+          <thead>
             <tr key='Header'>
               <th>Buscar no ServiceNow</th>
               <th>Nº do chamado</th>
+              <th>Nº da TASK</th>
               <th>Status</th>
               <th>Data</th>
-              <th>Mesa da Tarefa</th>
               <th>Nome do Analista</th>
+              <th>Mesa da Tarefa</th>
+              <th>Sistema</th>
+              <th>Motivo</th>
+              <th>Justificativa</th>
             </tr>
           </thead>
           <tbody>
-            {chamadosJustificados.length > 0 ? chamadosJustificados.map((chamado: any) => (
-            <tr key={chamado.numero_chamado}>
+          {chamadosFiltrados.length > 0 ? chamadosFiltrados.map((chamado: any) => (
+            <tr key={chamado.tarefa}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero_chamado}`}><Search /></Link>
               </td>
+              <td>{chamado.numero_chamado}</td>
               <td>
-              <Link id={chamado.numero_chamado} href={`./Dashboard/Chamado/${chamado.numero_chamado}`}>{chamado.numero_chamado}</Link>
+              <Link id={chamado.tarefa} href={`./Dashboard/Task/${chamado.tarefa}`}>{chamado.tarefa}</Link>
               </td>
-              <td>{chamado.status_chamado}</td>
-              <td>{chamado.data_chamado}</td>
-              <td>{chamado.mesa_chamado}</td>
-              <td>{chamado.analista_chamado}</td>
+              <td>{chamado.status_task}</td>
+              <td>{chamado.data_task.split("T")[0]}</td>
+              <td>{chamado.analista_task}</td>
+              <td>{chamado.mesa_task}</td>
+              <td>{chamado.sistema_task}</td>
+              <td>{chamado.motivo_task}</td>
+              <td>{chamado.justificativa_task}</td>
             </tr>
           )) :
           chamadosJustificados.map((chamado: any) => (
-            <tr key={chamado.numero_chamado}>
+            <tr key={chamado.tarefa}>
               <td>
                 <Link target='_blank' href={`https://petrobras.service-now.com/now/nav/ui/classic/params/target/incident_list.do%3Fsysparm_first_row%3D1%26sysparm_query%3DGOTOnumber%253d${chamado.numero_chamado}`}><Search /></Link>
               </td>
+              <td>{chamado.numero_chamado}</td>
               <td>
-              <Link id={chamado.numero_chamado} href={`./Dashboard/Chamado/${chamado.numero_chamado}`}>{chamado.numero_chamado}</Link>
+              <Link id={chamado.tarefa} href={`./Dashboard/Task/${chamado.tarefa}`}>{chamado.tarefa}</Link>
               </td>
-              <td>{chamado.task}</td>
-              <td>{chamado.status_chamado}</td>
-              <td>{chamado.data_task}</td>
+              <td>{chamado.status_task}</td>
+              <td>{chamado.data_task.split("T")[0]}</td>
               <td>{chamado.analista_task}</td>
               <td>{chamado.mesa_task}</td>
+              <td>{chamado.sistema_task}</td>
+              <td>{chamado.motivo_task}</td>
+              <td>{chamado.justificativa_task}</td>
             </tr>
-          ))}
-          </tbody>
+              ))}
+              </tbody>
         </DashboardWrapper>
       </DashboardContainer>
     </DashboardMain>
   )
 }
 
-export default JustifiedRegistersList
+export default JustifiedTaskList

@@ -5,9 +5,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { AppContext } from '@/context/AppContext'
 import { useRouter } from 'next/navigation'
-import PassedOnRegisters from '@/components/PassedOnRegisters'
-import ClosedRegisters from '@/components/ClosedRegisters'
-import InfoCards from '@/components/InfoCards'
+import PassedOnRegisters from '@/components/SidebarPages/PassedOnRegisters'
+import ClosedRegisters from '@/components/SidebarPages/ClosedRegisters'
+import InfoCards from '@/components/SidebarPages/InfoCards'
+import Registers from '@/components/SidebarPages/Registers'
 
 const DashboardMain = styled.div`
   width: 100%;
@@ -34,12 +35,10 @@ const Dashboard = () => {
   return (
     <DashboardMain>
         <Sidebar handleClick={setPage}/>
-        {page == 'home' ?
-        <PassedOnRegisters />
-        : <>{page == "register" ? 
-        <ClosedRegisters />
-        : 
-        <InfoCards />}</>
+        {page == 'home' ? <Registers />
+        : page == "register" ? <ClosedRegisters />
+        : page == "task" ? <PassedOnRegisters />
+        : <InfoCards />
         }
     </DashboardMain>
   )

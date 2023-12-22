@@ -77,7 +77,7 @@ const ClosedRegistersList = () => {
           </div>
           <Input placeholder='Filtrar por Nome / Chamado' />
         </div>
-        <DashboardWrapper>
+        <DashboardWrapper ref={tableRef}>
         <thead>
             <tr key='Header'>
               <th>Buscar no ServiceNow</th>

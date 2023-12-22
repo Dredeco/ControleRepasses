@@ -1,49 +1,18 @@
 "use client"
 
 import React, { FormEvent, FormEventHandler, SetStateAction, useContext, useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { createRegister, getRegisters, updateRegister } from '@/api/RegisterService'
 import { Button } from '@/components/Button'
 import { Input } from '@/components/Input'
 import { Select } from '@/components/Select'
-import { MainRegisterForm, RegisterFormBody, RegisterFormController, RegisterFormHeader } from './style'
 import { Textarea } from '@/components/Textarea'
-import { createRegister, getRegisterByNumber, getRegisters, getRegistersNumber, updateRegister } from '@/api/RegisterService'
 import { AppContext } from '@/context/AppContext'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { registers } from '@/api/db'
-import { IUser } from '@/types/User'
-import { act } from 'react-dom/test-utils'
-import { IRegister } from '@/types/Registers'
-
-const motivos = [
-    {name: "Usuário solicitou realmente que fosse repassado o chamado"},
-    {name: "Sistema Operacional com problemas não sendo possível solucionar."},
-    {name: "Repasse realizado conforme o procedimento exige repasse."},
-    {name: "Suporte exclusivo local em hardware de TI com defeito ou para substituição."},
-    {name: "Suporte local exclusivo em hardware em Telecomunicações."},
-    {name: "Fornecer suprimentos tais como papeis, cartuchos ou tonners."},
-    {name: "Indisponibilidade do Bomgar."},
-    {name: "Indisponibilidade recurso ou sistema (CAOS)"},
-    {name: "Inviabilidade de atendimento remoto por lentidão excessiva."},
-    {name: "Inviabilidade de atendimento remoto por causa de indisponbilidade da rede no usuário."}
-]
-
-const classificacoes = [
-    {name: "Configurar / Atualizar"},
-    {name: "Entregar / Fornecer"},
-    {name: "Manifestação"},
-    {name: "Orientar / Informar"},
-    {name: "Reparar / Prover"},
-    {name: "Transferir / Remanejar / Substituir"}
-]
-
-const aplicacao = [
-    {name: "Aplicativos e Sistemas Diversos"},
-    {name: "Impressora / Scanner"},
-    {name: "Micro / Windows"},
-    {name: "Ponto de Rede / Rede"},
-    {name: "Periférico (Teclado / Mouse / Monitor / Diversos)"}
-]
+import { MainRegisterForm, RegisterFormBody, RegisterFormController, RegisterFormHeader } from './style'
+import { getTasks } from '@/api/TarefaService'
+import { ITarefa } from '@/types/Tarefa'
 
 const atualizar = [
     {name: "Não"},
@@ -58,81 +27,102 @@ const tipoAtualizacao = [
 interface IRegisterForm extends FormEvent<HTMLFormElement> {
 }
 
-const RegisterFormSupervisor = (numeroTask: any) => {
+const ClosedRegisterForm = (numeroChamado: any) => {
+    const [id, setId] = useState('')
     const [chamado, setChamado] = useState(Object)
-    const [classificacao, setClassificacao] = useState(classificacoes[0].name)
-    const [sistema, setSistema] = useState(aplicacao[0].name)
-    const [motivo, setMotivo] = useState(motivos[0].name)
-    const [justificativa, setJustificativa] = useState('')
+    const [tarefas, setTarefas] = useState(Array<Object> || null)
     const [analise_supervisor, setAnaliseSupervisor] = useState('')
     const [analise_sniper, setAnaliseSniper] = useState('')
     const [analise_conclusao, setAnaliseConclusao] = useState('')
     const [corrigir_artigo, setCorrigirArtigo] = useState(atualizar[0].name)
     const [data, setData] = useState('')
+    const [n1_resolveria, setN1Resolveria] = useState(atualizar[0].name)
     const [novoChamado, setNovoChamado] = useState(Boolean)
+    const [repasse_indevido, setRepasseIndevido] = useState(atualizar[0].name)
     const [nome_artigo, setNomeArtigo] = useState('')
     const [solicitacao_artigo, setSolicitacaoArtigo] = useState(tipoAtualizacao[0].name)
     const [validacao_artigo, setValidacaoArtigo] = useState(atualizar[0].name)
     const [justificativa_artigo, setJustificativaArtigo] = useState('')
 
-    const {user, setUser} = useContext(AppContext)
+    const {user} = useContext(AppContext)
     const router = useRouter()
 
     useEffect(() => {
         const listaNaoJustificados = registers
         const getIncData = async () => {
             const listaJustificados = await getRegisters()
+            const listaTarefas = await getTasks()
 
-            const objetoArray1 = listaNaoJustificados.find((objeto: any) => objeto["task"] == numeroTask.numeroTask);
-            const objetoArray2 = listaJustificados.find((objeto: any) => objeto["task"] == numeroTask.numeroTask);
-            if(objetoArray2 == null) {
+            const tarefasFiltradas = listaTarefas.filter((objeto: any) =>objeto["numero_chamado"] == numeroChamado.numeroChamado)
+            setTarefas(tarefasFiltradas)
+            
+            const objetosArray1 = listaJustificados.filter((objeto: any) => objeto["numero_chamado"] == numeroChamado.numeroChamado);
+            if(objetosArray1 == null) {
                 setNovoChamado(true)
             } else {
                 setNovoChamado(false)
             }
-
-            // Combina os atributos dos dois objetos, evitando duplicatas
-            const atributosCombinados = { ...objetoArray1, ...objetoArray2 };
-
-            // Remover atributos duplicados
-            const atributosUnicos: any = {};
-            Object.keys(atributosCombinados).forEach(key => {
-                atributosUnicos[key] = atributosCombinados[key];
+            
+            const objetosArray2 = listaNaoJustificados.filter((objeto: any) => objeto["numero_chamado"] == numeroChamado.numeroChamado);
+        
+            // Combina os atributos de todos os objetos, evitando duplicatas e valores nulos
+            const atributosCombinados = objetosArray1.reduce((acc: any, obj: any) => {
+                Object.keys(obj).forEach(key => {
+                    const valor = obj[key];
+                    if (valor !== null && valor !== undefined) {
+                        acc[key] = valor;
+                    }
+                });
+                return acc;
+            }, {});
+        
+            objetosArray2.forEach((obj: any) => {
+                Object.keys(obj).forEach(key => {
+                    const valor = obj[key];
+                    if (valor !== null && valor !== undefined) {
+                        atributosCombinados[key] = valor;
+                    }
+                });
             });
-
-            setChamado(atributosUnicos);        
+        
+            setChamado(atributosCombinados);
+            setAnaliseConclusao(atributosCombinados.analise_conclusao)
+            setAnaliseSupervisor(atributosCombinados.analise_supervisor)
+            setAnaliseSniper(atributosCombinados.analise_sniper)
+            setRepasseIndevido(atributosCombinados.repasse_indevido)
+            setN1Resolveria(atributosCombinados.n1_resolveria)
+            setNomeArtigo(atributosCombinados.nome_artigo)
+            setSolicitacaoArtigo(atributosCombinados.solicitacao_artigo)
+            setValidacaoArtigo(atributosCombinados.validacao_artigo)
+            setJustificativaArtigo(atributosCombinados.justificativa_artigo)
         }
         getIncData()
     }, [])
 
     const handleSubmit = async (e: IRegisterForm) => {
         e.preventDefault()
-        const register: Partial<IRegister> = {
-        id: chamado.id,
+        const register: any = {
+        id: id,
         numero_chamado: chamado.numero_chamado,
-        tarefas: chamado.task,
+        tarefas: tarefas,
         analista_chamado: chamado.analista_chamado,
-        data_chamado: chamado.data_chamado,
         equipe_chamado: user.equipe,
-        classificacao: classificacao,
-        sistema: sistema,
-        motivo: motivo,
-        justificativa_chamado: justificativa,
+        data_chamado: chamado.data_chamado,
+        n1_resolveria: n1_resolveria,
         analise_conclusao: analise_conclusao,
         analise_supervisor: analise_supervisor,
         analise_sniper: analise_sniper,
+        repasse_indevido: repasse_indevido,
         nome_artigo: nome_artigo,
         solicitacao_artigo: solicitacao_artigo,
         validacao_artigo: validacao_artigo,
         justificativa_artigo: justificativa_artigo
         }
-        console.log(novoChamado)
         if(novoChamado == true) {
-           // createRegister(register)
+            createRegister(register)
             alert("Chamado registrado!")
         } else {
-            //updateRegister(register)
-            alert("Chamado atualizado!")
+            updateRegister(register)
         }
 
         router.push("/Dashboard")
@@ -143,7 +133,7 @@ const RegisterFormSupervisor = (numeroTask: any) => {
     <MainRegisterForm>
         <RegisterFormController onSubmit={(e) => handleSubmit(e)}>
             <RegisterFormHeader>
-                <h1>Dados do chamado: {chamado.numero_chamado}</h1>
+                <h1>Dados do chamado {chamado.numero_chamado}</h1>
             </RegisterFormHeader>
             <RegisterFormBody>
                 <li>
@@ -153,30 +143,15 @@ const RegisterFormSupervisor = (numeroTask: any) => {
                         disabled
                     />
                 </li>
-                {chamado.task ? 
-                    <li>
-                        <Input 
-                            label='Nº da TASK' 
-                            value={chamado.task}
-                            disabled
-                        />
-                    </li>
-                    :
-                    <li>
-                        <Input 
-                            label='Nº da SCTASK (RITM)' 
-                            value={chamado.sctask}
-                            placeholder='SCTASKXXXX'
-                        />
-                    </li>}
                 <li>
                     <Input 
                         label='Data' 
-                        value={chamado.data_task}
+                        value={chamado.data_chamado}
                         type='date' 
                         disabled
                     />
                 </li>
+                
                 <li>
                     <Input 
                         name='analista' 
@@ -201,79 +176,78 @@ const RegisterFormSupervisor = (numeroTask: any) => {
                         disabled
                     />
                 </li>
-                <li>
-                    <Select 
-                        name='classificação' 
-                        label='Classificação' 
-                        options={classificacoes} 
-                        value={classificacao}
-                        onChange={(e) => setClassificacao(e.target.value)}
-                        required
-                    />
-                </li>
-                <li>
-                    <Select 
-                        label='Sistema, Aplicativo ou Hardware' 
-                        options={aplicacao} 
-                        value={sistema}
-                        onChange={(e) => setSistema(e.target.value)}
-                        required
-                    />
-                </li>
-                <li>
-                    <Select 
-                        label='Motivo do repasse' 
-                        options={motivos} 
-                        value={motivo}
-                        onChange={(e) => setMotivo(e.target.value)}
-                        required
-                        disabled={user.funcao == "OPERADOR TECNICO" ? false : true}
-                    />
-                </li>
-                <li>
-                    <Textarea 
-                    label='Justificativa do repasse:' 
-                    defaultValue={chamado.justificativa}
-                    placeholder='Informe porque o chamado foi repassado.'
-                    onChange={(e) => setJustificativa(e.target.value)}
-                    required
-                    disabled={user.funcao == "OPERADOR TECNICO" ? false : true}
-                    />
-                </li>
-                {user.funcao == "SUPERVISOR TÉCNICO" ? 
+                <h2>Tarefas do chamado {chamado.numero_chamado}</h2>
+                {tarefas.length > 0 ? 
+                    tarefas.map((tarefa: any) => (
+                        <>
+                        <li key={tarefa.tarefa}>
+                            <Input 
+                                label='Nº da TASK' 
+                                value={tarefa.tarefa}
+                                disabled
+                            />
+                        </li>
+                        <li key={tarefa.justificativa_task}>
+                            <Textarea 
+                                label={`Justificativa da ${tarefa.tarefa}`} 
+                                value={tarefa.justificativa_task}
+                                disabled
+                            />
+                        </li>
+                        </>
+                    ))
+                    :
+                    <><h4>Não há nenhuma tarefa justificada para o chamado.</h4></>}
+                    <h2>Analises do chamado {chamado.numero_chamado}</h2>
                 <li>
                     <Textarea 
                     label='Análise da Supervisão:' 
                     defaultValue={chamado.analise_supervisor}
                     onChange={(e) => setAnaliseSupervisor(e.target.value)}
+                    disabled={user.funcao == "SUPERVISOR TÉCNICO" ? false : true}
                     />
                 </li>
-                :
-                <></>}
-                {user.funcao == "SNIPER TÉCNICO" ? 
                 <li>
                     <Textarea 
                     label='Análise do Sniper:' 
                     defaultValue={chamado.analise_sniper}
                     onChange={(e) => setAnaliseSniper(e.target.value)}
+                    disabled={user.funcao == "SNIPER TECNICO" ? false : true}
                     />
                 </li>
-                : // ANÁLISE DE CONCLUSÃO
-                <></>}
+                <li>
+                    <Select
+                        label='Repasse incorreto'
+                        options={atualizar} 
+                        value={repasse_indevido}
+                        onChange={(e) => setRepasseIndevido(e.target.value)}
+                        disabled={user.funcao == "SNIPER TECNICO" ? false : true}
+                    />
+                </li>
                 {chamado.status_chamado == "Resolvido" || chamado.status_chamado == "Encerrado" ? 
                 <>
                 <li>
                     <Textarea 
                     label='Análise de Conclusão:' 
-                    placeholder='Informe o que foi feito para resolver o problema e se poderia ser resolvido no N1.'
-                    defaultValue={analise_conclusao}
+                    placeholder='Informe o que foi feito para resolver o problema.'
+                    defaultValue={chamado.analise_conclusao}
                     onChange={(e) => setAnaliseConclusao(e.target.value)}
+                    disabled={user.funcao == "OPERADOR TECNICO" ? false : true}
+                    />
+                </li>
+                <li>
+                    <Select
+                        label='Poderia ser resolvido no N1'
+                        options={atualizar} 
+                        value={n1_resolveria}
+                        onChange={(e) => setN1Resolveria(e.target.value)}
+                        disabled={user.funcao == "OPERADOR TECNICO" ? false : true}
                     />
                 </li>
                 <li>
                     <Select 
                         name='corrigir artigo' 
-                        label='Artigo a corrigir?'
+                        label='Artigo a corrigir'
                         options={atualizar} 
                         value={corrigir_artigo}
                         onChange={(e) => setCorrigirArtigo(e.target.value)}
@@ -323,7 +297,7 @@ const RegisterFormSupervisor = (numeroTask: any) => {
                 :
                 <></>}
                 <div className='btnContainer'>
-                    <Link className='cancel' href='./'>Cancelar</Link>
+                    <Link className='cancel' href='../'>Cancelar</Link>
                     <Button type='submit' className='send'>Salvar</Button>
                 </div>
             </RegisterFormBody>
@@ -333,4 +307,13 @@ const RegisterFormSupervisor = (numeroTask: any) => {
   )
 }
 
-export default RegisterFormSupervisor
+export default ClosedRegisterForm
+
+
+
+
+/* 
+1- Analista que repassou vai classificar e justificar o repasse do chamado
+2- SPOC irá realizar a análise do chamado
+
+*/

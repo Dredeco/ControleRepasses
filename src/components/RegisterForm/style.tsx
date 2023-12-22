@@ -15,27 +15,13 @@ export const MainRegisterForm = styled.section`
 
 export const RegisterFormController = styled.form`
     padding: 4rem 2%;
-    width: 100%;
-    max-width: 720px;
+    width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border-radius: 10px;
-`
-
-export const RegisterFormHeader = styled.div`
-    margin-bottom: 2rem;
-`
-
-export const RegisterFormBody= styled.ul`
-    list-style: none;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
 
     h4 {
         text-align: center;
@@ -45,7 +31,17 @@ export const RegisterFormBody= styled.ul`
         margin-top: 3rem;
         margin-bottom: 1.5rem;
         text-align: center;
+        text-transform: uppercase;
     }
+`
+
+export const RegisterFormBody= styled.ul`
+    list-style: none;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
 
     li{
         label{

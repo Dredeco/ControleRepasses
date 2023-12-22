@@ -4,24 +4,28 @@ export const registers = [
         tarefa: "TASK001",
         analista_chamado: "Andre Luis Fernandes de Souza",
         analista_task: "Andre Luis Fernandes de Souza",
-        status_chamado: "Resolvido",
+        status_chamado: "Em andamento",
         status_task: "Resolvido",
         data_chamado: "2023-11-27",
         data_task: "2023-11-27",
         mesa_task: "N3-MICROSOFT_OFFICE",
-        mesa_chamado: "N1-SD_PADRAO",
+        mesa_chamado: "N3-MICROSOFT_OFFICE",
+        grupo_spoc: "N1-SD_PADRAO",
+        spoc_designado: "Andre Luis Fernandes de Souza"
     },
     {
         numero_chamado: "INC001",
         tarefa: "TASK002",
         analista_chamado: "Andre Luis Fernandes de Souza",
         analista_task: "Andre Luis Fernandes de Souza",
-        status_chamado: "Resolvido",
+        status_chamado: "Em andamento",
         status_task: "Resolvido",
         data_chamado: "2023-11-27",
         data_task: "2023-11-27",
         mesa_task: "N3-MICROSOFT_OFFICE",
-        mesa_chamado: "N1-SD_PADRAO",
+        mesa_chamado: "N3-MICROSOFT_OFFICE",
+        grupo_spoc: "N1-SD_PADRAO",
+        spoc_designado: "Andre Luis Fernandes de Souza"
     },
     {
         numero_chamado: "INC003",
@@ -33,7 +37,9 @@ export const registers = [
         data_chamado: "2023-11-27",
         data_task: "2023-11-27",
         mesa_task: "N3-MICROSOFT_OFFICE",
-        mesa_chamado: "N1-SD_PADRAO",
+        mesa_chamado: "N3-MICROSOFT_OFFICE",
+        grupo_spoc: "N1-SD_PADRAO",
+        spoc_designado: "Andre Luis Fernandes de Souza"
     },
     {
         numero_chamado: "INC004",
@@ -45,7 +51,9 @@ export const registers = [
         data_chamado: "2023-11-27",
         data_task: "2023-11-27",
         mesa_task: "N3-MICROSOFT_OFFICE",
-        mesa_chamado: "N1-SD_PADRAO",
+        mesa_chamado: "N3-MICROSOFT_OFFICE",
+        grupo_spoc: "N1-SD_PADRAO",
+        spoc_designado: "Andre Luis Fernandes de Souza"
     },
     {
         numero_chamado: "INC005",
@@ -57,7 +65,9 @@ export const registers = [
         data_chamado: "2023-11-27",
         data_task: "2023-11-27",
         mesa_task: "N3-MICROSOFT_OFFICE",
-        mesa_chamado: "N1-SD_PADRAO",
+        mesa_chamado: "N3-MICROSOFT_OFFICE",
+        grupo_spoc: "N1-SD_PADRAO",
+        spoc_designado: "Andre Luis Fernandes de Souza"
     },
     {
         numero_chamado: "INC006",
@@ -69,7 +79,9 @@ export const registers = [
         data_chamado: "2023-11-27",
         data_task: "2023-11-27",
         mesa_task: "N3-MICROSOFT_OFFICE",
-        mesa_chamado: "N1-SD_PADRAO",
+        mesa_chamado: "N3-MICROSOFT_OFFICE",
+        grupo_spoc: "N1-SD_PADRAO",
+        spoc_designado: "Andre Luis Fernandes de Souza"
     },
     {
         numero_chamado: "INC007",
@@ -81,7 +93,9 @@ export const registers = [
         data_chamado: "2023-11-27",
         data_task: "2023-11-27",
         mesa_task: "N3-MICROSOFT_OFFICE",
-        mesa_chamado: "N1-SD_PADRAO",
+        mesa_chamado: "N3-MICROSOFT_OFFICE",
+        grupo_spoc: "N1-SD_PADRAO",
+        spoc_designado: "Andre Luis Fernandes de Souza"
     },
 ]
 

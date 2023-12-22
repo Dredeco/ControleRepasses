@@ -2,12 +2,15 @@ import styled from 'styled-components'
 
 export const MainRegisterForm = styled.section`
     width: 100%;
+    padding: 2% 0;
     height: fit-content;
     min-height: calc(100vh - 14rem);
     background-color: #e2e2e2;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: rgb(119,114,180);
+    background: radial-gradient(circle, rgba(119,114,180,1) 0%, rgba(148,187,233,1) 92%); 
 `
 
 export const RegisterFormController = styled.form`
@@ -17,6 +20,9 @@ export const RegisterFormController = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border-radius: 10px;
 `
 
 export const RegisterFormHeader = styled.div`
@@ -30,6 +36,10 @@ export const RegisterFormBody= styled.ul`
     flex-direction: column;
     justify-content: center;
     gap: 1rem;
+
+    h4 {
+        text-align: center;
+    }
 
     h2 {
         margin-top: 3rem;
