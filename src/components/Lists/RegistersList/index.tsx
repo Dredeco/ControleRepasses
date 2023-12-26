@@ -72,7 +72,7 @@ const RegistersList = () => {
       <DashboardContainer>
         <div>
           <div className='title'>
-            <h1>CHAMADOS NÃO JUSTIFICADOS</h1>
+            <h1>CHAMADOS NÃO JUSTIFICADOS |</h1>
             <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
           </div>
           <Input placeholder='Filtrar por Nome / Chamado' />

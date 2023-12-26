@@ -65,7 +65,7 @@ const JustifiedClosedRegistersList = () => {
     <DashboardMain>
       <DashboardContainer>
         <div>
-          <h1>CHAMADOS ANALISADOS</h1>
+          <h1>CHAMADOS ANALISADOS |</h1>
           <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
         </div>
         <DashboardWrapper ref={tableRef}>

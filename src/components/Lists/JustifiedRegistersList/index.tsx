@@ -48,9 +48,9 @@ const JustifiedRegistersList = () => {
       const result = chamadosJustificados.filter((res: any) => res.numero_chamado.toLowerCase().includes(filter.toLowerCase()))
       if(!result.length) {
         const result2 = chamadosJustificados.filter((res: any) => res.analista_chamado.toLowerCase().includes(filter.toLowerCase()))
-        setChamadosFiltrados(result2)
+        setChamadosFiltrados(result2 as Object[])
       } else 
-      setChamadosFiltrados(result)
+      setChamadosFiltrados(result as Object[])
     }
     getFilter()
 
@@ -61,7 +61,7 @@ const JustifiedRegistersList = () => {
       <DashboardContainer>
         <div>
           <div className='title'>
-            <h1>CHAMADOS JUSTIFICADOS</h1>
+            <h1>CHAMADOS JUSTIFICADOS |</h1>
             <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
           </div>
         </div>

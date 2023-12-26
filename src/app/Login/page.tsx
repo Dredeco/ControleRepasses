@@ -8,7 +8,10 @@ import { Button } from '@/components/Button'
 
 import { PersonIcon } from '../../../public/icons/personIcon'
 import { LockIcon } from '../../../public/icons/lockIcon'
-import { LoginContainer, LoginMain } from './styles'
+import { LoginContainer, LoginEmailWrapper, LoginMain, LoginPasswordWrapper } from './styles'
+
+import LoginImage from '../../../public/login2.jpg'
+import Image from 'next/image'
 
 interface ILoginForm extends FormEvent<HTMLFormElement> {}
 
@@ -55,13 +58,22 @@ const Login = () => {
   return (
     <LoginMain>
       <LoginContainer onSubmit={(e) => validateUser(e)}>
-        <PersonIcon />
-        <Input type='text' placeholder='Matrícula' onChange={(e) => setRegistration(e.target.value)}/>
-        <LockIcon />
-        <Input type='password' placeholder='Senha' onChange={(e) => setPassword(e.target.value)}/>
-        <div>
-          <Button>Entrar</Button>
-        </div>
+        <Image 
+          src={LoginImage}
+          alt='Image Login'
+        />
+        
+        <LoginEmailWrapper>
+          <PersonIcon />
+          <Input type='text' placeholder='Matrícula' onChange={(e) => setRegistration(e.target.value)}/>
+        </LoginEmailWrapper>
+
+        <LoginPasswordWrapper>
+          <LockIcon />
+          <Input type='password' placeholder='Senha' onChange={(e) => setPassword(e.target.value)}/>
+        </LoginPasswordWrapper>
+
+        <Button>Entrar</Button>
       </LoginContainer>
     </LoginMain>
   )

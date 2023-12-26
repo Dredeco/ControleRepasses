@@ -1,25 +1,25 @@
 import styled from "styled-components"
 
 export const DashboardMain = styled.section`
-  width: 95%;
-  min-width: 95%;
-  min-height: 30rem;
-  max-height: 40rem;
-  overflow-x: auto;
+  width: fit-content;
+  min-width: 100%;
+  min-height: 50%;
+  max-height: 50%;
+  padding: 2rem 2%;
+  display: flex;
+  justify-content: center;
   background-color: #fff;
   border-radius: 1rem;
-  margin: 0 auto;
 `
 
 export const DashboardContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  padding: 2rem 2%;
 
   div{
     display: flex;
-    gap: 1rem;
+    gap: .5rem;
     align-items: center;
 
       button {
@@ -46,6 +46,11 @@ export const DashboardWrapper = styled.table`
   margin-top: 2rem;
   text-align: center;
   padding-right: 2rem;
+
+  thead{
+    border-start-start-radius: 10px;
+    border-start-end-radius: 10px;
+  }
 
   > thead {
     background-color: #ade4d9;

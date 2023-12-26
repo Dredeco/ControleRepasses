@@ -49,7 +49,7 @@ const TaskList = () => {
       <DashboardContainer>
         <div>
           <div className='title'>
-            <h1>TAREFAS NÃO JUSTIFICADAS</h1>
+            <h1>TAREFAS NÃO JUSTIFICADAS |</h1>
             <button title={`${filename} - Exportar XLS`} onClick={DownloadSheet(tableRef.current, filename, filename)}><SheetIcon /></button>
           </div>
 

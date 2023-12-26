@@ -3,7 +3,7 @@ import RegisterList from '../../Lists/TaskList'
 import JustifiedRegistersList from '../../Lists/JustifiedTasksList'
 import {PassedOnRegistersMain} from './style'
 
-const PassedOnRegisters = () => {
+const Tasks = () => {
   return (
     <PassedOnRegistersMain>
         <div className='list-container'>
@@ -14,4 +14,4 @@ const PassedOnRegisters = () => {
   )
 }
 
-export default PassedOnRegisters
+export default Tasks

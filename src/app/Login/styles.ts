@@ -9,56 +9,68 @@ export const LoginMain = styled.main`
     justify-content: center;
     align-items: center;
     background-size: contain;
-    background: rgb(119,114,180);
-    background: radial-gradient(circle, rgba(119,114,180,1) 0%, rgba(148,187,233,1) 92%); 
+    background-color: #639ECA;
 `
 
 export const LoginContainer = styled.form`
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: rgba(255, 255, 255);
+    padding: 3rem 3rem;
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    gap: 1rem;
 
-    svg{
-        position: relative;
-        align-self: flex-start;
-        top: 2.9rem;
-        left: 1rem;
-        fill: #1a3a47;
-    }
-
-    label{
-        position: relative;
-        align-self: flex-start;
-        bottom: -0.8rem;
-        font-weight: bold;
-        left: 0.2rem;
-    }
-
-    input{
-        background-color: #efefff;
-        padding-left: 4rem !important;
-        border: none;
-        background-color: rgba(255, 255, 255, 0.6);
-    }
-
-    h1{
-        margin-bottom: 1rem;
+    img{
+        max-width: 350px;
+        object-fit: contain;
+        height: auto;
+        width: auto;
     }
 
     button{
-        margin-top: 2rem;
-        border: none;
+        margin-top: 1rem;
         background-color: #1a3a47;
         color: #fff;
+        border: none;
+        transition: all .4s;
+
         &:hover{
-            transition: all;
-            transition-duration: 2s;
-            background-color: #0A171C;
+            color: #1a3a47;
+            background-color: #639ECA;
         }
     }
+`
 
-    div{
-        display: flex;
-        gap: .5rem;
+export const LoginEmailWrapper = styled.div`
+    display: flex;
+    align-items: center;
+
+    svg{
+        position: absolute;
+        margin-left: 1.4rem;
+        fill: #639ECA;
+    }
+
+    input {
+        padding-left: 4rem;
+        border: 2px solid #639ECA;
+    }
+`
+
+export const LoginPasswordWrapper = styled.div`
+    display: flex;
+    align-items: center;
+
+    svg{
+        position: absolute;
+        margin-left: 1.4rem;
+        fill: #639ECA;
+    }
+
+    input {
+        padding-left: 4rem;
+        border: 2px solid #639ECA;
     }
 `

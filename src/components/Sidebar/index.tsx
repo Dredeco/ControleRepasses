@@ -2,6 +2,11 @@ import React, {AllHTMLAttributes, MouseEventHandler, useContext, useEffect} from
 import { SidebarMain } from './styles'
 import { AppContext } from '@/context/AppContext'
 import { useRouter } from 'next/navigation'
+import { ChamadosIcon } from '../../../public/icons/ChamadosIcon'
+import { ChamadosFinalizadosIcon } from '../../../public/icons/ChamadosFinalizadosIcon'
+import { TarefasIcon } from '../../../public/icons/TarefasIcon'
+import { EquipeIcon } from '../../../public/icons/EquipeIcon'
+import { SairIcon } from '../../../public/icons/SairIcon'
 
 interface SidebarProps extends AllHTMLAttributes<HTMLLIElement> {
   handleClick: (value: string) => string | void
@@ -62,27 +67,27 @@ const Sidebar = (props: SidebarProps) => {
     <SidebarMain>
         <ul>
             <li onClick={handleHome}>
-              <strong>»</strong><span id='home'>
+              <ChamadosIcon /><span id='home'>
                   Chamados
                 </span>
             </li>
             <li onClick={handleJustified}>
-            <strong>»</strong><span id="conclusion">
+            <ChamadosFinalizadosIcon /><span id="conclusion">
                 Chamados Encerrados
               </span>
             </li>
             <li onClick={handeTask}>
-              <strong>»</strong><span id='task'>
+              <TarefasIcon /><span id='task'>
                   Tarefas
                 </span>
             </li>
             <li onClick={handleInfo}>
-            <strong>»</strong><span id="info">
+            <EquipeIcon /><span id="info">
                 Dados da equipe
               </span>
             </li>
             <li onClick={logoff}>
-            <strong>»</strong><span>
+            <SairIcon /><span>
                 Sair
               </span>
             </li>
