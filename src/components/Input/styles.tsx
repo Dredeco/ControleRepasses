@@ -12,6 +12,7 @@ export const InputMain = styled.div`
     }
 
     input{
+        background-color: #fff;
         width: 30rem;
         border: 3px solid #639ECA;
         border-radius: 10px;

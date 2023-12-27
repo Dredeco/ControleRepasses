@@ -23,7 +23,7 @@ export const LoginContainer = styled.form`
     gap: 1rem;
 
     img{
-        max-width: 350px;
+        max-width: 300px;
         object-fit: contain;
         height: auto;
         width: auto;

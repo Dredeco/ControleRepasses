@@ -10,6 +10,7 @@ export const DashboardMain = styled.section`
   justify-content: center;
   background-color: #fff;
   border-radius: 1rem;
+  overflow-y: auto;
 `
 
 export const DashboardContainer = styled.div`

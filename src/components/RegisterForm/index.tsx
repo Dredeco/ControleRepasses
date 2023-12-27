@@ -172,6 +172,9 @@ const RegisterForm = (numeroChamado: any) => {
 
     return (
     <>
+    <header>
+        <title>Detalhes do Chamado - Controle de Repasses</title>
+    </header>
     <MainRegisterForm>
         <RegisterFormController onSubmit={(e) => handleSubmit(e)}>
                 <h2>Dados do chamado {chamado.numero_chamado}</h2>

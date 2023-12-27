@@ -2,8 +2,7 @@ import styled from 'styled-components'
 
 export const MainRegisterForm = styled.section`
     width: 100%;
-    height: fit-content;
-    padding: 2% 0;
+    height: 100%;
     min-height: calc(100vh - 14rem);
     background-color: #e2e2e2;
     display: flex;
@@ -15,6 +14,7 @@ export const MainRegisterForm = styled.section`
 
 export const RegisterFormController = styled.form`
     padding: 4rem 2%;
+    min-height: 100%;
     width: 100%;
     max-width: 720px;
     display: flex;
@@ -22,11 +22,19 @@ export const RegisterFormController = styled.form`
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
-    border-radius: 10px;
 `
 
 export const RegisterFormHeader = styled.div`
-    margin-bottom: 2rem;
+    h1 {
+        margin-bottom: 3rem;
+        text-align: center;
+        text-transform: uppercase;
+
+        text-decoration: underline 2px;
+        text-decoration-color: #639ECA;
+        text-underline-offset: 1.2rem;
+        text-decoration-thickness: .5rem;
+}
 `
 
 export const RegisterFormBody= styled.ul`
@@ -37,11 +45,6 @@ export const RegisterFormBody= styled.ul`
     justify-content: center;
     gap: 1rem;
 
-    h2 {
-        margin-top: 3rem;
-        margin-bottom: 1.5rem;
-        text-align: center;
-    }
 
     li{
         label{
@@ -86,7 +89,7 @@ export const RegisterFormBody= styled.ul`
             background-color: #e94444;
             &:hover{
                 background-color: #c43939;
-                transition: 1s;
+                transition: .4s;
             }
         }
 
@@ -94,7 +97,7 @@ export const RegisterFormBody= styled.ul`
             background-color: #21be43 !important;
             &:hover{
                 background-color: #1b9c37 !important;
-                transition: 1s;
+                transition: .4s;
             }
         }
     }

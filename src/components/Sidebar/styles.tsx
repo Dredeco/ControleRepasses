@@ -5,7 +5,7 @@ export const SidebarMain = styled.aside`
   background: #639ECA;
   color: #fff;
   padding: 2rem 1rem;
-  border-right: 2px solid #fff;
+  border-right: 2px solid #ccc;
 
   ul{
     gap: 1rem;

@@ -56,6 +56,11 @@ const Login = () => {
   }
 
   return (
+    <>
+    <header>
+      <title>Login - Controle de Repasses</title>
+    </header>
+    
     <LoginMain>
       <LoginContainer onSubmit={(e) => validateUser(e)}>
         <Image 
@@ -76,6 +81,7 @@ const Login = () => {
         <Button>Entrar</Button>
       </LoginContainer>
     </LoginMain>
+    </>
   )
 }
 

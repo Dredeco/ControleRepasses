@@ -12,8 +12,9 @@ export const SelectMain = styled.div`
     }
 
     select{
+        background-color: #fff;
         width: 30rem;
-        border: 3px solid #aaa;
+        border: 3px solid #639ECA;
         border-radius: 10px;
         padding: 1rem .5rem;
         font-size: 1.4rem;

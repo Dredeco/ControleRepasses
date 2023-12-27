@@ -2,7 +2,6 @@ import styled from 'styled-components'
 
 export const MainRegisterForm = styled.section`
     width: 100%;
-    padding: 2% 0;
     height: fit-content;
     min-height: calc(100vh - 14rem);
     background-color: #e2e2e2;
@@ -21,17 +20,24 @@ export const RegisterFormController = styled.form`
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
-    border-radius: 10px;
 
     h4 {
         text-align: center;
     }
 
-    h2 {
+    * + h2 {
         margin-top: 3rem;
-        margin-bottom: 1.5rem;
+    }
+
+    h2 {
+        margin-bottom: 3rem;
         text-align: center;
         text-transform: uppercase;
+
+        text-decoration: underline 2px;
+        text-decoration-color: #639ECA;
+        text-underline-offset: 1.2rem;
+        text-decoration-thickness: .5rem;
     }
 `
 
@@ -86,7 +92,7 @@ export const RegisterFormBody= styled.ul`
             background-color: #e94444;
             &:hover{
                 background-color: #c43939;
-                transition: 1s;
+                transition: .4s;
             }
         }
 
@@ -94,7 +100,7 @@ export const RegisterFormBody= styled.ul`
             background-color: #21be43 !important;
             &:hover{
                 background-color: #1b9c37 !important;
-                transition: 1s;
+                transition: .4s;
             }
         }
     }

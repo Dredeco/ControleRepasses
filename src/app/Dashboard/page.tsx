@@ -33,14 +33,19 @@ const Dashboard = () => {
   }, [])
 
   return (
+    <>
+    <header>
+      <title>Dashboard - Controle de Repasses</title>
+    </header>
     <DashboardMain>
         <Sidebar handleClick={setPage}/>
         {page == 'home' ? <Registers />
         : page == "register" ? <ClosedRegisters />
         : page == "task" ? <Tasks />
         : <InfoCards />
-        }
+      }
     </DashboardMain>
+    </>
   )
 }
 
