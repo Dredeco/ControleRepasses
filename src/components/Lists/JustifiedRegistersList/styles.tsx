@@ -61,15 +61,16 @@ export const DashboardWrapper = styled.table`
   }
 
   > thead {
-    background-color: #96f3aa;
+    background-color: #38944c;
     tr {
       font-size: 1.35rem;
+      color: #fff;
     }
   }
 
   > tbody {
     > :nth-child(2n + 2){
-      background-color: #96f3aa;
+      background-color: #ddd;
     }
   }
 

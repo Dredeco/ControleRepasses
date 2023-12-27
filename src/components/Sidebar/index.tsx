@@ -1,7 +1,7 @@
 import React, {AllHTMLAttributes, MouseEventHandler, useContext, useEffect} from 'react'
 import { SidebarMain } from './styles'
 import { AppContext } from '@/context/AppContext'
-import { useRouter } from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 import { ChamadosIcon } from '../../../public/icons/ChamadosIcon'
 import { ChamadosFinalizadosIcon } from '../../../public/icons/ChamadosFinalizadosIcon'
 import { TarefasIcon } from '../../../public/icons/TarefasIcon'
@@ -13,7 +13,7 @@ interface SidebarProps extends AllHTMLAttributes<HTMLLIElement> {
 }
 
 const Sidebar = (props: SidebarProps) => {
-  const {page, setPage} = useContext(AppContext)
+  const {page, setPage, setUser} = useContext(AppContext)
   const router = useRouter()
 
   useEffect(() => {
@@ -58,8 +58,9 @@ const Sidebar = (props: SidebarProps) => {
     document.getElementById("task")?.classList.remove("selected")
   }
 
-  const logoff = async () => {
+  const logoff = () => {
     localStorage.setItem('user', JSON.stringify({}))
+    setUser('')
     router.push("/")
   }
 

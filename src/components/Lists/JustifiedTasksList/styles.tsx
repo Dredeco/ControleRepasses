@@ -33,7 +33,7 @@ export const DashboardContainer = styled.div`
 
       h1 {
         font-size: 2rem;
-        color: #5b9e91;
+        color: #0ab18f;
       }
   }
 
@@ -53,15 +53,16 @@ export const DashboardWrapper = styled.table`
   }
 
   > thead {
-    background-color: #ade4d9;
+    background-color: #0ab18f;
     tr {
       font-size: 1.35rem;
+      color: #fff;
     }
   }
 
   > tbody {
     > :nth-child(2n + 2){
-      background-color: #ade4d9;
+      background-color: #ddd;
     }
   }
 
