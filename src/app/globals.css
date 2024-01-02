@@ -15,3 +15,7 @@ body {
   overflow-x: hidden;
   font-size: 1.6rem;
 }
+
+a {
+  color: #1979c2;
+}

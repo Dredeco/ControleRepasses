@@ -18,5 +18,10 @@ export const SelectMain = styled.div`
         border-radius: 10px;
         padding: 1rem .5rem;
         font-size: 1.4rem;
+
+        &:disabled {
+            background-color: #ddd;
+            border: 2px solid #f52b2b;
+        }
     }
 `

@@ -21,6 +21,8 @@ const Sidebar = (props: SidebarProps) => {
       document.getElementById("home")?.classList.add("selected")
     } else if(page == "register") {
       document.getElementById("conclusion")?.classList.add("selected")
+    } else if(page == "task") {
+      document.getElementById("task")?.classList.add("selected")
     } else {
       document.getElementById("home")?.classList.add("selected")
     }

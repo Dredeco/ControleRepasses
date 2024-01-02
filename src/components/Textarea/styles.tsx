@@ -22,5 +22,10 @@ export const TextareaMain = styled.div`
         padding: 1rem .5rem;
         font-size: 1.4rem;
         font-family: inherit;
+
+        &:disabled {
+            background-color: #ddd;
+            border: 2px solid #f52b2b;
+        }
     }
 `

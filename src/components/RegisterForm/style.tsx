@@ -89,17 +89,17 @@ export const RegisterFormBody= styled.ul`
         }
 
         .cancel {
-            background-color: #e94444;
+            background-color: #ff3333;
             &:hover{
-                background-color: #c43939;
+                background-color: #d42a2a;
                 transition: .4s;
             }
         }
 
         .send, button {
-            background-color: #21be43 !important;
+            background-color:  #28a745  !important;
             &:hover{
-                background-color: #1b9c37 !important;
+                background-color: #1e7e34 !important;
                 transition: .4s;
             }
         }
